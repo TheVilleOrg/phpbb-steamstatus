@@ -12,7 +12,7 @@ class steamid_profile_field extends \phpbb\db\migration\profilefield_base_migrat
 		'field_ident'			=> 'steam_id',
 		'field_length'			=> '40',
 		'field_minlen'			=> '0',
-		'field_maxlen'			=> '200',
+		'field_maxlen'			=> '255',
 		'field_novalue'			=> '',
 		'field_default_value'	=> '',
 		'field_validation'		=> '.+',
@@ -24,7 +24,7 @@ class steamid_profile_field extends \phpbb\db\migration\profilefield_base_migrat
 		'field_show_profile'	=> 1,
 		'field_hide'			=> 0,
 		'field_no_view'			=> 0,
-		'field_active'			=> 1,
+		'field_active'			=> 0,
 	);
 	public function update_data()
 	{

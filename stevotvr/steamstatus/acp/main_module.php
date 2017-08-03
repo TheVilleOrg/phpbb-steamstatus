@@ -10,7 +10,7 @@ class main_module
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $template, $request, $config;
+		global $phpbb_container, $template, $request, $config, $db;
 		$language = $phpbb_container->get('language');
 
 		$this->tpl_name = 'acp_steamstatus_body';
@@ -31,6 +31,13 @@ class main_module
 			if(self::validate_key($key, $error))
 			{
 				$config->set('stevotvr_steamstatus_key', $key);
+				$sql_arr = array(
+					'field_active'	=> strlen($key) ? 1 : 0,
+				);
+				$sql = 'UPDATE ' . PROFILE_FIELDS_TABLE . '
+						SET ' . $db->sql_build_array('UPDATE', $sql_arr) . '
+						WHERE field_ident = \'steam_id\'';
+				$db->sql_query($sql);
 
 				trigger_error($language->lang('ACP_STEAMSTATUS_SETTINGS_SAVED') . adm_back_link($this->u_action));
 			}
@@ -47,6 +54,11 @@ class main_module
 
 	static private function validate_key($key, &$error)
 	{
+		if(!strlen($key))
+		{
+			return true;
+		}
+
 		if(!preg_match('/^[A-Z\d]+$/', $key))
 		{
 			$error[] = 'ACP_STEAMSTATUS_API_KEY_ERROR_FORMAT';
