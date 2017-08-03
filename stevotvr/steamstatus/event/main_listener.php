@@ -44,7 +44,7 @@ class main_listener implements EventSubscriberInterface
 			{
 				$steam_id64 = $matches[1];
 			}
-			elseif(preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steam_id, $matches) === 1)
+			elseif(preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steam_id, $matches) === 1 && $config['stevotvr_steamstatus_key'])
 			{
 				$query = http_build_query(array(
 					'key'		=> $config['stevotvr_steamstatus_key'],
