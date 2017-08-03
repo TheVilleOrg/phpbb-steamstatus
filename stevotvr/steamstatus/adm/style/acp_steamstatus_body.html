@@ -1,0 +1,28 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_SETTINGS}</h1>
+
+<!-- IF S_ERROR -->
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR_MSG}</p>
+	</div>
+<!-- ENDIF -->
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+	<fieldset>
+		<dl>
+			<dt><label for="stevotvr_steamstatus_key">{L_ACP_STEAMSTATUS_API_KEY}</label><br /><span>{L_ACP_STEAMSTATUS_API_KEY_EXPLAIN}</span></dt>
+			<dd><input id="stevotvr_steamstatus_key" type="text" size="40" maxlength="255" name="stevotvr_steamstatus_key" value="{STEVOTVR_STEAMSTATUS_KEY}" /></dd>
+		</dl>
+
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		</p>
+
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->
