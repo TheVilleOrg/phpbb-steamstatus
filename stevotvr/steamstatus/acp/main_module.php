@@ -28,7 +28,7 @@ class main_module
 			}
 
 			$key = trim($request->variable('stevotvr_steamstatus_key', ''));
-			if($this->validate_key($key, $error))
+			if(self::validate_key($key, $error))
 			{
 				$config->set('stevotvr_steamstatus_key', $key);
 
@@ -45,7 +45,7 @@ class main_module
 		));
 	}
 
-	private function validate_key($key, &$error)
+	static private function validate_key($key, &$error)
 	{
 		if(!preg_match('/^[A-Z\d]+$/', $key))
 		{
