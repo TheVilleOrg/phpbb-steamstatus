@@ -33,6 +33,7 @@ class main_listener implements EventSubscriberInterface
 		if($steam_id)
 		{
 			$steam_id64 = null;
+			$steam_error = 'ERROR_INVALID_FORMAT';
 			$matches = array();
 			if(preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steam_id, $matches) === 1)
 			{
@@ -50,22 +51,33 @@ class main_listener implements EventSubscriberInterface
 			}
 			elseif(preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steam_id, $matches) === 1)
 			{
-				// TODO: Check HTTP response code
-				$url = sprintf('https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=%s&vanityurl=%s', $config['stevotvr_steamstatus_key'], $matches[1]);
-				$result = file_get_contents($url);
+				$query = http_build_query(array(
+					'key'		=> $config['stevotvr_steamstatus_key'],
+					'vanityurl'	=> $matches[1],
+				));
+				$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
+				$result = @file_get_contents($url);
 				if($result)
 				{
 					$result = json_decode($result);
-					if($result && $result->response && $result->response->success)
+					if($result && $result->response && $result->response->success === 1)
 					{
 						$steam_id64 = $result->response->steamid;
 					}
+					else
+					{
+						$steam_error = 'ERROR_NAME_NOT_FOUND';
+					}
+				}
+				else
+				{
+					$steam_error = 'ERROR_LOOKUP_FAILED';
 				}
 			}
 			if(!$steam_id64)
 			{
 				$error = $event['error'];
-				$error[] = 'ERROR_INVALID_FORMAT';
+				$error[] = $steam_error;
 				$event['error'] = $error;
 			}
 			else

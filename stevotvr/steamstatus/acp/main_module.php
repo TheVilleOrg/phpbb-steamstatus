@@ -53,34 +53,61 @@ class main_module
 			return false;
 		}
 
-		// TODO: Check HTTP response code
-		$url = sprintf('http://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/?key=%s', $key);
-		$result = file_get_contents($url);
-		if(!$result)
+		$query = http_build_query(array(
+			'key'	=> $key,
+		));
+		$url = 'http://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/?' . $query;
+		$ctx = stream_context_create(array(
+			'http'	=> array(
+				'ignore_errors'	=> '1',
+			),
+		));
+		$stream = fopen($url, 'r', false, $ctx);
+		if(!$stream)
 		{
 			$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
 			return false;
 		}
 
-		$result = json_decode($result);
-		if(!$result || !$result->apilist || !$result->apilist->interfaces)
+		try
 		{
-			$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
-			return false;
-		}
-
-		foreach($result->apilist->interfaces as $interface)
-		{
-			if($interface->name === 'ISteamUser')
+			$meta = stream_get_meta_data($stream);
+			$http_response = (int)substr($meta['wrapper_data'][0], strpos($meta['wrapper_data'][0], ' ') + 1, 3);
+			if($http_response === 403)
 			{
-				foreach($interface->methods as $method)
+				$error[] = 'ACP_STEAMSTATUS_API_KEY_INVALID';
+				return false;
+			}
+			if($http_response !== 200)
+			{
+				$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
+				return false;
+			}
+
+			$result = json_decode(stream_get_contents($stream));
+			if(!$result || !$result->apilist || !$result->apilist->interfaces)
+			{
+				$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
+				return false;
+			}
+
+			foreach($result->apilist->interfaces as $interface)
+			{
+				if($interface->name === 'ISteamUser')
 				{
-					if($method->name === 'GetPlayerSummaries' && $method->version === 2)
+					foreach($interface->methods as $method)
 					{
-						return true;
+						if($method->name === 'GetPlayerSummaries' && $method->version === 2)
+						{
+							return true;
+						}
 					}
 				}
 			}
+		}
+		finally
+		{
+			fclose($stream);
 		}
 
 		$error[] = 'ACP_STEAMSTATUS_API_KEY_INVALID';
