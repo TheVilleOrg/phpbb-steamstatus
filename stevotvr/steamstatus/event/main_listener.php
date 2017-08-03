@@ -34,13 +34,11 @@ class main_listener implements EventSubscriberInterface
 			$matches = array();
 			if(preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steam_id, $matches) === 1)
 			{
-				// TODO: Add fallback for when bcmath is unavailable
-				$steam_id64 = \bcadd($matches[2] * 2 + $matches[1], '76561197960265728');
+				$steam_id64 = self::add($matches[2] * 2 + $matches[1], '76561197960265728');
 			}
 			elseif(preg_match('/^\[?U:1:(\d+)\]?$/', $steam_id, $matches) === 1)
 			{
-				// TODO: Add fallback for when bcmath is unavailable
-				$steam_id64 = \bcadd($matches[1], '76561197960265728');
+				$steam_id64 = self::add($matches[1], '76561197960265728');
 			}
 			elseif(preg_match('/(?:steamcommunity.com\/profiles\/)?(\d{17})\/?$/', $steam_id, $matches) === 1)
 			{
@@ -93,5 +91,26 @@ class main_listener implements EventSubscriberInterface
 			$cp_data['pf_steam_id'] = $event['data']['pf_steam_id'];
 			$event['cp_data'] = $cp_data;
 		}
+	}
+
+	static private function add($left, $right)
+	{
+	    $left = str_pad($left, strlen($right), '0', STR_PAD_LEFT);
+	    $right = str_pad($right, strlen($left), '0', STR_PAD_LEFT);
+
+	    $carry = 0;
+	    $result = '';
+	    for($i = strlen($left) - 1; $i >= 0; --$i)
+	    {
+	        $sum = $left[$i] + $right[$i] + $carry;
+	        $carry = (int)($sum / 10);
+	        $result .= $sum % 10;
+	    }
+	    if($carry)
+	    {
+	        $result .= '1';
+	    }
+
+	    return strrev($result);
 	}
 }
