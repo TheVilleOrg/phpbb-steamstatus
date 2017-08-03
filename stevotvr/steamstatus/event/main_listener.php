@@ -9,20 +9,17 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'							=> 'load_language_on_setup',
+			'core.ucp_profile_modify_profile_info'		=> 'load_ucp_profile_language',
 			'core.ucp_profile_validate_profile_info'	=> 'validate_id',
 			'core.ucp_profile_info_modify_sql_ary'		=> 'modify_id',
 		);
 	}
 
-	public function load_language_on_setup($event)
+	public function load_ucp_profile_language($event)
 	{
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
-			'ext_name' => 'stevotvr/steamstatus',
-			'lang_set' => 'common',
-		);
-		$event['lang_set_ext'] = $lang_set_ext;
+		global $phpbb_container;
+		$language = $phpbb_container->get('language');
+		$language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 	}
 
 	public function validate_id($event)
