@@ -1,0 +1,3 @@
+stevotvr_steamstatus_route:
+    path: /steamstatus
+    defaults: { _controller: stevotvr.steamstatus.controller:handle }

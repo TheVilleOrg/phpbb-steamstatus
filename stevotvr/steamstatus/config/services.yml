@@ -1,4 +1,10 @@
 services:
+    stevotvr.steamstatus.controller:
+        class: stevotvr\steamstatus\controller\main
+        arguments:
+            - '@config'
+            - '@request'
+            - '@cache'
     stevotvr.steamstatus.listener:
         class: stevotvr\steamstatus\event\main_listener
         tags:
