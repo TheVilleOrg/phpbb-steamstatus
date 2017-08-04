@@ -1,0 +1,60 @@
+<script>
+	$(function () {
+		'use strict';
+		var ids = [];
+		$('.steamstatus').each(function () {
+			var id = $(this).data('steamid');
+			if(id) {
+				ids.push(id);
+			}
+		});
+		if(ids.length) {
+			$.ajax({
+				url: '{STEAMSTATUS_CONTROLLER}',
+				dataType: 'json',
+				cache: false,
+				data: {'list': JSON.stringify({'ids': ids})}
+			})
+			.done(function(data) {
+				$.each(data.status, function(index, val) {
+					var container = $('.steamstatus[data-steamid=' + val.steamid + ']');
+					var status = container.children('.status');
+					if(val.gameid) {
+						container.addClass('steam_ingame');
+						status.text(val.gameextrainfo);
+					} else {
+						if(val.personastate > 0) {
+							container.addClass('steam_online');
+						}
+						switch(val.personastate) {
+							case 0:
+								status.text('{LA_STATUS_OFFLINE}');
+							break;
+							case 1:
+								status.text('{LA_STATUS_ONLINE}');
+							break;
+							case 2:
+								status.text('{LA_STATUS_BUSY}');
+							break;
+							case 3:
+								status.text('{LA_STATUS_AWAY}');
+							break;
+							case 4:
+								status.text('{LA_STATUS_SNOOZE}');
+							break;
+							case 5:
+								status.text('{LA_STATUS_LTT}');
+							break;
+							case 6:
+								status.text('{LA_STATUS_LTP}');
+							break;
+						}
+					}
+					container.children('img').attr('src', val.avatar);
+					container.children('.name').text(val.personaname);
+					container.children('.links').children('.profile').attr('href', val.profileurl);
+				});
+			});
+		}
+	});
+</script>

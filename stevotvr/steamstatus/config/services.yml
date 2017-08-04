@@ -7,5 +7,7 @@ services:
             - '@cache'
     stevotvr.steamstatus.listener:
         class: stevotvr\steamstatus\event\main_listener
+        arguments:
+            - '@controller.helper'
         tags:
             - { name: event.listener }

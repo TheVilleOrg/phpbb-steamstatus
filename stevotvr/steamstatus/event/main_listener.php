@@ -6,6 +6,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class main_listener implements EventSubscriberInterface
 {
+	private $helper;
+
+	function __construct($helper)
+	{
+		$this->helper = $helper;
+	}
+
 	static public function getSubscribedEvents()
 	{
 		return array(
@@ -21,8 +28,16 @@ class main_listener implements EventSubscriberInterface
 		$language = $phpbb_container->get('language');
 		$language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$template->assign_vars(array(
-			'USER_STEAM_ID'		=> $user->data['user_steam_id'],
-			'S_SHOW_STEAM_ID'	=> !empty($config['stevotvr_steamstatus_key']),
+			'USER_STEAM_ID'				=> $user->data['user_steam_id'],
+			'S_SHOW_STEAM_ID'			=> !empty($config['stevotvr_steamstatus_key']),
+			'STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
+			'status'					=> array(
+				'NAME'		=> '',
+				'GAMEID'	=> 0,
+				'STATE'		=> 0,
+				'STEAMID'	=> $user->data['user_steam_id'],
+				'AVATAR'	=> '',
+			),
 		));
 	}
 

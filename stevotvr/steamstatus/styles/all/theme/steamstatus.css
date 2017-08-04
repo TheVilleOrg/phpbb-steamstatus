@@ -1,0 +1,22 @@
+.steamstatus {
+	padding: 4px;
+	height: 40px;
+	color: #999;
+	border: 2px solid;
+	background-color: #333;
+	max-width: 300px;
+}
+
+.steamstatus.steam_online {
+	color: #39F;
+}
+
+.steamstatus.steam_ingame {
+	color: #3C3;
+}
+
+.steamstatus img {
+	float: left;
+	margin-right: 6px;
+	border: 3px solid;
+}
