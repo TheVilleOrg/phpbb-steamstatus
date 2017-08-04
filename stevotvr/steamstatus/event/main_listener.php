@@ -17,17 +17,23 @@ class main_listener implements EventSubscriberInterface
 
 	public function load_ucp_profile_language($event)
 	{
-		global $phpbb_container, $template, $user;
+		global $phpbb_container, $template, $user, $config;
 		$language = $phpbb_container->get('language');
 		$language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$template->assign_vars(array(
-			'USER_STEAM_ID'	=> $user->data['user_steam_id'],
+			'USER_STEAM_ID'		=> $user->data['user_steam_id'],
+			'S_SHOW_STEAM_ID'	=> !empty($config['stevotvr_steamstatus_key']),
 		));
 	}
 
 	public function validate_id($event)
 	{
 		global $request, $config;
+
+		if(empty($config['stevotvr_steamstatus_key']))
+		{
+			return;
+		}
 
 		$steam_id = trim($request->variable('steamstatus_steam_id', '0', false, \phpbb\request\request_interface::POST));
 		if($steam_id !== '0')
