@@ -104,6 +104,9 @@ class main
 							'avatar'		=> $player->avatar,
 							'personastate'	=> $player->personastate,
 							'lastlogoff'	=> $player->lastlogoff,
+							'gameid'		=> $player->gameid,
+							'gameserverip'	=> $player->gameserverip,
+							'gameextrainfo'	=> $player->gameextrainfo,
 						);
 						$results[] = $status;
 						$this->cache->put('stevotvr_steamstatus_id' . $player->steamid, $status, 5);
