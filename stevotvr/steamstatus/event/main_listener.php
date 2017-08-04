@@ -6,11 +6,29 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class main_listener implements EventSubscriberInterface
 {
+	private $config;
+
 	private $helper;
 
-	function __construct($helper)
+	private $template;
+
+	private $language;
+
+	private $request;
+
+	private $user;
+
+	private $db;
+
+	function __construct($config, $helper, $template, $language, $request, $user, $db)
 	{
+		$this->config = $config;
 		$this->helper = $helper;
+		$this->template = $template;
+		$this->language = $language;
+		$this->request = $request;
+		$this->user = $user;
+		$this->db = $db;
 	}
 
 	static public function getSubscribedEvents()
@@ -24,18 +42,16 @@ class main_listener implements EventSubscriberInterface
 
 	public function load_ucp_profile_language($event)
 	{
-		global $phpbb_container, $template, $user, $config;
-		$language = $phpbb_container->get('language');
-		$language->add_lang('ucp_profile', 'stevotvr/steamstatus');
-		$template->assign_vars(array(
-			'USER_STEAM_ID'				=> $user->data['user_steam_id'],
-			'S_SHOW_STEAM_ID'			=> !empty($config['stevotvr_steamstatus_key']),
+		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
+		$this->template->assign_vars(array(
+			'USER_STEAM_ID'				=> $this->user->data['user_steam_id'],
+			'S_SHOW_STEAM_ID'			=> !empty($this->config['stevotvr_steamstatus_key']),
 			'STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
 			'status'					=> array(
 				'NAME'		=> '',
 				'GAMEID'	=> 0,
 				'STATE'		=> 0,
-				'STEAMID'	=> $user->data['user_steam_id'],
+				'STEAMID'	=> $this->user->data['user_steam_id'],
 				'AVATAR'	=> '',
 			),
 		));
@@ -43,14 +59,12 @@ class main_listener implements EventSubscriberInterface
 
 	public function validate_id($event)
 	{
-		global $request, $config;
-
-		if(empty($config['stevotvr_steamstatus_key']))
+		if(empty($this->config['stevotvr_steamstatus_key']))
 		{
 			return;
 		}
 
-		$steam_id = trim($request->variable('steamstatus_steam_id', '0', false, \phpbb\request\request_interface::POST));
+		$steam_id = $this->request->variable('steamstatus_steam_id', '0', false, \phpbb\request\request_interface::POST);
 		if($steam_id !== '0')
 		{
 			$steam_id64 = null;
@@ -72,10 +86,10 @@ class main_listener implements EventSubscriberInterface
 			{
 				$steam_id64 = $matches[1];
 			}
-			elseif(preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steam_id, $matches) === 1 && $config['stevotvr_steamstatus_key'])
+			elseif(preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steam_id, $matches) === 1)
 			{
 				$query = http_build_query(array(
-					'key'		=> $config['stevotvr_steamstatus_key'],
+					'key'		=> $this->config['stevotvr_steamstatus_key'],
 					'vanityurl'	=> $matches[1],
 				));
 				$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
@@ -114,16 +128,14 @@ class main_listener implements EventSubscriberInterface
 
 	public function modify_id($event)
 	{
-		global $user, $db;
-
 		if(isset($event['data']['steamstatus_steam_id'])) {
 			$sql_arr = array(
 				'user_steam_id'	=> $event['data']['steamstatus_steam_id'],
 			);
 			$sql = 'UPDATE ' . USERS_TABLE . '
-					SET ' . $db->sql_build_array('UPDATE', $sql_arr) . '
-					WHERE user_id = ' . $user->data['user_id'];
-			$db->sql_query($sql);
+					SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . '
+					WHERE user_id = ' . $this->user->data['user_id'];
+			$this->db->sql_query($sql);
 		}
 	}
 

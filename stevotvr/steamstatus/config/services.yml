@@ -8,6 +8,12 @@ services:
     stevotvr.steamstatus.listener:
         class: stevotvr\steamstatus\event\main_listener
         arguments:
+            - '@config'
             - '@controller.helper'
+            - '@template'
+            - '@language'
+            - '@request'
+            - '@user'
+            - '@dbal.conn'
         tags:
             - { name: event.listener }
