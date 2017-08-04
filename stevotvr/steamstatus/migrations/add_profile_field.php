@@ -2,7 +2,7 @@
 
 namespace stevotvr\steamstatus\migrations;
 
-class steamid_profile_field extends \phpbb\db\migration\migration
+class add_profile_field extends \phpbb\db\migration\migration
 {
 	public function update_schema()
 	{
