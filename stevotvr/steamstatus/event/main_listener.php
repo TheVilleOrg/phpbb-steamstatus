@@ -42,6 +42,7 @@ class main_listener implements EventSubscriberInterface
 
 	public function load_ucp_profile_language($event)
 	{
+		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
 			'USER_STEAM_ID'				=> $this->user->data['user_steam_id'],
