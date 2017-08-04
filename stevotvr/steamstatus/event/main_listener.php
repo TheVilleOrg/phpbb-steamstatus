@@ -17,22 +17,29 @@ class main_listener implements EventSubscriberInterface
 
 	public function load_ucp_profile_language($event)
 	{
-		global $phpbb_container;
+		global $phpbb_container, $template, $user;
 		$language = $phpbb_container->get('language');
 		$language->add_lang('ucp_profile', 'stevotvr/steamstatus');
+		$template->assign_vars(array(
+			'USER_STEAM_ID'	=> $user->data['user_steam_id'],
+		));
 	}
 
 	public function validate_id($event)
 	{
 		global $request, $config;
 
-		$steam_id = trim($request->variable('pf_steam_id', ''));
-		if($steam_id)
+		$steam_id = trim($request->variable('steamstatus_steam_id', '0', false, \phpbb\request\request_interface::POST));
+		if($steam_id !== '0')
 		{
 			$steam_id64 = null;
 			$steam_error = 'ERROR_INVALID_FORMAT';
 			$matches = array();
-			if(preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steam_id, $matches) === 1)
+			if($steam_id === '')
+			{
+				$steam_id64 = '';
+			}
+			elseif(preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steam_id, $matches) === 1)
 			{
 				$steam_id64 = self::add($matches[2] * 2 + $matches[1], '76561197960265728');
 			}
@@ -69,7 +76,7 @@ class main_listener implements EventSubscriberInterface
 					$steam_error = 'ERROR_LOOKUP_FAILED';
 				}
 			}
-			if(!$steam_id64)
+			if($steam_id64 === null)
 			{
 				$error = $event['error'];
 				$error[] = $steam_error;
@@ -78,7 +85,7 @@ class main_listener implements EventSubscriberInterface
 			else
 			{
 				$data = $event['data'];
-				$data['pf_steam_id'] = $steam_id64;
+				$data['steamstatus_steam_id'] = $steam_id64;
 				$event['data'] = $data;
 			}
 		}
@@ -86,10 +93,16 @@ class main_listener implements EventSubscriberInterface
 
 	public function modify_id($event)
 	{
-		if(sizeof($event['data']['pf_steam_id'])) {
-			$cp_data = $event['cp_data'];
-			$cp_data['pf_steam_id'] = $event['data']['pf_steam_id'];
-			$event['cp_data'] = $cp_data;
+		global $user, $db;
+
+		if(isset($event['data']['steamstatus_steam_id'])) {
+			$sql_arr = array(
+				'user_steam_id'	=> $event['data']['steamstatus_steam_id'],
+			);
+			$sql = 'UPDATE ' . USERS_TABLE . '
+					SET ' . $db->sql_build_array('UPDATE', $sql_arr) . '
+					WHERE user_id = ' . $user->data['user_id'];
+			$db->sql_query($sql);
 		}
 	}
 
