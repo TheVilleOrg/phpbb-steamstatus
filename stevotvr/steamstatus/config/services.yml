@@ -16,5 +16,6 @@ services:
             - '@request'
             - '@user'
             - '@dbal.conn'
+            - '@cache'
         tags:
             - { name: event.listener }

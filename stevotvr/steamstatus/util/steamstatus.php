@@ -55,7 +55,8 @@ class steamstatus
 								'lastlogoff'	=> $player->lastlogoff,
 							),
 						);
-						$cache->put('stevotvr_steamstatus_id' . $player->steamid, $user, 5);
+						// TODO: Fix caching
+						$cache->put('stevotvr_steamstatus_id' . $player->steamid, $user);
 						$results[] = $user;
 					}
 				}

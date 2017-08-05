@@ -3,6 +3,7 @@
 namespace stevotvr\steamstatus\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use stevotvr\steamstatus\util\steamstatus;
 
 class main_listener implements EventSubscriberInterface
 {
@@ -20,7 +21,9 @@ class main_listener implements EventSubscriberInterface
 
 	private $db;
 
-	function __construct($config, $helper, $template, $language, $request, $user, $db)
+	private $cache;
+
+	function __construct($config, $helper, $template, $language, $request, $user, $db, $cache)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -29,6 +32,7 @@ class main_listener implements EventSubscriberInterface
 		$this->request = $request;
 		$this->user = $user;
 		$this->db = $db;
+		$this->cache = $cache;
 	}
 
 	static public function getSubscribedEvents()
@@ -37,6 +41,9 @@ class main_listener implements EventSubscriberInterface
 			'core.ucp_profile_modify_profile_info'		=> 'load_ucp_profile_language',
 			'core.ucp_profile_validate_profile_info'	=> 'validate_id',
 			'core.ucp_profile_info_modify_sql_ary'		=> 'modify_id',
+			'core.viewtopic_get_post_data'				=> 'viewtopic_get_post_data',
+			'core.viewtopic_cache_user_data'			=> 'viewtopic_cache_user_data',
+			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
 		);
 	}
 
@@ -48,13 +55,7 @@ class main_listener implements EventSubscriberInterface
 			'USER_STEAM_ID'				=> $this->user->data['user_steam_id'],
 			'S_SHOW_STEAM_ID'			=> !empty($this->config['stevotvr_steamstatus_key']),
 			'STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
-			'status'					=> array(
-				'NAME'		=> '',
-				'GAMEID'	=> 0,
-				'STATE'		=> 0,
-				'STEAMID'	=> $this->user->data['user_steam_id'],
-				'AVATAR'	=> '',
-			),
+			'STEAMSTATUS_STEAMID'		=> $this->user->data['user_steam_id'],
 		));
 	}
 
@@ -137,6 +138,49 @@ class main_listener implements EventSubscriberInterface
 					SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . '
 					WHERE user_id = ' . $this->user->data['user_id'];
 			$this->db->sql_query($sql);
+		}
+	}
+
+	public function viewtopic_get_post_data($event)
+	{
+		$this->template->assign_var('STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
+	}
+
+	public function viewtopic_cache_user_data($event)
+	{
+		$data = $event['user_cache_data'];
+		$data['steamid'] = $event['row']['user_steam_id'];
+		$event['user_cache_data'] = $data;
+	}
+
+	public function viewtopic_modify_post_row($event)
+	{
+		$steamid = $event['user_poster_data']['steamid'];
+		if(!empty($steamid))
+		{
+			$status = steamstatus::get_from_cache($steamid, $this->cache);
+			if($status)
+			{
+				$status = steamstatus::get_localized_data($status, $this->language);
+				$event['post_row'] = array_merge($event['post_row'], array(
+					'STEAMSTATUS_STEAMID'	=> $steamid,
+					'STEAMSTATUS_NAME'		=> $status['name'],
+					'STEAMSTATUS_PROFILE'	=> $status['profile'],
+					'STEAMSTATUS_AVATAR'	=> $status['avatar'],
+					'STEAMSTATUS_STATE'		=> $status['state'],
+					'STEAMSTATUS_STATUS'	=> $status['status'],
+					'S_STEAMSTATUS_SHOW'	=> true,
+					'S_STEAMSTATUS_LOADED'	=> true,
+				));
+			}
+			else
+			{
+				$event['post_row'] = array_merge($event['post_row'], array(
+					'STEAMSTATUS_STEAMID'	=> $steamid,
+					'STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
+					'S_STEAMSTATUS_SHOW'	=> true,
+				));
+			}
 		}
 	}
 

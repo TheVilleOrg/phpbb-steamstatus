@@ -1,9 +1,9 @@
-<div class="steamstatus<!-- IF status.GAMEID --> steam_ingame<!-- ELSEIF status.STATE > 0 --> steam_online<!-- ENDIF -->" data-steamid="{status.STEAMID}">
-	<img src="{status.AVATAR}" alt="" width="32" height="32" />
-	<div class="name">{status.NAME}</div>
-	<div class="status">{status.STATUS}</div>
+<div class="steamstatus<!-- IF STEAMSTATUS_STATE == 2 --> steam_ingame<!-- ELSEIF STEAMSTATUS_STATE == 1 --> steam_online<!-- ENDIF -->" data-steamid="{STEAMSTATUS_STEAMID}">
+	<img src="{STEAMSTATUS_AVATAR}" alt="" width="32" height="32" />
+	<div class="name">{STEAMSTATUS_NAME}</div>
+	<div class="status">{STEAMSTATUS_STATUS}</div>
 	<div class="links">
-		<a class="profile" href="">{L_PROFILE}</a>
-		<a class="add" href="steam://friends/add/{status.STEAMID}">{L_ADD}</a>
+		<a class="profile" href="{STEAMSTATUS_PROFILE}">{L_PROFILE}</a>
+		<a class="add" href="steam://friends/add/{STEAMSTATUS_STEAMID}">{L_ADD}</a>
 	</div>
 </div>
