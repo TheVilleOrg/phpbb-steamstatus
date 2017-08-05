@@ -5,6 +5,7 @@ services:
             - '@config'
             - '@request'
             - '@cache'
+            - '@language'
     stevotvr.steamstatus.listener:
         class: stevotvr\steamstatus\event\main_listener
         arguments:

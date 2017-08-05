@@ -18,41 +18,16 @@
 			.done(function(data) {
 				$.each(data.status, function(index, val) {
 					var container = $('.steamstatus[data-steamid=' + val.steamid + ']');
-					var status = container.children('.status');
-					if(val.gameid) {
+					container.removeClass('steam_online').removeClass('steam_ingame');
+					if(val.state === 1) {
+						container.addClass('steam_online');
+					} else if(val.state === 2) {
 						container.addClass('steam_ingame');
-						status.text(val.gameextrainfo);
-					} else {
-						if(val.personastate > 0) {
-							container.addClass('steam_online');
-						}
-						switch(val.personastate) {
-							case 0:
-								status.text('{LA_STATUS_OFFLINE}');
-							break;
-							case 1:
-								status.text('{LA_STATUS_ONLINE}');
-							break;
-							case 2:
-								status.text('{LA_STATUS_BUSY}');
-							break;
-							case 3:
-								status.text('{LA_STATUS_AWAY}');
-							break;
-							case 4:
-								status.text('{LA_STATUS_SNOOZE}');
-							break;
-							case 5:
-								status.text('{LA_STATUS_LTT}');
-							break;
-							case 6:
-								status.text('{LA_STATUS_LTP}');
-							break;
-						}
 					}
 					container.children('img').attr('src', val.avatar);
-					container.children('.name').text(val.personaname);
-					container.children('.links').children('.profile').attr('href', val.profileurl);
+					container.children('.name').text(val.name);
+					container.children('.status').text(val.status);
+					container.children('.links').children('.profile').attr('href', val.profile);
 				});
 			});
 		}
