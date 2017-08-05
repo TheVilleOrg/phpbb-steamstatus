@@ -12,7 +12,9 @@ class main
 
 	private $cache;
 
-	private $status_text = array(
+	private $language;
+
+	static private $status_text = array(
 		'STATUS_OFFLINE',
 		'STATUS_ONLINE',
 		'STATUS_BUSY',
@@ -27,12 +29,9 @@ class main
 		$this->config = $config;
 		$this->request = $request;
 		$this->cache = $cache;
+		$this->language = $language;
 
 		$language->add_lang('common', 'stevotvr/steamstatus');
-		foreach($this->status_text as &$status)
-		{
-			$status = $language->lang($status);
-		}
 	}
 
 	public function handle()
@@ -43,7 +42,7 @@ class main
 			return new JsonResponse(null, 500);
 		}
 
-		$status = array();
+		$output = array();
 		$input = $this->request->raw_variable('list', '', \phpbb\request\request_interface::GET);
 		if($input)
 		{
@@ -57,29 +56,24 @@ class main
 					$cached = self::get_from_cache($id);
 					if($cached)
 					{
-						$status[] = $cached;
+						$output[] = $cached;
 					}
 					else
 					{
 						$stale[] = $id;
 					}
 				}
-				self::get_from_api($key, $stale, $status);
+				self::get_from_api($key, $stale, $output);
 			}
 		}
 
-		$output = array();
-		foreach($status as $user)
+		foreach($output as &$user)
 		{
-			$output[] = array(
-				'steamid'		=> $user->steamid,
-				'name'			=> $user->personaname,
-				'profile'		=> $user->profileurl,
-				'avatar'		=> $user->avatar,
-				'state'			=> self::get_profile_state($user),
-				'status'		=> $this->get_profile_status($user),
-				'lastlogoff'	=> $user->lastlogoff,
-			);
+			$user = $user['data'];
+			if($user['state'] < 2)
+			{
+				$user['status'] = $this->language->lang($user['status']);
+			}
 		}
 
 		return new JsonResponse(array('status' => $output));
@@ -125,10 +119,23 @@ class main
 				$response = json_decode($response);
 				if($response && $response->response && is_array($response->response->players))
 				{
+					$now = time();
 					foreach($response->response->players as $player)
 					{
-						$results[] = $player;
-						$this->cache->put('stevotvr_steamstatus_id' . $player->steamid, $player, 5);
+						$user = array(
+							'time'	=> $now,
+							'data'	=> array(
+								'steamid'		=> $player->steamid,
+								'name'			=> $player->personaname,
+								'profile'		=> $player->profileurl,
+								'avatar'		=> $player->avatar,
+								'state'			=> self::get_profile_state($player),
+								'status'		=> self::get_profile_status($player),
+								'lastlogoff'	=> $player->lastlogoff,
+							),
+						);
+						$this->cache->put('stevotvr_steamstatus_id' . $player->steamid, $user, 5);
+						$results[] = $user;
 					}
 				}
 			}
@@ -148,12 +155,12 @@ class main
 		return 0;
 	}
 
-	private function get_profile_status($user)
+	static private function get_profile_status($user)
 	{
 		if(!empty($user->gameextrainfo))
 		{
 			return $user->gameextrainfo;
 		}
-		return $this->status_text[$user->personastate];
+		return self::$status_text[$user->personastate];
 	}
 }
