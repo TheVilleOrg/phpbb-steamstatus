@@ -26,15 +26,15 @@ class main_module
 
 		$error = array();
 
-		if($request->is_set_post('submit'))
+		if ($request->is_set_post('submit'))
 		{
-			if(!check_form_key('stevotvr_steamstatus_settings'))
+			if (!check_form_key('stevotvr_steamstatus_settings'))
 			{
 				trigger_error('FORM_INVALID');
 			}
 
 			$api_key = $request->variable('steamstatus_api_key', '');
-			if(self::validate_key($api_key, $error))
+			if (self::validate_key($api_key, $error))
 			{
 				$config->set('stevotvr_steamstatus_api_key', $api_key);
 				trigger_error($language->lang('ACP_STEAMSTATUS_SETTINGS_SAVED') . adm_back_link($this->u_action));
@@ -52,12 +52,12 @@ class main_module
 
 	static private function validate_key($api_key, &$error)
 	{
-		if(!strlen($api_key))
+		if (!strlen($api_key))
 		{
 			return true;
 		}
 
-		if(!preg_match('/^[A-Z\d]+$/', $api_key))
+		if (!preg_match('/^[A-Z\d]+$/', $api_key))
 		{
 			$error[] = 'ACP_STEAMSTATUS_API_KEY_ERROR_FORMAT';
 			return false;
@@ -73,7 +73,7 @@ class main_module
 			),
 		));
 		$stream = fopen($url, 'r', false, $ctx);
-		if(!$stream)
+		if (!$stream)
 		{
 			$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
 			return false;
@@ -83,31 +83,31 @@ class main_module
 		{
 			$meta = stream_get_meta_data($stream);
 			$http_response = (int)substr($meta['wrapper_data'][0], strpos($meta['wrapper_data'][0], ' ') + 1, 3);
-			if($http_response === 403)
+			if ($http_response === 403)
 			{
 				$error[] = 'ACP_STEAMSTATUS_API_KEY_INVALID';
 				return false;
 			}
-			if($http_response !== 200)
+			if ($http_response !== 200)
 			{
 				$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
 				return false;
 			}
 
 			$result = json_decode(stream_get_contents($stream));
-			if(!$result || !$result->apilist || !$result->apilist->interfaces)
+			if (!$result || !$result->apilist || !$result->apilist->interfaces)
 			{
 				$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
 				return false;
 			}
 
-			foreach($result->apilist->interfaces as $interface)
+			foreach ($result->apilist->interfaces as $interface)
 			{
-				if($interface->name === 'ISteamUser')
+				if ($interface->name === 'ISteamUser')
 				{
-					foreach($interface->methods as $method)
+					foreach ($interface->methods as $method)
 					{
-						if($method->name === 'GetPlayerSummaries' && $method->version === 2)
+						if ($method->name === 'GetPlayerSummaries' && $method->version === 2)
 						{
 							return true;
 						}

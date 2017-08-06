@@ -60,34 +60,34 @@ class main_listener implements EventSubscriberInterface
 	public function validate_id($event)
 	{
 		$api_key = $this->config['stevotvr_steamstatus_api_key'];
-		if(empty($api_key))
+		if (empty($api_key))
 		{
 			return;
 		}
 
 		$steamid = $this->request->variable('steamstatus_steamid', '0', false, \phpbb\request\request_interface::POST);
-		if($steamid !== '0')
+		if ($steamid !== '0')
 		{
 			$steamid64 = null;
 			$steam_error = 'STEAMSTATUS_ERROR_INVALID_FORMAT';
 			$matches = array();
-			if($steamid === '')
+			if ($steamid === '')
 			{
 				$steamid64 = '';
 			}
-			elseif(preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steamid, $matches) === 1)
+			else if (preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steamid, $matches) === 1)
 			{
 				$steamid64 = self::add($matches[2] * 2 + $matches[1], '76561197960265728');
 			}
-			elseif(preg_match('/^\[?U:1:(\d+)\]?$/', $steamid, $matches) === 1)
+			else if (preg_match('/^\[?U:1:(\d+)\]?$/', $steamid, $matches) === 1)
 			{
 				$steamid64 = self::add($matches[1], '76561197960265728');
 			}
-			elseif(preg_match('/(?:steamcommunity.com\/profiles\/)?(\d{17})\/?$/', $steamid, $matches) === 1)
+			else if (preg_match('/(?:steamcommunity.com\/profiles\/)?(\d{17})\/?$/', $steamid, $matches) === 1)
 			{
 				$steamid64 = $matches[1];
 			}
-			elseif(preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steamid, $matches) === 1)
+			else if (preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steamid, $matches) === 1)
 			{
 				$query = http_build_query(array(
 					'key'		=> $api_key,
@@ -95,10 +95,10 @@ class main_listener implements EventSubscriberInterface
 				));
 				$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
 				$result = @file_get_contents($url);
-				if($result)
+				if ($result)
 				{
 					$result = json_decode($result);
-					if($result && $result->response && $result->response->success === 1)
+					if ($result && $result->response && $result->response->success === 1)
 					{
 						$steamid64 = $result->response->steamid;
 					}
@@ -112,7 +112,7 @@ class main_listener implements EventSubscriberInterface
 					$steam_error = 'STEAMSTATUS_ERROR_LOOKUP_FAILED';
 				}
 			}
-			if(!isset($steamid64))
+			if (!isset($steamid64))
 			{
 				$error = $event['error'];
 				$error[] = $steam_error;
@@ -129,7 +129,7 @@ class main_listener implements EventSubscriberInterface
 
 	public function modify_id($event)
 	{
-		if(isset($event['data']['steamstatus_steamid'])) {
+		if (isset($event['data']['steamstatus_steamid'])) {
 			$sql_arr = array(
 				'user_steamid'	=> $event['data']['steamstatus_steamid'],
 			);
@@ -156,10 +156,10 @@ class main_listener implements EventSubscriberInterface
 	public function viewtopic_modify_post_row($event)
 	{
 		$steamid = $event['user_poster_data']['steamid'];
-		if(!empty($steamid))
+		if (!empty($steamid))
 		{
 			$status = steamstatus::get_from_cache($steamid, $this->cache);
-			if($status)
+			if ($status)
 			{
 				$status = steamstatus::get_localized_data($status, $this->language);
 				$event['post_row'] = array_merge($event['post_row'], array(
@@ -191,13 +191,13 @@ class main_listener implements EventSubscriberInterface
 
 	    $carry = 0;
 	    $result = '';
-	    for($i = strlen($left) - 1; $i >= 0; --$i)
+	    for ($i = strlen($left) - 1; $i >= 0; --$i)
 	    {
 	        $sum = $left[$i] + $right[$i] + $carry;
 	        $carry = (int)($sum / 10);
 	        $result .= $sum % 10;
 	    }
-	    if($carry)
+	    if ($carry)
 	    {
 	        $result .= '1';
 	    }

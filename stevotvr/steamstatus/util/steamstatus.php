@@ -21,13 +21,13 @@ class steamstatus
 
 	static public function get_from_api($api_key, $steamids, &$results, $cache)
 	{
-		if(empty($steamids))
+		if (empty($steamids))
 		{
 			return;
 		}
 
 		$steamids = array_chunk($steamids, 100);
-		foreach($steamids as $chunk)
+		foreach ($steamids as $chunk)
 		{
 			$query = http_build_query(array(
 				'key'		=> $api_key,
@@ -35,13 +35,13 @@ class steamstatus
 			));
 			$url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
 			$response = @file_get_contents($url);
-			if($response)
+			if ($response)
 			{
 				$response = json_decode($response);
-				if($response && $response->response && is_array($response->response->players))
+				if ($response && $response->response && is_array($response->response->players))
 				{
 					$now = time();
-					foreach($response->response->players as $player)
+					foreach ($response->response->players as $player)
 					{
 						$user = array(
 							'time'	=> $now,
@@ -67,7 +67,7 @@ class steamstatus
 	static public function get_localized_data($user, $language)
 	{
 		$data = $user['data'];
-		if($data['state'] < 2)
+		if ($data['state'] < 2)
 		{
 			$data['status'] = $language->lang('STEAMSTATUS_STATUS_' . $data['status']);
 		}
@@ -76,11 +76,11 @@ class steamstatus
 
 	static private function get_profile_state($user)
 	{
-		if(!empty($user->gameextrainfo))
+		if (!empty($user->gameextrainfo))
 		{
 			return 2;
 		}
-		if($user->personastate > 0)
+		if ($user->personastate > 0)
 		{
 			return 1;
 		}
@@ -89,7 +89,7 @@ class steamstatus
 
 	static private function get_profile_status($user)
 	{
-		if(!empty($user->gameextrainfo))
+		if (!empty($user->gameextrainfo))
 		{
 			return $user->gameextrainfo;
 		}

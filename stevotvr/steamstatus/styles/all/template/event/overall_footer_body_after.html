@@ -4,12 +4,12 @@
 		var steamids = {};
 		$('.steamstatus').each(function () {
 			var steamid = $(this).data('steamid');
-			if(steamid) {
+			if (steamid) {
 				steamids[steamid] = true;
 			}
 		});
 		steamids = Object.keys(steamids);
-		if(steamids.length) {
+		if (steamids.length) {
 			$.ajax({
 				url: '{STEAMSTATUS_CONTROLLER}',
 				dataType: 'json',
@@ -20,9 +20,9 @@
 				$.each(data.status, function(index, val) {
 					var container = $('.steamstatus[data-steamid=' + val.steamid + ']');
 					container.removeClass('steam_online').removeClass('steam_ingame');
-					if(val.state === 1) {
+					if (val.state === 1) {
 						container.addClass('steam_online');
-					} else if(val.state === 2) {
+					} else if (val.state === 2) {
 						container.addClass('steam_ingame');
 					}
 					container.children('img').attr('src', val.avatar);
