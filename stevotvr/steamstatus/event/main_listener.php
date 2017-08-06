@@ -52,9 +52,8 @@ class main_listener implements EventSubscriberInterface
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
-			'STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
-			'STEAMSTATUS_STEAMID'		=> $this->user->data['user_steamid'],
-			'S_STEAMSTATUS_SHOW'		=> !empty($this->config['stevotvr_steamstatus_api_key']),
+			'STEAMSTATUS_STEAMID'	=> $this->user->data['user_steamid'],
+			'S_STEAMSTATUS_SHOW'	=> !empty($this->config['stevotvr_steamstatus_api_key']),
 		));
 	}
 
