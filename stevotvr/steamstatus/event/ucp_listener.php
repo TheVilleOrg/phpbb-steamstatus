@@ -5,15 +5,11 @@ namespace stevotvr\steamstatus\event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use stevotvr\steamstatus\util\steamstatus;
 
-class main_listener implements EventSubscriberInterface
+class ucp_listener implements EventSubscriberInterface
 {
-	private $cache;
-
 	private $config;
 
 	private $db;
-
-	private $helper;
 
 	private $language;
 
@@ -23,12 +19,10 @@ class main_listener implements EventSubscriberInterface
 
 	private $user;
 
-	function __construct($cache, $config, $db, $helper, $language, $request, $template, $user)
+	function __construct($config, $db, $language, $request, $template, $user)
 	{
-		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
-		$this->helper = $helper;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
@@ -38,16 +32,13 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.ucp_profile_modify_profile_info'		=> 'load_ucp_profile_language',
-			'core.ucp_profile_validate_profile_info'	=> 'validate_id',
-			'core.ucp_profile_info_modify_sql_ary'		=> 'modify_id',
-			'core.viewtopic_get_post_data'				=> 'viewtopic_get_post_data',
-			'core.viewtopic_cache_user_data'			=> 'viewtopic_cache_user_data',
-			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
+			'core.ucp_profile_modify_profile_info'		=> 'ucp_profile_modify_profile_info',
+			'core.ucp_profile_validate_profile_info'	=> 'ucp_profile_validate_profile_info',
+			'core.ucp_profile_info_modify_sql_ary'		=> 'ucp_profile_info_modify_sql_ary',
 		);
 	}
 
-	public function load_ucp_profile_language($event)
+	public function ucp_profile_modify_profile_info($event)
 	{
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
@@ -57,7 +48,7 @@ class main_listener implements EventSubscriberInterface
 		));
 	}
 
-	public function validate_id($event)
+	public function ucp_profile_validate_profile_info($event)
 	{
 		$api_key = $this->config['stevotvr_steamstatus_api_key'];
 		if (empty($api_key))
@@ -127,7 +118,7 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 
-	public function modify_id($event)
+	public function ucp_profile_info_modify_sql_ary($event)
 	{
 		if (isset($event['data']['steamstatus_steamid'])) {
 			$sql_arr = array(
@@ -137,50 +128,6 @@ class main_listener implements EventSubscriberInterface
 					SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . '
 					WHERE user_id = ' . $this->user->data['user_id'];
 			$this->db->sql_query($sql);
-		}
-	}
-
-	public function viewtopic_get_post_data($event)
-	{
-		$this->language->add_lang('common', 'stevotvr/steamstatus');
-		$this->template->assign_var('STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
-	}
-
-	public function viewtopic_cache_user_data($event)
-	{
-		$data = $event['user_cache_data'];
-		$data['steamid'] = $event['row']['user_steamid'];
-		$event['user_cache_data'] = $data;
-	}
-
-	public function viewtopic_modify_post_row($event)
-	{
-		$steamid = $event['user_poster_data']['steamid'];
-		if (!empty($steamid))
-		{
-			list($profile_time, $profile) = steamstatus::get_from_cache($steamid, $this->cache);
-			if ($profile)
-			{
-				$profile = steamstatus::get_localized_data($profile, $this->language);
-				$event['post_row'] = array_merge($event['post_row'], array(
-					'STEAMSTATUS_STEAMID'	=> $steamid,
-					'STEAMSTATUS_NAME'		=> $profile['name'],
-					'STEAMSTATUS_PROFILE'	=> $profile['profile'],
-					'STEAMSTATUS_AVATAR'	=> $profile['avatar'],
-					'STEAMSTATUS_STATE'		=> $profile['state'],
-					'STEAMSTATUS_STATUS'	=> $profile['status'],
-					'S_STEAMSTATUS_SHOW'	=> true,
-					'S_STEAMSTATUS_LOADED'	=> true,
-				));
-			}
-			else
-			{
-				$event['post_row'] = array_merge($event['post_row'], array(
-					'STEAMSTATUS_STEAMID'	=> $steamid,
-					'STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
-					'S_STEAMSTATUS_SHOW'	=> true,
-				));
-			}
 		}
 	}
 

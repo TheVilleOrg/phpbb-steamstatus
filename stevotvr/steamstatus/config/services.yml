@@ -6,16 +6,23 @@ services:
             - '@config'
             - '@language'
             - '@request'
-    stevotvr.steamstatus.listener:
-        class: stevotvr\steamstatus\event\main_listener
+    stevotvr.steamstatus.ucp_listener:
+        class: stevotvr\steamstatus\event\ucp_listener
         arguments:
-            - '@cache'
             - '@config'
             - '@dbal.conn'
-            - '@controller.helper'
             - '@language'
             - '@request'
             - '@template'
             - '@user'
+        tags:
+            - { name: event.listener }
+    stevotvr.steamstatus.viewtopic_listener:
+        class: stevotvr\steamstatus\event\viewtopic_listener
+        arguments:
+            - '@cache'
+            - '@controller.helper'
+            - '@language'
+            - '@template'
         tags:
             - { name: event.listener }
