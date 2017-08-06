@@ -11,7 +11,7 @@
 		steamids = Object.keys(steamids);
 		if (steamids.length) {
 			$.ajax({
-				url: '{STEAMSTATUS_CONTROLLER}',
+				url: '{U_STEAMSTATUS_CONTROLLER}',
 				dataType: 'json',
 				cache: false,
 				data: {'steamids': steamids.join(',')}

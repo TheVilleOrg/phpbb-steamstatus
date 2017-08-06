@@ -35,7 +35,7 @@ class viewtopic_listener implements EventSubscriberInterface
 	public function viewtopic_get_post_data($event)
 	{
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
-		$this->template->assign_var('STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
+		$this->template->assign_var('U_STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
 	}
 
 	public function viewtopic_cache_user_data($event)
