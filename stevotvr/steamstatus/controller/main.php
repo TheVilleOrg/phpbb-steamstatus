@@ -34,28 +34,24 @@ class main
 		}
 
 		$output = array();
-		$input = $this->request->raw_variable('list', '', \phpbb\request\request_interface::GET);
-		if($input)
+		$steamids = $this->request->variable('steamids', '', false, \phpbb\request\request_interface::GET);
+		if(!empty($steamids))
 		{
-			$input = json_decode($input);
-			if($input && is_array($input->ids))
+			$steamids = self::get_valid_ids(explode(',', $steamids));
+			$stale = array();
+			foreach($steamids as $steamid)
 			{
-				$steamids = self::get_valid_ids($input->ids);
-				$stale = array();
-				foreach($steamids as $steamid)
+				$cached = steamstatus::get_from_cache($steamid, $this->cache);
+				if($cached)
 				{
-					$cached = steamstatus::get_from_cache($steamid, $this->cache);
-					if($cached)
-					{
-						$output[] = $cached;
-					}
-					else
-					{
-						$stale[] = $steamid;
-					}
+					$output[] = $cached;
 				}
-				steamstatus::get_from_api($api_key, $stale, $output, $this->cache);
+				else
+				{
+					$stale[] = $steamid;
+				}
 			}
+			steamstatus::get_from_api($api_key, $stale, $output, $this->cache);
 		}
 
 		foreach($output as &$user)

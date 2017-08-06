@@ -1,19 +1,19 @@
 <script>
 	$(function () {
 		'use strict';
-		var ids = [];
+		var steamids = [];
 		$('.steamstatus').each(function () {
-			var id = $(this).data('steamid');
-			if(id) {
-				ids.push(id);
+			var steamid = $(this).data('steamid');
+			if(steamid) {
+				steamids.push(steamid);
 			}
 		});
-		if(ids.length) {
+		if(steamids.length) {
 			$.ajax({
 				url: '{STEAMSTATUS_CONTROLLER}',
 				dataType: 'json',
 				cache: false,
-				data: {'list': JSON.stringify({'ids': ids})}
+				data: {'steamids': steamids.join(',')}
 			})
 			.done(function(data) {
 				$.each(data.status, function(index, val) {
