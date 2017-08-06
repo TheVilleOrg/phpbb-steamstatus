@@ -23,11 +23,12 @@ class steamstatus
 		return $cache->get('stevotvr_steamstatus_id' . $steamid);
 	}
 
-	static public function get_from_api($api_key, $steamids, &$results, $cache)
+	static public function get_from_api($api_key, $steamids, $cache)
 	{
+		$profiles = array();
 		if (empty($steamids))
 		{
-			return;
+			return $profiles;
 		}
 
 		$steamids = array_chunk($steamids, 100);
@@ -61,11 +62,13 @@ class steamstatus
 						);
 						// TODO: Fix caching
 						$cache->put('stevotvr_steamstatus_id' . $player->steamid, $profile);
-						$results[] = $profile['data'];
+						$profiles[] = $profile['data'];
 					}
 				}
 			}
 		}
+
+		return $profiles;
 	}
 
 	static public function get_localized_data($profile, $language)

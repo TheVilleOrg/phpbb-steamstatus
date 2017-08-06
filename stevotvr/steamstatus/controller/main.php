@@ -39,20 +39,7 @@ class main
 		{
 			$steamids = array_unique(array_map('trim', explode(',', $steamids)));
 			$steamids = self::get_valid_ids($steamids);
-			$stale = array();
-			foreach ($steamids as $steamid)
-			{
-				$cached = steamstatus::get_from_cache($steamid, $this->cache);
-				if ($cached)
-				{
-					$output[] = $cached['data'];
-				}
-				else
-				{
-					$stale[] = $steamid;
-				}
-			}
-			steamstatus::get_from_api($api_key, $stale, $output, $this->cache);
+			$output = steamstatus::get_from_api($api_key, $steamids, $this->cache);
 		}
 
 		foreach ($output as &$profile)
