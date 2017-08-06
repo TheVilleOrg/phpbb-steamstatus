@@ -2,20 +2,20 @@ services:
     stevotvr.steamstatus.controller:
         class: stevotvr\steamstatus\controller\main
         arguments:
-            - '@config'
-            - '@request'
             - '@cache'
+            - '@config'
             - '@language'
+            - '@request'
     stevotvr.steamstatus.listener:
         class: stevotvr\steamstatus\event\main_listener
         arguments:
+            - '@cache'
             - '@config'
+            - '@dbal.conn'
             - '@controller.helper'
-            - '@template'
             - '@language'
             - '@request'
+            - '@template'
             - '@user'
-            - '@dbal.conn'
-            - '@cache'
         tags:
             - { name: event.listener }

@@ -7,32 +7,32 @@ use stevotvr\steamstatus\util\steamstatus;
 
 class main_listener implements EventSubscriberInterface
 {
+	private $cache;
+
 	private $config;
 
-	private $helper;
+	private $db;
 
-	private $template;
+	private $helper;
 
 	private $language;
 
 	private $request;
 
+	private $template;
+
 	private $user;
 
-	private $db;
-
-	private $cache;
-
-	function __construct($config, $helper, $template, $language, $request, $user, $db, $cache)
+	function __construct($cache, $config, $db, $helper, $language, $request, $template, $user)
 	{
+		$this->cache = $cache;
 		$this->config = $config;
+		$this->db = $db;
 		$this->helper = $helper;
-		$this->template = $template;
 		$this->language = $language;
 		$this->request = $request;
+		$this->template = $template;
 		$this->user = $user;
-		$this->db = $db;
-		$this->cache = $cache;
 	}
 
 	static public function getSubscribedEvents()

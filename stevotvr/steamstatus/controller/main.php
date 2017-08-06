@@ -7,20 +7,20 @@ use \stevotvr\steamstatus\util\steamstatus;
 
 class main
 {
-	private $config;
-
-	private $request;
-
 	private $cache;
+
+	private $config;
 
 	private $language;
 
-	public function __construct($config, $request, $cache, $language)
+	private $request;
+
+	public function __construct($cache, $config, $language, $request)
 	{
-		$this->config = $config;
-		$this->request = $request;
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->language = $language;
+		$this->request = $request;
 
 		$language->add_lang('common', 'stevotvr/steamstatus');
 	}
