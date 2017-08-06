@@ -4,6 +4,10 @@ namespace stevotvr\steamstatus\util;
 
 class steamstatus
 {
+	const STATE_OFFLINE = 0;
+	const STATE_ONLINE = 1;
+	const STATE_INGAME = 2;
+
 	static private $status_text = array(
 		'OFFLINE',
 		'ONLINE',
@@ -78,13 +82,13 @@ class steamstatus
 	{
 		if (!empty($user->gameextrainfo))
 		{
-			return 2;
+			return self::STATE_INGAME;
 		}
 		if ($user->personastate > 0)
 		{
-			return 1;
+			return self::STATE_ONLINE;
 		}
-		return 0;
+		return self::STATE_OFFLINE;
 	}
 
 	static private function get_profile_status($user)
