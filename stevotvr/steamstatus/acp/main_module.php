@@ -31,14 +31,6 @@ class main_module
 			if(self::validate_key($api_key, $error))
 			{
 				$config->set('stevotvr_steamstatus_api_key', $api_key);
-				$sql_arr = array(
-					'field_active'	=> strlen($key) ? 1 : 0,
-				);
-				$sql = 'UPDATE ' . PROFILE_FIELDS_TABLE . '
-						SET ' . $db->sql_build_array('UPDATE', $sql_arr) . '
-						WHERE field_ident = \'steam_id\'';
-				$db->sql_query($sql);
-
 				trigger_error($language->lang('ACP_STEAMSTATUS_SETTINGS_SAVED') . adm_back_link($this->u_action));
 			}
 		}
