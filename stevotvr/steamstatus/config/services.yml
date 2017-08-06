@@ -6,6 +6,15 @@ services:
             - '@config'
             - '@language'
             - '@request'
+    stevotvr.steamstatus.memberlist_listener:
+        class: stevotvr\steamstatus\event\memberlist_listener
+        arguments:
+            - '@cache'
+            - '@controller.helper'
+            - '@language'
+            - '@template'
+        tags:
+            - { name: event.listener }
     stevotvr.steamstatus.ucp_listener:
         class: stevotvr\steamstatus\event\ucp_listener
         arguments:

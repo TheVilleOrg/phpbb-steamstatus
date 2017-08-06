@@ -19,6 +19,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
+	'STEAMSTATUS_STEAM'				=> 'Steam',
 	'STEAMSTATUS_PROFILE'			=> 'Profile',
 	'STEAMSTATUS_ADD'				=> 'Add',
 	'STEAMSTATUS_STATUS_OFFLINE'	=> 'Offline',
