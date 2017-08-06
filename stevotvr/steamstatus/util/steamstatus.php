@@ -47,7 +47,7 @@ class steamstatus
 					$now = time();
 					foreach ($response->response->players as $player)
 					{
-						$user = array(
+						$profile = array(
 							'time'	=> $now,
 							'data'	=> array(
 								'steamid'		=> $player->steamid,
@@ -60,43 +60,42 @@ class steamstatus
 							),
 						);
 						// TODO: Fix caching
-						$cache->put('stevotvr_steamstatus_id' . $player->steamid, $user);
-						$results[] = $user;
+						$cache->put('stevotvr_steamstatus_id' . $player->steamid, $profile);
+						$results[] = $profile['data'];
 					}
 				}
 			}
 		}
 	}
 
-	static public function get_localized_data($user, $language)
+	static public function get_localized_data($profile, $language)
 	{
-		$data = $user['data'];
-		if ($data['state'] < 2)
+		if ($profile['state'] < 2)
 		{
-			$data['status'] = $language->lang('STEAMSTATUS_STATUS_' . $data['status']);
+			$profile['status'] = $language->lang('STEAMSTATUS_STATUS_' . $profile['status']);
 		}
-		return $data;
+		return $profile;
 	}
 
-	static private function get_profile_state($user)
+	static private function get_profile_state($profile)
 	{
-		if (!empty($user->gameextrainfo))
+		if (!empty($profile->gameextrainfo))
 		{
 			return self::STATE_INGAME;
 		}
-		if ($user->personastate > 0)
+		if ($profile->personastate > 0)
 		{
 			return self::STATE_ONLINE;
 		}
 		return self::STATE_OFFLINE;
 	}
 
-	static private function get_profile_status($user)
+	static private function get_profile_status($profile)
 	{
-		if (!empty($user->gameextrainfo))
+		if (!empty($profile->gameextrainfo))
 		{
-			return $user->gameextrainfo;
+			return $profile->gameextrainfo;
 		}
-		return self::$status_text[$user->personastate];
+		return self::$status_text[$profile->personastate];
 	}
 }

@@ -158,17 +158,17 @@ class main_listener implements EventSubscriberInterface
 		$steamid = $event['user_poster_data']['steamid'];
 		if (!empty($steamid))
 		{
-			$status = steamstatus::get_from_cache($steamid, $this->cache);
-			if ($status)
+			list($profile_time, $profile) = steamstatus::get_from_cache($steamid, $this->cache);
+			if ($profile)
 			{
-				$status = steamstatus::get_localized_data($status, $this->language);
+				$profile = steamstatus::get_localized_data($profile, $this->language);
 				$event['post_row'] = array_merge($event['post_row'], array(
 					'STEAMSTATUS_STEAMID'	=> $steamid,
-					'STEAMSTATUS_NAME'		=> $status['name'],
-					'STEAMSTATUS_PROFILE'	=> $status['profile'],
-					'STEAMSTATUS_AVATAR'	=> $status['avatar'],
-					'STEAMSTATUS_STATE'		=> $status['state'],
-					'STEAMSTATUS_STATUS'	=> $status['status'],
+					'STEAMSTATUS_NAME'		=> $profile['name'],
+					'STEAMSTATUS_PROFILE'	=> $profile['profile'],
+					'STEAMSTATUS_AVATAR'	=> $profile['avatar'],
+					'STEAMSTATUS_STATE'		=> $profile['state'],
+					'STEAMSTATUS_STATUS'	=> $profile['status'],
 					'S_STEAMSTATUS_SHOW'	=> true,
 					'S_STEAMSTATUS_LOADED'	=> true,
 				));

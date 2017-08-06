@@ -45,7 +45,7 @@ class main
 				$cached = steamstatus::get_from_cache($steamid, $this->cache);
 				if ($cached)
 				{
-					$output[] = $cached;
+					$output[] = $cached['data'];
 				}
 				else
 				{
@@ -55,9 +55,9 @@ class main
 			steamstatus::get_from_api($api_key, $stale, $output, $this->cache);
 		}
 
-		foreach ($output as &$user)
+		foreach ($output as &$profile)
 		{
-			$user = steamstatus::get_localized_data($user, $this->language);
+			$profile = steamstatus::get_localized_data($profile, $this->language);
 		}
 
 		return new JsonResponse(array('status' => $output));
