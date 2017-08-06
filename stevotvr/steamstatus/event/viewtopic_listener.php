@@ -75,25 +75,4 @@ class viewtopic_listener implements EventSubscriberInterface
 			}
 		}
 	}
-
-	static private function add($left, $right)
-	{
-	    $left = str_pad($left, strlen($right), '0', STR_PAD_LEFT);
-	    $right = str_pad($right, strlen($left), '0', STR_PAD_LEFT);
-
-	    $carry = 0;
-	    $result = '';
-	    for ($i = strlen($left) - 1; $i >= 0; --$i)
-	    {
-	        $sum = $left[$i] + $right[$i] + $carry;
-	        $carry = (int)($sum / 10);
-	        $result .= $sum % 10;
-	    }
-	    if ($carry)
-	    {
-	        $result .= '1';
-	    }
-
-	    return strrev($result);
-	}
 }
