@@ -5,13 +5,19 @@ namespace stevotvr\steamstatus\acp;
 class main_module
 {
 	public $u_action;
+
 	public $tpl_name;
+
 	public $page_title;
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $template, $request, $config, $db;
+		global $phpbb_container;
+		$config = $phpbb_container->get('config');
+		$db = $phpbb_container->get('dbal.conn');
 		$language = $phpbb_container->get('language');
+		$request = $phpbb_container->get('request');
+		$template = $phpbb_container->get('template');
 
 		$this->tpl_name = 'acp_steamstatus_body';
 		$this->page_title = 'ACP_STEAMSTATUS_TITLE';
