@@ -1,4 +1,12 @@
 <?php
+/**
+ *
+ * Steam Status. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2017, Steve Guidetti, https://github.com/stevotvr
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace stevotvr\steamstatus\event;
 
@@ -7,14 +15,24 @@ use stevotvr\steamstatus\util\steamstatus;
 
 class viewtopic_listener implements EventSubscriberInterface
 {
+	/* @var \phpbb\cache\service */
 	private $cache;
 
+	/* @var \phpbb\controller\helper */
 	private $helper;
 
+	/* @var \phpbb\language\language */
 	private $language;
 
+	/* @var \phpbb\template\template */
 	private $template;
 
+	/**
+	 * @param \phpbb\cache\service		$cache
+	 * @param \phpbb\controller\helper	$helper
+	 * @param \phpbb\language\language	$language
+	 * @param \phpbb\template\template	$template
+	 */
 	function __construct(\phpbb\cache\service $cache, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\template\template $template)
 	{
 		$this->cache = $cache;
@@ -32,12 +50,22 @@ class viewtopic_listener implements EventSubscriberInterface
 		);
 	}
 
+	/**
+	 * Loads the language files and sets the template variables for the View Topic page.
+	 *
+	 * @param \phpbb\event\data	$event
+	 */
 	public function viewtopic_get_post_data(\phpbb\event\data $event)
 	{
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->template->assign_var('U_STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
 	}
 
+	/**
+	 * Adds the SteamID to the user data.
+	 *
+	 * @param \phpbb\event\data	$event
+	 */
 	public function viewtopic_cache_user_data(\phpbb\event\data $event)
 	{
 		$data = $event['user_cache_data'];
@@ -45,6 +73,11 @@ class viewtopic_listener implements EventSubscriberInterface
 		$event['user_cache_data'] = $data;
 	}
 
+	/**
+	 * Loads the Steam Status template variables for each post.
+	 *
+	 * @param \phpbb\event\data	$event
+	 */
 	public function viewtopic_modify_post_row(\phpbb\event\data $event)
 	{
 		$steamid = $event['user_poster_data']['steamid'];

@@ -1,7 +1,18 @@
 <?php
+/**
+ *
+ * Steam Status. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2017, Steve Guidetti, https://github.com/stevotvr
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace stevotvr\steamstatus\acp;
 
+/**
+ * Steam Status ACP module.
+ */
 class main_module
 {
 	public $u_action;
@@ -50,6 +61,15 @@ class main_module
 		));
 	}
 
+	/**
+	 * Validate a given Steam Web API key. This method checks for proper format and then calls the
+	 * Steam Web API to verify that the key grants access to the methods used by the extension.
+	 *
+	 * @param string $api_key	The API key to validate
+	 * @param string &$error	A variable to hold the error message (if any)
+	 *
+	 * @return bool				The key is valid
+	 */
 	static private function validate_key($api_key, &$error)
 	{
 		if (!strlen($api_key))

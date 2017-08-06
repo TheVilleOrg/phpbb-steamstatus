@@ -1,24 +1,49 @@
 <?php
+/**
+ *
+ * Steam Status. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2017, Steve Guidetti, https://github.com/stevotvr
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace stevotvr\steamstatus\event;
 
 use stevotvr\steamstatus\util\steamstatus;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Steam Status listener for UCP events.
+ */
 class ucp_listener implements EventSubscriberInterface
 {
+	/* @var \phpbb\config\config */
 	private $config;
 
+	/* @var \phpbb\db\driver\factory */
 	private $db;
 
+	/* @var \phpbb\language\language */
 	private $language;
 
+	/* @var \phpbb\request\request */
 	private $request;
 
+	/* @var \phpbb\template\template */
 	private $template;
 
+	/* @var \phpbb\user */
 	private $user;
 
+	/**
+	 * @param \phpbb\config\config		$config
+	 * @param \phpbb\db\driver\factory	$db
+	 * @param \phpbb\language\language	$language
+	 * @param \phpbb\request\request	$request
+	 * @param \phpbb\template\template	$template
+	 * @param \phpbb\user				$user
+	 */
 	function __construct(\phpbb\config\config $config, \phpbb\db\driver\factory $db, \phpbb\language\language $language, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->config = $config;
@@ -38,6 +63,11 @@ class ucp_listener implements EventSubscriberInterface
 		);
 	}
 
+	/**
+	 * Loads the language files and sets the template variables for the Profile page of the UPC.
+	 *
+	 * @param \phpbb\event\data	$event
+	 */
 	public function ucp_profile_modify_profile_info(\phpbb\event\data $event)
 	{
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
@@ -48,6 +78,12 @@ class ucp_listener implements EventSubscriberInterface
 		));
 	}
 
+	/**
+	 * Reads the SteamID when the user updates their profile and attempts to convert it to the
+	 * SteamID64 format. Produces an error if the conversion fails.
+	 *
+	 * @param \phpbb\event\data	$event
+	 */
 	public function ucp_profile_validate_profile_info(\phpbb\event\data $event)
 	{
 		$api_key = $this->config['stevotvr_steamstatus_api_key'];
@@ -118,6 +154,11 @@ class ucp_listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Saves the SteamID when the user updates their profile.
+	 *
+	 * @param \phpbb\event\data	$event
+	 */
 	public function ucp_profile_info_modify_sql_ary(\phpbb\event\data $event)
 	{
 		if (isset($event['data']['steamstatus_steamid'])) {
@@ -131,6 +172,15 @@ class ucp_listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Add two integers as strings. This allows addition of integers of arbitrary lengths on any
+	 * system without external dependencies.
+	 *
+	 * @param string	$left	A numeric string
+	 * @param string	$right	A numeric string
+	 *
+	 * @return string			The sum as a numeric string
+	 */
 	static private function add($left, $right)
 	{
 	    $left = str_pad($left, strlen($right), '0', STR_PAD_LEFT);

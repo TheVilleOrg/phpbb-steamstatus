@@ -1,13 +1,26 @@
 <?php
+/**
+ *
+ * Steam Status. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2017, Steve Guidetti, https://github.com/stevotvr
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace stevotvr\steamstatus\util;
 
+/**
+ * Steam Status utility functions.
+ */
 class steamstatus
 {
+	/* Steam profile states */
 	const STATE_OFFLINE = 0;
 	const STATE_ONLINE = 1;
 	const STATE_INGAME = 2;
 
+	/* @var array Steam profile status options */
 	static private $status_text = array(
 		'OFFLINE',
 		'ONLINE',
@@ -18,11 +31,29 @@ class steamstatus
 		'LTP',
 	);
 
+	/**
+	 * Get Steam profile data for a single profile from the cache.
+	 *
+	 * @param string				$steamid	The SteamID64 for the profile
+	 * @param \phpbb\cache\service	$cache
+	 *
+	 * @return mixed							The cached data, or false if it doesn't exist
+	 */
 	static public function get_from_cache($steamid, \phpbb\cache\service $cache)
 	{
 		return $cache->get('stevotvr_steamstatus_id' . $steamid);
 	}
 
+	/**
+	 * Get Steam profile data from the Steam Web API.
+	 *
+	 * @param string				$api_key	The Steam Web API key
+	 * @param array					$steamids	The list of SteamIDs for which to get profile data
+	 * @param \phpbb\cache\service	$cache
+	 *
+	 * @return array							An array of associative arrays representing the
+	 *                        					Steam profiles
+	 */
 	static public function get_from_api($api_key, array $steamids, \phpbb\cache\service $cache)
 	{
 		$profiles = array();
@@ -71,6 +102,14 @@ class steamstatus
 		return $profiles;
 	}
 
+	/**
+	 * Get a localized version of the data for a profile.
+	 *
+	 * @param array						$profile	The raw profile data
+	 * @param \phpbb\language\language	$language
+	 *
+	 * @return array								The localized profile data
+	 */
 	static public function get_localized_data(array $profile, \phpbb\language\language $language)
 	{
 		if ($profile['state'] < 2)
@@ -80,6 +119,13 @@ class steamstatus
 		return $profile;
 	}
 
+	/**
+	 * Get the state of a profile based on data returned from the Steam Web API.
+	 *
+	 * @param \stdClass	$profile	The response from the API
+	 *
+	 * @return int					One of the STATE_* constants
+	 */
 	static private function get_profile_state(\stdClass $profile)
 	{
 		if (!empty($profile->gameextrainfo))
@@ -93,6 +139,14 @@ class steamstatus
 		return self::STATE_OFFLINE;
 	}
 
+	/**
+	 * Get the status of a profile based on data returned from the Steam Web API.
+	 *
+	 * @param \stdClass	$profile	The response from the API
+	 *
+	 * @return string				One of the $status_text values or the name of the game being
+	 *                       		played
+	 */
 	static private function get_profile_status(\stdClass $profile)
 	{
 		if (!empty($profile->gameextrainfo))
