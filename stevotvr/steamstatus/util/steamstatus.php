@@ -5,13 +5,13 @@ namespace stevotvr\steamstatus\util;
 class steamstatus
 {
 	static private $status_text = array(
-		'STATUS_OFFLINE',
-		'STATUS_ONLINE',
-		'STATUS_BUSY',
-		'STATUS_AWAY',
-		'STATUS_SNOOZE',
-		'STATUS_LTT',
-		'STATUS_LTP',
+		'OFFLINE',
+		'ONLINE',
+		'BUSY',
+		'AWAY',
+		'SNOOZE',
+		'LTT',
+		'LTP',
 	);
 
 	static public function get_from_cache($id, $cache)
@@ -69,7 +69,7 @@ class steamstatus
 		$data = $user['data'];
 		if($data['state'] < 2)
 		{
-			$data['status'] = $language->lang($data['status']);
+			$data['status'] = $language->lang('STEAMSTATUS_STATUS_' . $data['status']);
 		}
 		return $data;
 	}

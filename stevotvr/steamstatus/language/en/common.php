@@ -11,13 +11,13 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'PROFILE'			=> 'Profile',
-	'ADD'				=> 'Add',
-	'STATUS_OFFLINE'	=> 'Offline',
-	'STATUS_ONLINE'		=> 'Online',
-	'STATUS_BUSY'		=> 'Busy',
-	'STATUS_AWAY'		=> 'Away',
-	'STATUS_SNOOZE'		=> 'Snooze',
-	'STATUS_LTT'		=> 'Looking to trade',
-	'STATUS_LTP'		=> 'Looking to play',
+	'STEAMSTATUS_PROFILE'			=> 'Profile',
+	'STEAMSTATUS_ADD'				=> 'Add',
+	'STEAMSTATUS_STATUS_OFFLINE'	=> 'Offline',
+	'STEAMSTATUS_STATUS_ONLINE'		=> 'Online',
+	'STEAMSTATUS_STATUS_BUSY'		=> 'Busy',
+	'STEAMSTATUS_STATUS_AWAY'		=> 'Away',
+	'STEAMSTATUS_STATUS_SNOOZE'		=> 'Snooze',
+	'STEAMSTATUS_STATUS_LTT'		=> 'Looking to trade',
+	'STEAMSTATUS_STATUS_LTP'		=> 'Looking to play',
 ));
