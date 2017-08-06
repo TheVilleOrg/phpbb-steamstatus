@@ -1,13 +1,14 @@
 <script>
 	$(function () {
 		'use strict';
-		var steamids = [];
+		var steamids = {};
 		$('.steamstatus').each(function () {
 			var steamid = $(this).data('steamid');
 			if(steamid) {
-				steamids.push(steamid);
+				steamids[steamid] = true;
 			}
 		});
+		steamids = Object.keys(steamids);
 		if(steamids.length) {
 			$.ajax({
 				url: '{STEAMSTATUS_CONTROLLER}',

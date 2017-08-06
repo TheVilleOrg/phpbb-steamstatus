@@ -37,7 +37,8 @@ class main
 		$steamids = $this->request->variable('steamids', '', false, \phpbb\request\request_interface::GET);
 		if(!empty($steamids))
 		{
-			$steamids = self::get_valid_ids(explode(',', $steamids));
+			$steamids = array_unique(array_map('trim', explode(',', $steamids)));
+			$steamids = self::get_valid_ids($steamids);
 			$stale = array();
 			foreach($steamids as $steamid)
 			{
@@ -67,7 +68,6 @@ class main
 		$safe = array();
 		foreach($unsafe as $steamid)
 		{
-			$steamid = trim($steamid);
 			if(preg_match('/^\d{17}$/', $steamid))
 			{
 				$safe[] = $steamid;
