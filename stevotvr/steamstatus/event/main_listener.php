@@ -52,46 +52,46 @@ class main_listener implements EventSubscriberInterface
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
-			'USER_STEAM_ID'				=> $this->user->data['user_steam_id'],
-			'S_STEAMSTATUS_SHOW'		=> !empty($this->config['stevotvr_steamstatus_key']),
 			'STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
-			'STEAMSTATUS_STEAMID'		=> $this->user->data['user_steam_id'],
+			'STEAMSTATUS_STEAMID'		=> $this->user->data['user_steamid'],
+			'S_STEAMSTATUS_SHOW'		=> !empty($this->config['stevotvr_steamstatus_api_key']),
 		));
 	}
 
 	public function validate_id($event)
 	{
-		if(empty($this->config['stevotvr_steamstatus_key']))
+		$api_key = $this->config['stevotvr_steamstatus_api_key'];
+		if(empty($api_key))
 		{
 			return;
 		}
 
-		$steam_id = $this->request->variable('steamstatus_steam_id', '0', false, \phpbb\request\request_interface::POST);
-		if($steam_id !== '0')
+		$steamid = $this->request->variable('steamstatus_steamid', '0', false, \phpbb\request\request_interface::POST);
+		if($steamid !== '0')
 		{
-			$steam_id64 = null;
-			$steam_error = 'ERROR_INVALID_FORMAT';
+			$steamid64 = null;
+			$steam_error = 'STEAMSTATUS_ERROR_INVALID_FORMAT';
 			$matches = array();
-			if($steam_id === '')
+			if($steamid === '')
 			{
-				$steam_id64 = '';
+				$steamid64 = '';
 			}
-			elseif(preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steam_id, $matches) === 1)
+			elseif(preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steamid, $matches) === 1)
 			{
-				$steam_id64 = self::add($matches[2] * 2 + $matches[1], '76561197960265728');
+				$steamid64 = self::add($matches[2] * 2 + $matches[1], '76561197960265728');
 			}
-			elseif(preg_match('/^\[?U:1:(\d+)\]?$/', $steam_id, $matches) === 1)
+			elseif(preg_match('/^\[?U:1:(\d+)\]?$/', $steamid, $matches) === 1)
 			{
-				$steam_id64 = self::add($matches[1], '76561197960265728');
+				$steamid64 = self::add($matches[1], '76561197960265728');
 			}
-			elseif(preg_match('/(?:steamcommunity.com\/profiles\/)?(\d{17})\/?$/', $steam_id, $matches) === 1)
+			elseif(preg_match('/(?:steamcommunity.com\/profiles\/)?(\d{17})\/?$/', $steamid, $matches) === 1)
 			{
-				$steam_id64 = $matches[1];
+				$steamid64 = $matches[1];
 			}
-			elseif(preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steam_id, $matches) === 1)
+			elseif(preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steamid, $matches) === 1)
 			{
 				$query = http_build_query(array(
-					'key'		=> $this->config['stevotvr_steamstatus_key'],
+					'key'		=> $api_key,
 					'vanityurl'	=> $matches[1],
 				));
 				$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
@@ -101,19 +101,19 @@ class main_listener implements EventSubscriberInterface
 					$result = json_decode($result);
 					if($result && $result->response && $result->response->success === 1)
 					{
-						$steam_id64 = $result->response->steamid;
+						$steamid64 = $result->response->steamid;
 					}
 					else
 					{
-						$steam_error = 'ERROR_NAME_NOT_FOUND';
+						$steam_error = 'STEAMSTATUS_ERROR_NAME_NOT_FOUND';
 					}
 				}
 				else
 				{
-					$steam_error = 'ERROR_LOOKUP_FAILED';
+					$steam_error = 'STEAMSTATUS_ERROR_LOOKUP_FAILED';
 				}
 			}
-			if($steam_id64 === null)
+			if(!isset($steamid64))
 			{
 				$error = $event['error'];
 				$error[] = $steam_error;
@@ -122,7 +122,7 @@ class main_listener implements EventSubscriberInterface
 			else
 			{
 				$data = $event['data'];
-				$data['steamstatus_steam_id'] = $steam_id64;
+				$data['steamstatus_steamid'] = $steamid64;
 				$event['data'] = $data;
 			}
 		}
@@ -130,9 +130,9 @@ class main_listener implements EventSubscriberInterface
 
 	public function modify_id($event)
 	{
-		if(isset($event['data']['steamstatus_steam_id'])) {
+		if(isset($event['data']['steamstatus_steamid'])) {
 			$sql_arr = array(
-				'user_steam_id'	=> $event['data']['steamstatus_steam_id'],
+				'user_steamid'	=> $event['data']['steamstatus_steamid'],
 			);
 			$sql = 'UPDATE ' . USERS_TABLE . '
 					SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . '
@@ -149,7 +149,7 @@ class main_listener implements EventSubscriberInterface
 	public function viewtopic_cache_user_data($event)
 	{
 		$data = $event['user_cache_data'];
-		$data['steamid'] = $event['row']['user_steam_id'];
+		$data['steamid'] = $event['row']['user_steamid'];
 		$event['user_cache_data'] = $data;
 	}
 

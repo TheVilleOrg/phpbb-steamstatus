@@ -27,10 +27,10 @@ class main_module
 				trigger_error('FORM_INVALID');
 			}
 
-			$key = trim($request->variable('stevotvr_steamstatus_key', ''));
-			if(self::validate_key($key, $error))
+			$api_key = $request->variable('steamstatus_api_key', '');
+			if(self::validate_key($api_key, $error))
 			{
-				$config->set('stevotvr_steamstatus_key', $key);
+				$config->set('stevotvr_steamstatus_api_key', $api_key);
 				$sql_arr = array(
 					'field_active'	=> strlen($key) ? 1 : 0,
 				);
@@ -46,27 +46,27 @@ class main_module
 		$error = array_map(array($language, 'lang'), $error);
 		$template->assign_vars(array(
 			'ERROR_MSG'					=> implode('<br />', $error),
-			'STEVOTVR_STEAMSTATUS_KEY'	=> $config['stevotvr_steamstatus_key'],
+			'STEAMSTATUS_API_KEY'		=> $config['stevotvr_steamstatus_api_key'],
 			'U_ACTION'					=> $this->u_action,
 			'S_ERROR'					=> sizeof($error) > 0,
 		));
 	}
 
-	static private function validate_key($key, &$error)
+	static private function validate_key($api_key, &$error)
 	{
-		if(!strlen($key))
+		if(!strlen($api_key))
 		{
 			return true;
 		}
 
-		if(!preg_match('/^[A-Z\d]+$/', $key))
+		if(!preg_match('/^[A-Z\d]+$/', $api_key))
 		{
 			$error[] = 'ACP_STEAMSTATUS_API_KEY_ERROR_FORMAT';
 			return false;
 		}
 
 		$query = http_build_query(array(
-			'key'	=> $key,
+			'key'	=> $api_key,
 		));
 		$url = 'http://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/?' . $query;
 		$ctx = stream_context_create(array(

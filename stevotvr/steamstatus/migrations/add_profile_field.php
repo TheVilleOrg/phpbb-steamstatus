@@ -9,7 +9,7 @@ class add_profile_field extends \phpbb\db\migration\migration
 		return array(
 			'add_columns'	=> array(
 				$this->table_prefix . 'users'	=> array(
-					'user_steam_id'	=> array('VCHAR:17', ''),
+					'user_steamid'	=> array('VCHAR:17', ''),
 				),
 			),
 		);
@@ -20,7 +20,7 @@ class add_profile_field extends \phpbb\db\migration\migration
 		return array(
 			'drop_columns'	=> array(
 				$this->table_prefix . 'users'	=> array(
-					'user_steam_id',
+					'user_steamid',
 				),
 			),
 		);

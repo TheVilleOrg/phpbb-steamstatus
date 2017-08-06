@@ -6,7 +6,7 @@ class add_module extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
 	{
-		return isset($this->config['stevotvr_steamstatus_key']);
+		return isset($this->config['stevotvr_steamstatus_api_key']);
 	}
 
 	static public function depends_on()
@@ -17,7 +17,7 @@ class add_module extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('stevotvr_steamstatus_key', '')),
+			array('config.add', array('stevotvr_steamstatus_api_key', '')),
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',

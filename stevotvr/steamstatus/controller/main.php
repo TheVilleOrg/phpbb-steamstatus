@@ -27,8 +27,8 @@ class main
 
 	public function handle()
 	{
-		$key = $this->config['stevotvr_steamstatus_key'];
-		if(empty($key))
+		$api_key = $this->config['stevotvr_steamstatus_api_key'];
+		if(empty($api_key))
 		{
 			return new JsonResponse(null, 500);
 		}
@@ -40,21 +40,21 @@ class main
 			$input = json_decode($input);
 			if($input && is_array($input->ids))
 			{
-				$ids = self::get_valid_ids($input->ids);
+				$steamids = self::get_valid_ids($input->ids);
 				$stale = array();
-				foreach($ids as $id)
+				foreach($steamids as $steamid)
 				{
-					$cached = steamstatus::get_from_cache($id, $this->cache);
+					$cached = steamstatus::get_from_cache($steamid, $this->cache);
 					if($cached)
 					{
 						$output[] = $cached;
 					}
 					else
 					{
-						$stale[] = $id;
+						$stale[] = $steamid;
 					}
 				}
-				steamstatus::get_from_api($key, $stale, $output, $this->cache);
+				steamstatus::get_from_api($api_key, $stale, $output, $this->cache);
 			}
 		}
 
@@ -69,12 +69,12 @@ class main
 	static private function get_valid_ids($unsafe)
 	{
 		$safe = array();
-		foreach($unsafe as $id)
+		foreach($unsafe as $steamid)
 		{
-			$id = trim($id);
-			if(preg_match('/^\d{17}$/', $id))
+			$steamid = trim($steamid);
+			if(preg_match('/^\d{17}$/', $steamid))
 			{
-				$safe[] = $id;
+				$safe[] = $steamid;
 			}
 		}
 		return $safe;

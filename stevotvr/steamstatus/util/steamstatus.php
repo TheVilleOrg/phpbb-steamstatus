@@ -14,23 +14,23 @@ class steamstatus
 		'LTP',
 	);
 
-	static public function get_from_cache($id, $cache)
+	static public function get_from_cache($steamid, $cache)
 	{
-		return $cache->get('stevotvr_steamstatus_id' . $id);
+		return $cache->get('stevotvr_steamstatus_id' . $steamid);
 	}
 
-	static public function get_from_api($key, $ids, &$results, $cache)
+	static public function get_from_api($api_key, $steamids, &$results, $cache)
 	{
-		if(empty($ids))
+		if(empty($steamids))
 		{
 			return;
 		}
 
-		$ids = array_chunk($ids, 100);
-		foreach($ids as $chunk)
+		$steamids = array_chunk($steamids, 100);
+		foreach($steamids as $chunk)
 		{
 			$query = http_build_query(array(
-				'key'		=> $key,
+				'key'		=> $api_key,
 				'steamids'	=> implode(',', $chunk),
 			));
 			$url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
