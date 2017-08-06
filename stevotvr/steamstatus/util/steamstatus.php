@@ -18,12 +18,12 @@ class steamstatus
 		'LTP',
 	);
 
-	static public function get_from_cache($steamid, $cache)
+	static public function get_from_cache($steamid, \phpbb\cache\service $cache)
 	{
 		return $cache->get('stevotvr_steamstatus_id' . $steamid);
 	}
 
-	static public function get_from_api($api_key, $steamids, $cache)
+	static public function get_from_api($api_key, array $steamids, \phpbb\cache\service $cache)
 	{
 		$profiles = array();
 		if (empty($steamids))
@@ -71,7 +71,7 @@ class steamstatus
 		return $profiles;
 	}
 
-	static public function get_localized_data($profile, $language)
+	static public function get_localized_data(array $profile, \phpbb\language\language $language)
 	{
 		if ($profile['state'] < 2)
 		{
@@ -80,7 +80,7 @@ class steamstatus
 		return $profile;
 	}
 
-	static private function get_profile_state($profile)
+	static private function get_profile_state(\stdClass $profile)
 	{
 		if (!empty($profile->gameextrainfo))
 		{
@@ -93,7 +93,7 @@ class steamstatus
 		return self::STATE_OFFLINE;
 	}
 
-	static private function get_profile_status($profile)
+	static private function get_profile_status(\stdClass $profile)
 	{
 		if (!empty($profile->gameextrainfo))
 		{

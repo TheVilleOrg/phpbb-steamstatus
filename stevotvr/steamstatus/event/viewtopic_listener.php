@@ -15,7 +15,7 @@ class viewtopic_listener implements EventSubscriberInterface
 
 	private $template;
 
-	function __construct($cache, $helper, $language, $template)
+	function __construct(\phpbb\cache\service $cache, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\template\template $template)
 	{
 		$this->cache = $cache;
 		$this->helper = $helper;
@@ -32,20 +32,20 @@ class viewtopic_listener implements EventSubscriberInterface
 		);
 	}
 
-	public function viewtopic_get_post_data($event)
+	public function viewtopic_get_post_data(\phpbb\event\data $event)
 	{
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->template->assign_var('U_STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
 	}
 
-	public function viewtopic_cache_user_data($event)
+	public function viewtopic_cache_user_data(\phpbb\event\data $event)
 	{
 		$data = $event['user_cache_data'];
 		$data['steamid'] = $event['row']['user_steamid'];
 		$event['user_cache_data'] = $data;
 	}
 
-	public function viewtopic_modify_post_row($event)
+	public function viewtopic_modify_post_row(\phpbb\event\data $event)
 	{
 		$steamid = $event['user_poster_data']['steamid'];
 		if (!empty($steamid))

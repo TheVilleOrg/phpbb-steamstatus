@@ -2,8 +2,8 @@
 
 namespace stevotvr\steamstatus\event;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use stevotvr\steamstatus\util\steamstatus;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ucp_listener implements EventSubscriberInterface
 {
@@ -19,7 +19,7 @@ class ucp_listener implements EventSubscriberInterface
 
 	private $user;
 
-	function __construct($config, $db, $language, $request, $template, $user)
+	function __construct(\phpbb\config\config $config, \phpbb\db\driver\factory $db, \phpbb\language\language $language, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->config = $config;
 		$this->db = $db;
@@ -38,7 +38,7 @@ class ucp_listener implements EventSubscriberInterface
 		);
 	}
 
-	public function ucp_profile_modify_profile_info($event)
+	public function ucp_profile_modify_profile_info(\phpbb\event\data $event)
 	{
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
@@ -48,7 +48,7 @@ class ucp_listener implements EventSubscriberInterface
 		));
 	}
 
-	public function ucp_profile_validate_profile_info($event)
+	public function ucp_profile_validate_profile_info(\phpbb\event\data $event)
 	{
 		$api_key = $this->config['stevotvr_steamstatus_api_key'];
 		if (empty($api_key))
@@ -118,7 +118,7 @@ class ucp_listener implements EventSubscriberInterface
 		}
 	}
 
-	public function ucp_profile_info_modify_sql_ary($event)
+	public function ucp_profile_info_modify_sql_ary(\phpbb\event\data $event)
 	{
 		if (isset($event['data']['steamstatus_steamid'])) {
 			$sql_arr = array(

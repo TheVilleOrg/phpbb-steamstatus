@@ -2,8 +2,8 @@
 
 namespace stevotvr\steamstatus\controller;
 
-use \Symfony\Component\HttpFoundation\JsonResponse;
 use \stevotvr\steamstatus\util\steamstatus;
+use \Symfony\Component\HttpFoundation\JsonResponse;
 
 class main
 {
@@ -15,7 +15,7 @@ class main
 
 	private $request;
 
-	public function __construct($cache, $config, $language, $request)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\request\request $request)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -50,7 +50,7 @@ class main
 		return new JsonResponse(array('status' => $output));
 	}
 
-	static private function get_valid_ids($unsafe)
+	static private function get_valid_ids(array $unsafe)
 	{
 		$safe = array();
 		foreach ($unsafe as $steamid)
