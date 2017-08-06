@@ -143,6 +143,7 @@ class main_listener implements EventSubscriberInterface
 
 	public function viewtopic_get_post_data($event)
 	{
+		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->template->assign_var('STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
 	}
 
