@@ -25,7 +25,6 @@ class main_module
 	{
 		global $phpbb_container;
 		$config = $phpbb_container->get('config');
-		$db = $phpbb_container->get('dbal.conn');
 		$language = $phpbb_container->get('language');
 		$request = $phpbb_container->get('request');
 		$template = $phpbb_container->get('template');
