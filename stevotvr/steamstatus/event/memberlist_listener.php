@@ -73,10 +73,10 @@ class memberlist_listener implements EventSubscriberInterface
 		$steamid = $event['member']['user_steamid'];
 		if (!empty($steamid))
 		{
-			list($profile_time, $profile) = steamstatus::get_from_cache($steamid, $this->cache);
-			if ($profile)
+			$cached = steamstatus::get_from_cache($steamid, $this->cache);
+			if ($cached)
 			{
-				$profile = steamstatus::get_localized_data($profile, $this->language);
+				$profile = steamstatus::get_localized_data($cached['data'], $this->language);
 				$this->template->assign_vars(array(
 					'STEAMSTATUS_STEAMID'	=> $steamid,
 					'STEAMSTATUS_NAME'		=> $profile['name'],

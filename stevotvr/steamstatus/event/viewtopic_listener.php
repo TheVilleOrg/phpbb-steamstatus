@@ -103,10 +103,10 @@ class viewtopic_listener implements EventSubscriberInterface
 		$steamid = $event['user_poster_data']['steamid'];
 		if (!empty($steamid))
 		{
-			list($profile_time, $profile) = steamstatus::get_from_cache($steamid, $this->cache);
-			if ($profile)
+			$data = steamstatus::get_from_cache($steamid, $this->cache);
+			if ($data)
 			{
-				$profile = steamstatus::get_localized_data($profile, $this->language);
+				$profile = steamstatus::get_localized_data($data['data'], $this->language);
 				$event['post_row'] = array_merge($event['post_row'], array(
 					'STEAMSTATUS_STEAMID'	=> $steamid,
 					'STEAMSTATUS_NAME'		=> $profile['name'],

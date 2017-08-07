@@ -91,8 +91,8 @@ class steamstatus
 								'lastlogoff'	=> $player->lastlogoff,
 							),
 						);
-						// TODO: Fix caching
 						$cache->put('stevotvr_steamstatus_id' . $player->steamid, $profile);
+						$cache->save();
 						$profiles[] = $profile['data'];
 					}
 				}
