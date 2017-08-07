@@ -10,6 +10,7 @@ services:
         class: stevotvr\steamstatus\event\memberlist_listener
         arguments:
             - '@cache'
+            - '@config'
             - '@controller.helper'
             - '@language'
             - '@template'
@@ -29,6 +30,7 @@ services:
         class: stevotvr\steamstatus\event\viewtopic_listener
         arguments:
             - '@cache'
+            - '@config'
             - '@controller.helper'
             - '@language'
             - '@template'

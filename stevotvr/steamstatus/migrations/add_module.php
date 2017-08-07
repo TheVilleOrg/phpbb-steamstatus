@@ -26,6 +26,8 @@ class add_module extends \phpbb\db\migration\migration
 	{
 		return array(
 			array('config.add', array('stevotvr_steamstatus_api_key', '')),
+			array('config.add', array('stevotvr_steamstatus_show_on_profile', 1)),
+			array('config.add', array('stevotvr_steamstatus_show_on_viewtopic', 1)),
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',

@@ -18,6 +18,9 @@ class viewtopic_listener implements EventSubscriberInterface
 	/* @var \phpbb\cache\service */
 	private $cache;
 
+	/* @var \phpbb\config\config */
+	private $config;
+
 	/* @var \phpbb\controller\helper */
 	private $helper;
 
@@ -29,13 +32,15 @@ class viewtopic_listener implements EventSubscriberInterface
 
 	/**
 	 * @param \phpbb\cache\service		$cache
+	 * @param \phpbb\config\config		$config
 	 * @param \phpbb\controller\helper	$helper
 	 * @param \phpbb\language\language	$language
 	 * @param \phpbb\template\template	$template
 	 */
-	function __construct(\phpbb\cache\service $cache, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\template\template $template)
+	function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\template\template $template)
 	{
 		$this->cache = $cache;
+		$this->config = $config;
 		$this->helper = $helper;
 		$this->language = $language;
 		$this->template = $template;
@@ -57,6 +62,10 @@ class viewtopic_listener implements EventSubscriberInterface
 	 */
 	public function viewtopic_get_post_data(\phpbb\event\data $event)
 	{
+		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic']) {
+			return;
+		}
+
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->template->assign_var('U_STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
 	}
@@ -68,6 +77,10 @@ class viewtopic_listener implements EventSubscriberInterface
 	 */
 	public function viewtopic_cache_user_data(\phpbb\event\data $event)
 	{
+		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic']) {
+			return;
+		}
+
 		$data = $event['user_cache_data'];
 		$data['steamid'] = $event['row']['user_steamid'];
 		$event['user_cache_data'] = $data;
@@ -80,6 +93,10 @@ class viewtopic_listener implements EventSubscriberInterface
 	 */
 	public function viewtopic_modify_post_row(\phpbb\event\data $event)
 	{
+		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic']) {
+			return;
+		}
+
 		$steamid = $event['user_poster_data']['steamid'];
 		if (!empty($steamid))
 		{

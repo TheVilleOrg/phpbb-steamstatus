@@ -45,19 +45,34 @@ class main_module
 			}
 
 			$api_key = $request->variable('steamstatus_api_key', '');
-			if (self::validate_key($api_key, $error))
+			if ($api_key !== $config['stevotvr_steamstatus_api_key'] && self::validate_key($api_key, $error))
 			{
 				$config->set('stevotvr_steamstatus_api_key', $api_key);
+			}
+
+			$show_on_profile = $request->variable('steamstatus_show_on_profile', '');
+			if (strlen($show_on_profile)) {
+				$config->set('stevotvr_steamstatus_show_on_profile', $show_on_profile ? 1 : 0);
+			}
+
+			$show_on_viewtopic = $request->variable('steamstatus_show_on_viewtopic', '');
+			if (strlen($show_on_viewtopic)) {
+				$config->set('stevotvr_steamstatus_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
+			}
+
+			if (!count($error)) {
 				trigger_error($language->lang('ACP_STEAMSTATUS_SETTINGS_SAVED') . adm_back_link($this->u_action));
 			}
 		}
 
 		$error = array_map(array($language, 'lang'), $error);
 		$template->assign_vars(array(
-			'ERROR_MSG'					=> implode('<br />', $error),
-			'STEAMSTATUS_API_KEY'		=> $config['stevotvr_steamstatus_api_key'],
-			'U_ACTION'					=> $this->u_action,
-			'S_ERROR'					=> sizeof($error) > 0,
+			'STEAMSTATUS_API_KEY'			=> $config['stevotvr_steamstatus_api_key'],
+			'STEAMSTATUS_SHOW_ON_PROFILE'	=> $config['stevotvr_steamstatus_show_on_profile'],
+			'STEAMSTATUS_SHOW_ON_VIEWTOPIC'	=> $config['stevotvr_steamstatus_show_on_viewtopic'],
+			'ERROR_MSG'						=> implode('<br />', $error),
+			'U_ACTION'						=> $this->u_action,
+			'S_ERROR'						=> count($error) > 0,
 		));
 	}
 
@@ -79,7 +94,7 @@ class main_module
 
 		if (!preg_match('/^[A-Z\d]+$/', $api_key))
 		{
-			$error[] = 'ACP_STEAMSTATUS_API_KEY_ERROR_FORMAT';
+			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_FORMAT';
 			return false;
 		}
 
@@ -105,19 +120,19 @@ class main_module
 			$http_response = (int)substr($meta['wrapper_data'][0], strpos($meta['wrapper_data'][0], ' ') + 1, 3);
 			if ($http_response === 403)
 			{
-				$error[] = 'ACP_STEAMSTATUS_API_KEY_INVALID';
+				$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID';
 				return false;
 			}
 			if ($http_response !== 200)
 			{
-				$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
+				$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
 				return false;
 			}
 
 			$result = json_decode(stream_get_contents($stream));
 			if (!$result || !$result->apilist || !$result->apilist->interfaces)
 			{
-				$error[] = 'ACP_STEAMSTATUS_API_KEY_VALIDATION_FAILED';
+				$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
 				return false;
 			}
 
@@ -140,7 +155,7 @@ class main_module
 			fclose($stream);
 		}
 
-		$error[] = 'ACP_STEAMSTATUS_API_KEY_INVALID';
+		$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID';
 		return false;
 	}
 }

@@ -12,8 +12,16 @@
 <form id="acp_board" method="post" action="{U_ACTION}">
 	<fieldset>
 		<dl>
-			<dt><label for="steamstatus_api_key">{L_ACP_STEAMSTATUS_API_KEY}</label><br /><span>{L_ACP_STEAMSTATUS_API_KEY_EXPLAIN}</span></dt>
+			<dt><label for="steamstatus_api_key">{L_ACP_STEAMSTATUS_API_KEY}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_API_KEY_EXPLAIN}</span></dt>
 			<dd><input type="text" id="steamstatus_api_key" name="steamstatus_api_key" size="40" maxlength="255" value="{STEAMSTATUS_API_KEY}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="steamstatus_show_on_profile">{L_ACP_STEAMSTATUS_SHOW_ON_PROFILE}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_SHOW_ON_PROFILE_EXPLAIN}</span></dt>
+			<dd><label><input type="radio" id="steamstatus_show_on_profile" name="steamstatus_show_on_profile" value="1"<!-- IF STEAMSTATUS_SHOW_ON_PROFILE --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label><label><input type="radio" name="steamstatus_show_on_profile" value="0"<!-- IF not STEAMSTATUS_SHOW_ON_PROFILE --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label></dd>
+		</dl>
+		<dl>
+			<dt><label for="steamstatus_show_on_viewtopic">{L_ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN}</span></dt>
+			<dd><label><input type="radio" id="steamstatus_show_on_viewtopic" name="steamstatus_show_on_viewtopic" value="1"<!-- IF STEAMSTATUS_SHOW_ON_VIEWTOPIC --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label><label><input type="radio" name="steamstatus_show_on_viewtopic" value="0"<!-- IF not STEAMSTATUS_SHOW_ON_VIEWTOPIC --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label></dd>
 		</dl>
 
 		<p class="submit-buttons">
