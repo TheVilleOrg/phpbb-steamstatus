@@ -65,11 +65,15 @@ class ucp_listener implements EventSubscriberInterface
 	 */
 	public function ucp_profile_modify_profile_info(\phpbb\event\data $event)
 	{
+		if (empty($config['stevotvr_steamstatus_api_key'])) {
+			return;
+		}
+
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
 			'STEAMSTATUS_STEAMID'	=> $this->user->data['user_steamid'],
-			'S_STEAMSTATUS_SHOW'	=> !empty($this->config['stevotvr_steamstatus_api_key']),
+			'S_STEAMSTATUS_SHOW'	=> true,
 		));
 	}
 
@@ -156,6 +160,10 @@ class ucp_listener implements EventSubscriberInterface
 	 */
 	public function ucp_profile_info_modify_sql_ary(\phpbb\event\data $event)
 	{
+		if (empty($config['stevotvr_steamstatus_api_key'])) {
+			return;
+		}
+
 		if (isset($event['data']['steamstatus_steamid'])) {
 			$sql_ary = $event['sql_ary'];
 			$sql_ary['user_steamid'] = $event['data']['steamstatus_steamid'];

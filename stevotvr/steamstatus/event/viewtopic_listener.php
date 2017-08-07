@@ -49,9 +49,9 @@ class viewtopic_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.viewtopic_get_post_data'				=> 'viewtopic_get_post_data',
-			'core.viewtopic_cache_user_data'			=> 'viewtopic_cache_user_data',
-			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
+			'core.viewtopic_get_post_data'		=> 'viewtopic_get_post_data',
+			'core.viewtopic_cache_user_data'	=> 'viewtopic_cache_user_data',
+			'core.viewtopic_modify_post_row'	=> 'viewtopic_modify_post_row',
 		);
 	}
 
@@ -62,12 +62,15 @@ class viewtopic_listener implements EventSubscriberInterface
 	 */
 	public function viewtopic_get_post_data(\phpbb\event\data $event)
 	{
-		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic']) {
+		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic'] || empty($this->config['stevotvr_steamstatus_api_key'])) {
 			return;
 		}
 
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
-		$this->template->assign_var('U_STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
+		$this->template->assign_vars(array(
+			'U_STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
+			'S_STEAMSTATUS'				=> true,
+		));
 	}
 
 	/**
@@ -77,7 +80,7 @@ class viewtopic_listener implements EventSubscriberInterface
 	 */
 	public function viewtopic_cache_user_data(\phpbb\event\data $event)
 	{
-		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic']) {
+		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic'] || empty($this->config['stevotvr_steamstatus_api_key'])) {
 			return;
 		}
 
@@ -93,7 +96,7 @@ class viewtopic_listener implements EventSubscriberInterface
 	 */
 	public function viewtopic_modify_post_row(\phpbb\event\data $event)
 	{
-		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic']) {
+		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic'] || empty($this->config['stevotvr_steamstatus_api_key'])) {
 			return;
 		}
 

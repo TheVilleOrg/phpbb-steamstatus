@@ -1,36 +1,38 @@
-<script>
-	$(function () {
-		'use strict';
-		var steamids = {};
-		$('.steamstatus').each(function () {
-			var steamid = $(this).data('steamid');
-			if (steamid) {
-				steamids[steamid] = true;
+<!-- IF S_STEAMSTATUS -->
+	<script>
+		$(function () {
+			'use strict';
+			var steamids = {};
+			$('.steamstatus').each(function () {
+				var steamid = $(this).data('steamid');
+				if (steamid) {
+					steamids[steamid] = true;
+				}
+			});
+			steamids = Object.keys(steamids);
+			if (steamids.length) {
+				$.ajax({
+					url: '{U_STEAMSTATUS_CONTROLLER}',
+					dataType: 'json',
+					cache: false,
+					data: {'steamids': steamids.join(',')}
+				})
+				.done(function(data) {
+					$.each(data.status, function(index, val) {
+						var container = $('.steamstatus[data-steamid=' + val.steamid + ']');
+						container.removeClass('steam_online').removeClass('steam_ingame');
+						if (val.state === 1) {
+							container.addClass('steam_online');
+						} else if (val.state === 2) {
+							container.addClass('steam_ingame');
+						}
+						container.children('img').attr('src', val.avatar);
+						container.children('.name').text(val.name);
+						container.children('.status').text(val.status);
+						container.children('.links').children('.profile').attr('href', val.profile);
+					});
+				});
 			}
 		});
-		steamids = Object.keys(steamids);
-		if (steamids.length) {
-			$.ajax({
-				url: '{U_STEAMSTATUS_CONTROLLER}',
-				dataType: 'json',
-				cache: false,
-				data: {'steamids': steamids.join(',')}
-			})
-			.done(function(data) {
-				$.each(data.status, function(index, val) {
-					var container = $('.steamstatus[data-steamid=' + val.steamid + ']');
-					container.removeClass('steam_online').removeClass('steam_ingame');
-					if (val.state === 1) {
-						container.addClass('steam_online');
-					} else if (val.state === 2) {
-						container.addClass('steam_ingame');
-					}
-					container.children('img').attr('src', val.avatar);
-					container.children('.name').text(val.name);
-					container.children('.status').text(val.status);
-					container.children('.links').children('.profile').attr('href', val.profile);
-				});
-			});
-		}
-	});
-</script>
+	</script>
+<!-- ENDIF -->

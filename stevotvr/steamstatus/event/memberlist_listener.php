@@ -60,12 +60,15 @@ class memberlist_listener implements EventSubscriberInterface
 	 */
 	public function memberlist_view_profile(\phpbb\event\data $event)
 	{
-		if (!$this->config['stevotvr_steamstatus_show_on_profile']) {
+		if (!$this->config['stevotvr_steamstatus_show_on_profile'] || empty($this->config['stevotvr_steamstatus_api_key'])) {
 			return;
 		}
 
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
-		$this->template->assign_var('U_STEAMSTATUS_CONTROLLER', $this->helper->route('stevotvr_steamstatus_route'));
+		$this->template->assign_vars(array(
+			'U_STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
+			'S_STEAMSTATUS'				=> true,
+		));
 
 		$steamid = $event['member']['user_steamid'];
 		if (!empty($steamid))
