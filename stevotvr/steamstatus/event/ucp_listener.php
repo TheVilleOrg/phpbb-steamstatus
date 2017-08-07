@@ -21,9 +21,6 @@ class ucp_listener implements EventSubscriberInterface
 	/* @var \phpbb\config\config */
 	private $config;
 
-	/* @var \phpbb\db\driver\factory */
-	private $db;
-
 	/* @var \phpbb\language\language */
 	private $language;
 
@@ -38,16 +35,14 @@ class ucp_listener implements EventSubscriberInterface
 
 	/**
 	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\db\driver\factory	$db
 	 * @param \phpbb\language\language	$language
 	 * @param \phpbb\request\request	$request
 	 * @param \phpbb\template\template	$template
 	 * @param \phpbb\user				$user
 	 */
-	function __construct(\phpbb\config\config $config, \phpbb\db\driver\factory $db, \phpbb\language\language $language, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user)
+	function __construct(\phpbb\config\config $config, \phpbb\language\language $language, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->config = $config;
-		$this->db = $db;
 		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
@@ -162,13 +157,9 @@ class ucp_listener implements EventSubscriberInterface
 	public function ucp_profile_info_modify_sql_ary(\phpbb\event\data $event)
 	{
 		if (isset($event['data']['steamstatus_steamid'])) {
-			$sql_arr = array(
-				'user_steamid'	=> $event['data']['steamstatus_steamid'],
-			);
-			$sql = 'UPDATE ' . USERS_TABLE . '
-					SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . '
-					WHERE user_id = ' . $this->user->data['user_id'];
-			$this->db->sql_query($sql);
+			$sql_ary = $event['sql_ary'];
+			$sql_ary['user_steamid'] = $event['data']['steamstatus_steamid'];
+			$event['sql_ary'] = $sql_ary;
 		}
 	}
 

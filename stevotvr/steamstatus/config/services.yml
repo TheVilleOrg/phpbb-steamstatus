@@ -19,7 +19,6 @@ services:
         class: stevotvr\steamstatus\event\ucp_listener
         arguments:
             - '@config'
-            - '@dbal.conn'
             - '@language'
             - '@request'
             - '@template'
