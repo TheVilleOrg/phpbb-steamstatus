@@ -195,6 +195,11 @@ class ucp_listener implements EventSubscriberInterface
 			$sql_ary = $event['sql_ary'];
 			$sql_ary['user_steamid'] = $event['data']['steamstatus_steamid'];
 			$event['sql_ary'] = $sql_ary;
+
+			if (!empty($event['data']['steamstatus_steamid']))
+			{
+				$this->steamprofile->get_from_api(array($event['data']['steamstatus_steamid']));
+			}
 		}
 	}
 
