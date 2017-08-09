@@ -21,6 +21,13 @@ interface steamprofile_interface
 	public function get_table_name();
 
 	/**
+	 * Get a new instance of a steamprofile entity.
+	 *
+	 * @return \stevotvr\steamstatus\entity\steamprofile
+	 */
+	public function get();
+
+	/**
 	 * Get Steam profile data from the Steam Web API.
 	 *
 	 * @param array $steamids The list of SteamIDs for which to get profile data

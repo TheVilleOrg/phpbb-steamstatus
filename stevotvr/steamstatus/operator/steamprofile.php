@@ -79,6 +79,11 @@ class steamprofile implements steamprofile_interface
 		return $this->table_name;
 	}
 
+	public function get()
+	{
+		return $this->container->get('stevotvr.steamstatus.entity');
+	}
+
 	public function get_from_api(array $steamids)
 	{
 		$profiles = array();

@@ -91,6 +91,14 @@ class viewtopic_listener implements EventSubscriberInterface
 			'U_STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
 			'S_STEAMSTATUS'				=> true,
 		));
+
+		$sql_ary = $event['sql_ary'];
+		$sql_ary['SELECT'] .= ', steam.*';
+		$sql_ary['LEFT_JOIN'][] = array(
+			'FROM'	=> array($this->steamprofile->get_table_name() => 'steam'),
+			'ON'	=> 'u.user_steamid = steam.steam_steamid',
+		);
+		$event['sql_ary'] = $sql_ary;
 	}
 
 	/**
@@ -107,6 +115,13 @@ class viewtopic_listener implements EventSubscriberInterface
 
 		$data = $event['user_cache_data'];
 		$data['steamid'] = $event['row']['user_steamid'];
+		foreach ($event['row'] as $key => $value)
+		{
+			if (strpos($key, 'steam_') === 0)
+			{
+				$data[$key] = $value;
+			}
+		}
 		$event['user_cache_data'] = $data;
 	}
 
@@ -125,9 +140,9 @@ class viewtopic_listener implements EventSubscriberInterface
 		$steamid = $event['user_poster_data']['steamid'];
 		if (!empty($steamid))
 		{
-			$cached = $this->steamprofile->get_from_cache($steamid);
-			if ($cached)
+			if (!empty($event['user_poster_data']['steam_steamid']))
 			{
+				$cached = $this->steamprofile->get()->import($event['user_poster_data']);
 				$event['post_row'] = array_merge($event['post_row'], array(
 					'STEAMSTATUS_STEAMID'	=> $steamid,
 					'STEAMSTATUS_NAME'		=> $cached->get_name(),
