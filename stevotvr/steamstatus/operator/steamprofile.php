@@ -17,7 +17,7 @@ use \stevotvr\steamstatus\exception\out_of_bounds;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Steam Status steamprofile operator.
+ * Steam Status steamprofile operator for managing steamprofile entities.
  */
 class steamprofile implements steamprofile_interface
 {

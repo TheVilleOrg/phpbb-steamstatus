@@ -19,6 +19,9 @@ use \phpbb\template\template;
 use \stevotvr\steamstatus\operator\steamprofile_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Steam Status listener for memberlist events.
+ */
 class memberlist_listener implements EventSubscriberInterface
 {
 	/**

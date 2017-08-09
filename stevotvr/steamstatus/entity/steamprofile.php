@@ -16,6 +16,9 @@ use \stevotvr\steamstatus\exception\invalid_argument;
 use \stevotvr\steamstatus\exception\out_of_bounds;
 use \stevotvr\steamstatus\exception\unexpected_value;
 
+/**
+ * Steam Status entity representing a Steam profile.
+ */
 class steamprofile implements steamprofile_interface
 {
 	/**

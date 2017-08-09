@@ -10,6 +10,9 @@
 
 namespace stevotvr\steamstatus\migrations;
 
+/**
+ * Steam Status migration to add the SteamID field to the users table.
+ */
 class add_profile_field extends \phpbb\db\migration\migration
 {
 	public function update_schema()

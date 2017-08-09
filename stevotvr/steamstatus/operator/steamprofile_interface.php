@@ -11,7 +11,7 @@
 namespace stevotvr\steamstatus\operator;
 
 /**
- * Describes the public interface for the steamprofile operator.
+ * Steam Status interface interface for the steamprofile operator.
  */
 interface steamprofile_interface
 {

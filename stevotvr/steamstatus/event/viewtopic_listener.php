@@ -19,6 +19,9 @@ use \phpbb\template\template;
 use \stevotvr\steamstatus\operator\steamprofile_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Steam Status listener for viewtopic events.
+ */
 class viewtopic_listener implements EventSubscriberInterface
 {
 	/**

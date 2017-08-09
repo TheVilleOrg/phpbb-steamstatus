@@ -10,6 +10,9 @@
 
 namespace stevotvr\steamstatus\migrations;
 
+/**
+ * Steam Status migration to add the table for caching Steam profile data.
+ */
 class add_table extends \phpbb\db\migration\migration
 {
 	public function update_schema()

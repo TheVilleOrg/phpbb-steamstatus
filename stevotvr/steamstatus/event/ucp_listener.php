@@ -21,7 +21,7 @@ use \stevotvr\steamstatus\operator\steamprofile_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Steam Status listener for UCP events.
+ * Steam Status listener for ucp events.
  */
 class ucp_listener implements EventSubscriberInterface
 {

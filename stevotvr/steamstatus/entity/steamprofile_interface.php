@@ -11,7 +11,7 @@
 namespace stevotvr\steamstatus\entity;
 
 /**
- * Describes the public interface for the steamprofile entity.
+ * Steam Status interface for the steamprofile entity.
  */
 interface steamprofile_interface
 {
@@ -26,6 +26,9 @@ interface steamprofile_interface
 	 * @param string $steamid64 The SteamID64 for the profile to load
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\out_of_bounds    No data found
+	 * @throws \stevotvr\steamstatus\exception\unexpected_value Invalid SteamID64
 	 */
 	public function load($steamid64);
 
@@ -35,6 +38,8 @@ interface steamprofile_interface
 	 * @param array $data The data to import
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\invalid_argument A required field is missing
 	 */
 	public function import(array $data);
 
@@ -42,6 +47,8 @@ interface steamprofile_interface
 	 * Save the profile data to the database.
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\out_of_bounds No data is loaded
 	 */
 	public function save();
 
@@ -54,6 +61,8 @@ interface steamprofile_interface
 	 * @param string $steamid The SteamID64
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\unexpected_value Invalid SteamID64
 	 */
 	public function set_steamid($steamid);
 
@@ -78,6 +87,8 @@ interface steamprofile_interface
 	 * @param string $name The profile name
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\unexpected_value Value is too long
 	 */
 	public function set_name($name);
 
@@ -90,6 +101,8 @@ interface steamprofile_interface
 	 * @param string $profile The profile URL
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\unexpected_value Value is too long
 	 */
 	public function set_profile($profile);
 
@@ -102,6 +115,8 @@ interface steamprofile_interface
 	 * @param string $avatar The avatar URL
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\unexpected_value Value is too long
 	 */
 	public function set_avatar($avatar);
 
@@ -114,6 +129,8 @@ interface steamprofile_interface
 	 * @param int $state The current state of the profile
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\out_of_bounds Unknown state
 	 */
 	public function set_state($state);
 
@@ -131,6 +148,8 @@ interface steamprofile_interface
 	 * @param string $status The current status of the profile
 	 *
 	 * @return steamprofile_interface This object for chaining
+	 *
+	 * @throws \stevotvr\steamstatus\exception\unexpected_value Value is too long
 	 */
 	public function set_status($status);
 

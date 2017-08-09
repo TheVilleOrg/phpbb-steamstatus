@@ -10,6 +10,9 @@
 
 namespace stevotvr\steamstatus\migrations;
 
+/**
+ * Steam Status migration to add the configuration settings and the ACP module.
+ */
 class add_module extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
