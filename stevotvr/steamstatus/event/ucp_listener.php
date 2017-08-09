@@ -10,7 +10,14 @@
 
 namespace stevotvr\steamstatus\event;
 
-use stevotvr\steamstatus\util\steamstatus;
+use \phpbb\config\config;
+use \phpbb\event\data;
+use \phpbb\language\language;
+use \phpbb\request\request;
+use \phpbb\request\request_interface;
+use \phpbb\template\template;
+use \phpbb\user;
+use \stevotvr\steamstatus\operator\steamprofile_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -18,33 +25,50 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ucp_listener implements EventSubscriberInterface
 {
-	/* @var \phpbb\config\config */
+	/**
+	 * @var \phpbb\config\config
+	 */
 	private $config;
 
-	/* @var \phpbb\language\language */
+	/**
+	 * @var \phpbb\language\language
+	 */
 	private $language;
 
-	/* @var \phpbb\request\request */
+	/**
+	 * @var \phpbb\request\request
+	 */
 	private $request;
 
-	/* @var \phpbb\template\template */
+	/**
+	 * @var \stevotvr\steamstatus\operator\steamprofile_interface
+	 */
+	private $steamprofile;
+
+	/**
+	 * @var \phpbb\template\template
+	 */
 	private $template;
 
-	/* @var \phpbb\user */
+	/**
+	 * @var \phpbb\user
+	 */
 	private $user;
 
 	/**
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\language\language	$language
-	 * @param \phpbb\request\request	$request
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\user				$user
+	 * @param \phpbb\config\config                                  $config
+	 * @param \phpbb\language\language                              $language
+	 * @param \phpbb\request\request                                $request
+	 * @param \stevotvr\steamstatus\operator\steamprofile_interface $steamprofile
+	 * @param \phpbb\template\template                              $template
+	 * @param \phpbb\user                                           $user
 	 */
-	function __construct(\phpbb\config\config $config, \phpbb\language\language $language, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user)
+	function __construct(config $config, language $language, request $request, steamprofile_interface $steamprofile, template $template, user $user)
 	{
 		$this->config = $config;
 		$this->language = $language;
 		$this->request = $request;
+		$this->steamprofile = $steamprofile;
 		$this->template = $template;
 		$this->user = $user;
 	}
@@ -61,11 +85,12 @@ class ucp_listener implements EventSubscriberInterface
 	/**
 	 * Loads the language files and sets the template variables for the Profile page of the UPC.
 	 *
-	 * @param \phpbb\event\data	$event
+	 * @param \phpbb\event\data $event
 	 */
-	public function ucp_profile_modify_profile_info(\phpbb\event\data $event)
+	public function ucp_profile_modify_profile_info(data $event)
 	{
-		if (empty($config['stevotvr_steamstatus_api_key'])) {
+		if (empty($this->config['stevotvr_steamstatus_api_key']))
+		{
 			return;
 		}
 
@@ -81,9 +106,9 @@ class ucp_listener implements EventSubscriberInterface
 	 * Reads the SteamID when the user updates their profile and attempts to convert it to the
 	 * SteamID64 format. Produces an error if the conversion fails.
 	 *
-	 * @param \phpbb\event\data	$event
+	 * @param \phpbb\event\data $event
 	 */
-	public function ucp_profile_validate_profile_info(\phpbb\event\data $event)
+	public function ucp_profile_validate_profile_info(data $event)
 	{
 		$api_key = $this->config['stevotvr_steamstatus_api_key'];
 		if (empty($api_key))
@@ -91,7 +116,7 @@ class ucp_listener implements EventSubscriberInterface
 			return;
 		}
 
-		$steamid = $this->request->variable('steamstatus_steamid', '0', false, \phpbb\request\request_interface::POST);
+		$steamid = $this->request->variable('steamstatus_steamid', '0', false, request_interface::POST);
 		if ($steamid !== '0')
 		{
 			$steamid64 = null;
@@ -156,11 +181,12 @@ class ucp_listener implements EventSubscriberInterface
 	/**
 	 * Saves the SteamID when the user updates their profile.
 	 *
-	 * @param \phpbb\event\data	$event
+	 * @param \phpbb\event\data $event
 	 */
-	public function ucp_profile_info_modify_sql_ary(\phpbb\event\data $event)
+	public function ucp_profile_info_modify_sql_ary(data $event)
 	{
-		if (empty($config['stevotvr_steamstatus_api_key'])) {
+		if (empty($this->config['stevotvr_steamstatus_api_key']))
+		{
 			return;
 		}
 
@@ -175,10 +201,10 @@ class ucp_listener implements EventSubscriberInterface
 	 * Add two integers as strings. This allows addition of integers of arbitrary lengths on any
 	 * system without external dependencies.
 	 *
-	 * @param string	$left	A numeric string
-	 * @param string	$right	A numeric string
+	 * @param string $left  A numeric string
+	 * @param string $right A numeric string
 	 *
-	 * @return string			The sum as a numeric string
+	 * @return string The sum as a numeric string
 	 */
 	static private function add($left, $right)
 	{
