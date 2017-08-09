@@ -24,6 +24,9 @@ class steamprofile implements steamprofile_interface
 	/* The configuration key for the Steam Web API key */
 	const CONFIG_API_KEY = 'stevotvr_steamstatus_api_key';
 
+	/* The minimum age in seconds for a cached profile to be considered stale */
+	const STALE_AGE = 60;
+
 	/**
 	 * @var array Steam profile status options
 	 */
@@ -87,13 +90,15 @@ class steamprofile implements steamprofile_interface
 	public function get_from_api(array $steamids)
 	{
 		$profiles = array();
-		if (empty($steamids))
+
+		$api_key = $this->config['stevotvr_steamstatus_api_key'];
+		if (empty($api_key))
 		{
 			return $profiles;
 		}
 
-		$api_key = $this->config['stevotvr_steamstatus_api_key'];
-		if (empty($api_key))
+		$steamids = $this->get_stale_steamids($steamids);
+		if (empty($steamids))
 		{
 			return $profiles;
 		}
@@ -144,6 +149,40 @@ class steamprofile implements steamprofile_interface
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Get a list of stale SteamIDs from a given list.
+	 *
+	 * @param array $steamids An array of SteamIDs to check against
+	 *
+	 * @return array An array of stale SteamIDs
+	 */
+	private function get_stale_steamids(array $steamids)
+	{
+		$stale = array();
+		if (empty($steamids))
+		{
+			return $stale;
+		}
+
+		$age = time() - self::STALE_AGE;
+		$sql = 'SELECT steam_steamid
+				FROM ' . $this->table_name . '
+				WHERE ' . $this->db->sql_in_set('steam_steamid', $steamids) . '
+					AND steam_querytime > ' . $age;
+		$result = $this->db->sql_query($sql);
+		if ($result)
+		{
+			$not_stale = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$not_stale[] = $row['steam_steamid'];
+			}
+			$stale = array_diff($steamids, $not_stale);
+		}
+
+		return $stale;
 	}
 
 	/**
