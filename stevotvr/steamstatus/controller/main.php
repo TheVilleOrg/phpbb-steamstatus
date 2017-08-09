@@ -77,7 +77,6 @@ class main
 		if (!empty($steamids))
 		{
 			$steamids = array_unique(array_map('trim', explode(',', $steamids)));
-			$steamids = self::get_valid_ids($steamids);
 			$profiles = $this->steamprofile->get_from_api($steamids);
 		}
 
@@ -96,25 +95,5 @@ class main
 		}
 
 		return new JsonResponse(array('status' => $output));
-	}
-
-	/**
-	 * Get a list of valid SteamID64s from a list of strings.
-	 *
-	 * @param array $unsafe An array of strings
-	 *
-	 * @return array An array of valid SteamID64 strings
-	 */
-	static private function get_valid_ids(array $unsafe)
-	{
-		$safe = array();
-		foreach ($unsafe as $steamid)
-		{
-			if (preg_match('/^\d{17}$/', $steamid))
-			{
-				$safe[] = $steamid;
-			}
-		}
-		return $safe;
 	}
 }

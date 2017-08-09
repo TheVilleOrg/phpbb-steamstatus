@@ -97,6 +97,7 @@ class steamprofile implements steamprofile_interface
 			return $profiles;
 		}
 
+		$steamids = self::get_valid_steamids($steamids);
 		$steamids = $this->get_stale_steamids($steamids);
 		if (empty($steamids))
 		{
@@ -149,6 +150,26 @@ class steamprofile implements steamprofile_interface
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Get a list of valid SteamID64s from a list of strings.
+	 *
+	 * @param array $unsafe An array of strings
+	 *
+	 * @return array An array of valid SteamID64 strings
+	 */
+	static private function get_valid_steamids(array $unsafe)
+	{
+		$safe = array();
+		foreach ($unsafe as $steamid)
+		{
+			if (preg_match('/^\d{17}$/', $steamid))
+			{
+				$safe[] = $steamid;
+			}
+		}
+		return $safe;
 	}
 
 	/**
