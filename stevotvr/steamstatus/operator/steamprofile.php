@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class steamprofile implements steamprofile_interface
 {
-	/* The configuration key for the Steam Web API key */
-	const CONFIG_API_KEY = 'stevotvr_steamstatus_api_key';
-
 	/**
 	 * @var array Steam profile status options
 	 */
