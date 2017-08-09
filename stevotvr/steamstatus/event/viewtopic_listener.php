@@ -148,11 +148,17 @@ class viewtopic_listener implements EventSubscriberInterface
 					'STEAMSTATUS_NAME'		=> $cached->get_name(),
 					'STEAMSTATUS_PROFILE'	=> $cached->get_profile(),
 					'STEAMSTATUS_AVATAR'	=> $cached->get_avatar(),
-					'STEAMSTATUS_STATE'		=> $cached->get_state(),
-					'STEAMSTATUS_STATUS'	=> $cached->get_localized_status(),
 					'S_STEAMSTATUS_SHOW'	=> true,
-					'S_STEAMSTATUS_LOADED'	=> true,
 				));
+
+				if (time() - $cached->get_querytime() < 60)
+				{
+					$event['post_row'] = array_merge($event['post_row'], array(
+						'STEAMSTATUS_STATE'		=> $cached->get_state(),
+						'STEAMSTATUS_STATUS'	=> $cached->get_localized_status(),
+						'S_STEAMSTATUS_LOADED'	=> true,
+					));
+				}
 			}
 			else
 			{

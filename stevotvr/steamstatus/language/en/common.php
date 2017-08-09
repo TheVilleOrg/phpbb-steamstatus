@@ -29,4 +29,5 @@ $lang = array_merge($lang, array(
 	'STEAMSTATUS_STATUS_SNOOZE'		=> 'Snooze',
 	'STEAMSTATUS_STATUS_LTT'		=> 'Looking to trade',
 	'STEAMSTATUS_STATUS_LTP'		=> 'Looking to play',
+	'STEAMSTATUS_LOADING'			=> 'Loading…',
 ));

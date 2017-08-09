@@ -1,7 +1,7 @@
 <div class="steamstatus<!-- IF STEAMSTATUS_STATE == 2 --> steam_ingame<!-- ELSEIF STEAMSTATUS_STATE == 1 --> steam_online<!-- ENDIF -->" data-steamid="{STEAMSTATUS_STEAMID}">
 	<img src="{STEAMSTATUS_AVATAR}" alt="" width="32" height="32" />
 	<div class="name">{STEAMSTATUS_NAME}</div>
-	<div class="status">{STEAMSTATUS_STATUS}</div>
+	<div class="status"><!-- IF S_STEAMSTATUS_LOADED -->{STEAMSTATUS_STATUS}<!-- ELSE --><em>{L_STEAMSTATUS_LOADING}</em><!-- ENDIF --></div>
 	<div class="links">
 		<a class="profile" href="{STEAMSTATUS_PROFILE}">{L_STEAMSTATUS_PROFILE}</a>
 		<a class="add" href="steam://friends/add/{STEAMSTATUS_STEAMID}">{L_STEAMSTATUS_ADD}</a>
