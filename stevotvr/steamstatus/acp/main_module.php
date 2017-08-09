@@ -49,6 +49,9 @@ class main_module
 				$config->set('stevotvr_steamstatus_api_key', $api_key);
 			}
 
+			$cache_time = $request->variable('steamstatus_cache_time', 60);
+			$config->set('stevotvr_steamstatus_cache_time', max($cache_time, 30));
+
 			$show_on_profile = $request->variable('steamstatus_show_on_profile', '');
 			if (strlen($show_on_profile))
 			{
@@ -70,6 +73,7 @@ class main_module
 		$error = array_map(array($language, 'lang'), $error);
 		$template->assign_vars(array(
 			'STEAMSTATUS_API_KEY'			=> $config['stevotvr_steamstatus_api_key'],
+			'STEAMSTATUS_CACHE_TIME'		=> $config['stevotvr_steamstatus_cache_time'],
 			'STEAMSTATUS_SHOW_ON_PROFILE'	=> $config['stevotvr_steamstatus_show_on_profile'],
 			'STEAMSTATUS_SHOW_ON_VIEWTOPIC'	=> $config['stevotvr_steamstatus_show_on_viewtopic'],
 			'ERROR_MSG'						=> implode('<br />', $error),

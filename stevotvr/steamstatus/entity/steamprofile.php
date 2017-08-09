@@ -10,6 +10,7 @@
 
 namespace stevotvr\steamstatus\entity;
 
+use \phpbb\config\config;
 use \phpbb\db\driver\driver_interface;
 use \phpbb\language\language;
 use \stevotvr\steamstatus\exception\invalid_argument;
@@ -37,6 +38,11 @@ class steamprofile implements steamprofile_interface
 	protected $data;
 
 	/**
+	 * @var \phpbb\config\config
+	 */
+	protected $config;
+
+	/**
 	 * @var \phpbb\db\driver\driver_interface
 	 */
 	protected $db;
@@ -52,13 +58,15 @@ class steamprofile implements steamprofile_interface
 	protected $table_name;
 
 	/**
+	 * @param \phpbb\config\config              $config
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\language\language          $language
 	 * @param string                            $table_name The name of the database table storing
 	 *                                                      Steam profiles
 	 */
-	public function __construct(driver_interface $db, language $language, $table_name)
+	public function __construct(config $config, driver_interface $db, language $language, $table_name)
 	{
+		$this->config = $config;
 		$this->db = $db;
 		$this->language = $language;
 		$this->table_name = $table_name;
@@ -172,6 +180,11 @@ class steamprofile implements steamprofile_interface
 	public function get_querytime()
 	{
 		return isset($this->data['steam_querytime']) ? (int) $this->data['steam_querytime'] : 0;
+	}
+
+	public function is_stale()
+	{
+		return time() - $this->data['steam_querytime'] > $this->config['stevotvr_steamstatus_cache_time'];
 	}
 
 	public function set_querytime($querytime)

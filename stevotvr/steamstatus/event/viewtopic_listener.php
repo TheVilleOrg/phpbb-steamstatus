@@ -151,7 +151,7 @@ class viewtopic_listener implements EventSubscriberInterface
 					'S_STEAMSTATUS_SHOW'	=> true,
 				));
 
-				if (time() - $cached->get_querytime() < 60)
+				if (!$cached->is_stale())
 				{
 					$event['post_row'] = array_merge($event['post_row'], array(
 						'STEAMSTATUS_STATE'		=> $cached->get_state(),

@@ -24,9 +24,6 @@ class steamprofile implements steamprofile_interface
 	/* The configuration key for the Steam Web API key */
 	const CONFIG_API_KEY = 'stevotvr_steamstatus_api_key';
 
-	/* The minimum age in seconds for a cached profile to be considered stale */
-	const STALE_AGE = 60;
-
 	/**
 	 * @var array Steam profile status options
 	 */
@@ -187,7 +184,7 @@ class steamprofile implements steamprofile_interface
 			return $stale;
 		}
 
-		$age = time() - self::STALE_AGE;
+		$age = time() - (int) $this->config['stevotvr_steamstatus_cache_time'];
 		$sql = 'SELECT steam_steamid
 				FROM ' . $this->table_name . '
 				WHERE ' . $this->db->sql_in_set('steam_steamid', $steamids) . '

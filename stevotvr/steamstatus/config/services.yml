@@ -5,6 +5,7 @@ services:
         class: stevotvr\steamstatus\entity\steamprofile
         shared: false
         arguments:
+            - '@config'
             - '@dbal.conn'
             - '@language'
             - '%stevotvr.steamstatus.tables.steamstatus%'

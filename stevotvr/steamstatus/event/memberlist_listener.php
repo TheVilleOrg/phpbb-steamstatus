@@ -104,7 +104,7 @@ class memberlist_listener implements EventSubscriberInterface
 					'S_STEAMSTATUS_SHOW'	=> true,
 				));
 
-				if (time() - $cached->get_querytime() < 60)
+				if (!$cached->is_stale())
 				{
 					$this->template->assign_vars(array(
 						'STEAMSTATUS_STATE'		=> $cached->get_state(),

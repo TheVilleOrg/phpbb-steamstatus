@@ -72,6 +72,11 @@ interface steamprofile_interface
 	public function get_querytime();
 
 	/**
+	 * @return bool The data is older than the configured cache time
+	 */
+	public function is_stale();
+
+	/**
 	 * @param int $querytime The timestamp of the last time the data was updated from the API
 	 *
 	 * @return steamprofile_interface This object for chaining

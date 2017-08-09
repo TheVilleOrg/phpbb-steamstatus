@@ -16,6 +16,10 @@
 			<dd><input type="text" id="steamstatus_api_key" name="steamstatus_api_key" size="40" maxlength="255" value="{STEAMSTATUS_API_KEY}" /></dd>
 		</dl>
 		<dl>
+			<dt><label for="steamstatus_cache_time">{L_ACP_STEAMSTATUS_CACHE_TIME}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_CACHE_TIME_EXPLAIN}</span></dt>
+			<dd><input type="text" id="steamstatus_cache_time" name="steamstatus_cache_time" size="4" maxlength="10" value="{STEAMSTATUS_CACHE_TIME}" /></dd>
+		</dl>
+		<dl>
 			<dt><label for="steamstatus_show_on_profile">{L_ACP_STEAMSTATUS_SHOW_ON_PROFILE}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_SHOW_ON_PROFILE_EXPLAIN}</span></dt>
 			<dd><label><input type="radio" id="steamstatus_show_on_profile" name="steamstatus_show_on_profile" value="1"<!-- IF STEAMSTATUS_SHOW_ON_PROFILE --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label><label><input type="radio" name="steamstatus_show_on_profile" value="0"<!-- IF not STEAMSTATUS_SHOW_ON_PROFILE --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label></dd>
 		</dl>
