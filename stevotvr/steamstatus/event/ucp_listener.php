@@ -190,7 +190,8 @@ class ucp_listener implements EventSubscriberInterface
 			return;
 		}
 
-		if (isset($event['data']['steamstatus_steamid'])) {
+		if (isset($event['data']['steamstatus_steamid']))
+		{
 			$sql_ary = $event['sql_ary'];
 			$sql_ary['user_steamid'] = $event['data']['steamstatus_steamid'];
 			$event['sql_ary'] = $sql_ary;

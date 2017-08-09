@@ -50,16 +50,19 @@ class main_module
 			}
 
 			$show_on_profile = $request->variable('steamstatus_show_on_profile', '');
-			if (strlen($show_on_profile)) {
+			if (strlen($show_on_profile))
+			{
 				$config->set('stevotvr_steamstatus_show_on_profile', $show_on_profile ? 1 : 0);
 			}
 
 			$show_on_viewtopic = $request->variable('steamstatus_show_on_viewtopic', '');
-			if (strlen($show_on_viewtopic)) {
+			if (strlen($show_on_viewtopic))
+			{
 				$config->set('stevotvr_steamstatus_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
 			}
 
-			if (!count($error)) {
+			if (!count($error))
+			{
 				trigger_error($language->lang('ACP_STEAMSTATUS_SETTINGS_SAVED') . adm_back_link($this->u_action));
 			}
 		}
@@ -79,10 +82,10 @@ class main_module
 	 * Validate a given Steam Web API key. This method checks for proper format and then calls the
 	 * Steam Web API to verify that the key grants access to the methods used by the extension.
 	 *
-	 * @param string $api_key	The API key to validate
-	 * @param string &$error	A variable to hold the error message (if any)
+	 * @param string $api_key The API key to validate
+	 * @param string &$error  A variable to hold the error message (if any)
 	 *
-	 * @return bool				The key is valid
+	 * @return bool The key is valid
 	 */
 	static private function validate_key($api_key, &$error)
 	{

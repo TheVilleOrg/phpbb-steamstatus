@@ -261,7 +261,8 @@ class steamprofile implements steamprofile_interface
 
 	public function get_localized_status()
 	{
-		if (!isset($this->data['steam_status'])) {
+		if (!isset($this->data['steam_status']))
+		{
 			return '';
 		}
 

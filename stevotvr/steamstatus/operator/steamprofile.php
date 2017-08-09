@@ -88,7 +88,8 @@ class steamprofile implements steamprofile_interface
 		}
 
 		$api_key = $this->config['stevotvr_steamstatus_api_key'];
-		if (empty($api_key)) {
+		if (empty($api_key))
+		{
 			return $profiles;
 		}
 
