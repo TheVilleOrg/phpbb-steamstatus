@@ -24,6 +24,16 @@ services:
             - '@language'
             - '@request'
             - '@stevotvr.steamstatus.operator'
+    stevotvr.steamstatus.acp_listener:
+        class: stevotvr\steamstatus\event\acp_listener
+        arguments:
+            - '@config'
+            - '@language'
+            - '@request'
+            - '@stevotvr.steamstatus.operator'
+            - '@template'
+        tags:
+            - { name: event.listener }
     stevotvr.steamstatus.memberlist_listener:
         class: stevotvr\steamstatus\event\memberlist_listener
         arguments:

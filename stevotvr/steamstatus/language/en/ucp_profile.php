@@ -19,6 +19,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
+	'STEAMSTATUS_TITLE'					=> 'Steam status',
 	'STEAMSTATUS_STEAMID'				=> 'SteamID',
 	'STEAMSTATUS_STEAMID_EXPLAIN'		=> 'Enter your SteamID, SteamID3, SteamID64, or Steam Community profile URL to enable your Steam status to be displayed on your profile.',
 	'STEAMSTATUS_ERROR_INVALID_FORMAT'	=> 'The field “SteamID” is not in a recognized format.',
