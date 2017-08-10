@@ -20,16 +20,16 @@
 				.done(function(data) {
 					$.each(data.status, function(index, val) {
 						var container = $('.steamstatus[data-steamid=' + val.steamid + ']');
-						container.removeClass('steam_online').removeClass('steam_ingame');
+						container.removeClass('steam-online').removeClass('steam-ingame');
 						if (val.state === 1) {
-							container.addClass('steam_online');
+							container.addClass('steam-online');
 						} else if (val.state === 2) {
-							container.addClass('steam_ingame');
+							container.addClass('steam-ingame');
 						}
 						container.children('img').attr('src', val.avatar);
-						container.children('.name').text(val.name);
-						container.children('.status').text(val.status);
-						container.children('.links').children('.profile').attr('href', val.profile);
+						container.children('.steam-name').text(val.name);
+						container.children('.steam-status').text(val.status);
+						container.children('.steam-links').children('.steam-profile').attr('href', val.profile);
 					});
 				});
 			}
