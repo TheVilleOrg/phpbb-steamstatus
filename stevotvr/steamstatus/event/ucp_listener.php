@@ -110,8 +110,7 @@ class ucp_listener implements EventSubscriberInterface
 	 */
 	public function ucp_profile_validate_profile_info(data $event)
 	{
-		$api_key = $this->config['stevotvr_steamstatus_api_key'];
-		if (empty($api_key))
+		if (empty($this->config['stevotvr_steamstatus_api_key']))
 		{
 			return;
 		}
