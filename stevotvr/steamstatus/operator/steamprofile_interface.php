@@ -33,6 +33,8 @@ interface steamprofile_interface
 	 * @param array $steamids The list of SteamIDs for which to get profile data
 	 *
 	 * @return array An array of \stevotvr\steamstatus\entity\steamprofile objects
+	 *
+	 * @throws \stevotvr\steamstatus\exception\out_of_bounds No API key is configured
 	 */
 	public function get_from_api(array $steamids);
 
@@ -52,6 +54,9 @@ interface steamprofile_interface
 	 * @param string &$error  A variable to hold any error string
 	 *
 	 * @return string The SteamID64
+	 *
+	 * @throws \stevotvr\steamstatus\exception\out_of_bounds No API key is configured for vanity
+	 *                                                       URL lookups
 	 */
 	public function to_steamid64($steamid, &$error);
 }

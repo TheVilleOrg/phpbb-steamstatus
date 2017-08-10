@@ -99,7 +99,7 @@ class steamprofile implements steamprofile_interface
 		$api_key = $this->config['stevotvr_steamstatus_api_key'];
 		if (empty($api_key))
 		{
-			return $profiles;
+			throw new out_of_bounds('stevotvr_steamstatus_api_key');
 		}
 
 		$steamids = self::get_valid_steamids($steamids);
@@ -160,12 +160,6 @@ class steamprofile implements steamprofile_interface
 	public function to_steamid64($steamid, &$error)
 	{
 		$steamid64 = null;
-		$api_key = $this->config['stevotvr_steamstatus_api_key'];
-		if (empty($api_key))
-		{
-			return $steamid64;
-		}
-
 		$matches = array();
 		if ($steamid === '')
 		{
@@ -199,6 +193,12 @@ class steamprofile implements steamprofile_interface
 			}
 			else
 			{
+				$api_key = $this->config['stevotvr_steamstatus_api_key'];
+				if (empty($api_key))
+				{
+					throw new out_of_bounds('stevotvr_steamstatus_api_key');
+				}
+
 				$query = http_build_query(array(
 					'key'		=> $api_key,
 					'vanityurl'	=> $matches[1],
