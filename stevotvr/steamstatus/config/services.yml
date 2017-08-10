@@ -12,6 +12,7 @@ services:
     stevotvr.steamstatus.operator:
         class: stevotvr\steamstatus\operator\steamprofile
         arguments:
+            - '@cache'
             - '@config'
             - '@service_container'
             - '@dbal.conn'
@@ -36,7 +37,6 @@ services:
     stevotvr.steamstatus.ucp_listener:
         class: stevotvr\steamstatus\event\ucp_listener
         arguments:
-            - '@cache'
             - '@config'
             - '@language'
             - '@request'

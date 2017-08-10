@@ -44,4 +44,14 @@ interface steamprofile_interface
 	 * @return \stevotvr\steamstatus\entity\steamprofile|false False if there is no cached data
 	 */
 	public function get_from_cache($steamid);
+
+	/**
+	 * Convert a SteamID from any format to the SteamID64 format.
+	 *
+	 * @param string $steamid The string to convert
+	 * @param string &$error  A variable to hold any error string
+	 *
+	 * @return string The SteamID64
+	 */
+	public function to_steamid64($steamid, &$error);
 }

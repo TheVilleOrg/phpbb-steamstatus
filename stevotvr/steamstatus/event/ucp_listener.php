@@ -10,7 +10,6 @@
 
 namespace stevotvr\steamstatus\event;
 
-use \phpbb\cache\service;
 use \phpbb\config\config;
 use \phpbb\event\data;
 use \phpbb\language\language;
@@ -26,18 +25,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ucp_listener implements EventSubscriberInterface
 {
-	/* How long to cache vanity URL lookup results */
-	const VANITY_LOOKUP_CACHE_TIME = 3600;
-
 	/**
 	 * @var \phpbb\config\config
 	 */
 	private $config;
-
-	/**
-	 * @var \phpbb\cache\service
-	 */
-	private $cache;
 
 	/**
 	 * @var \phpbb\language\language
@@ -65,7 +56,6 @@ class ucp_listener implements EventSubscriberInterface
 	private $user;
 
 	/**
-	 * @param \phpbb\cache\service                                  $cache
 	 * @param \phpbb\config\config                                  $config
 	 * @param \phpbb\language\language                              $language
 	 * @param \phpbb\request\request                                $request
@@ -73,9 +63,8 @@ class ucp_listener implements EventSubscriberInterface
 	 * @param \phpbb\template\template                              $template
 	 * @param \phpbb\user                                           $user
 	 */
-	function __construct(service $cache, config $config, language $language, request $request, steamprofile_interface $steamprofile, template $template, user $user)
+	function __construct(config $config, language $language, request $request, steamprofile_interface $steamprofile, template $template, user $user)
 	{
-		$this->cache = $cache;
 		$this->config = $config;
 		$this->language = $language;
 		$this->request = $request;
@@ -130,68 +119,8 @@ class ucp_listener implements EventSubscriberInterface
 		$steamid = $this->request->variable('steamstatus_steamid', '0', false, request_interface::POST);
 		if ($steamid !== '0')
 		{
-			$steamid64 = null;
-			$steam_error = 'STEAMSTATUS_ERROR_INVALID_FORMAT';
-			$matches = array();
-			if ($steamid === '')
-			{
-				$steamid64 = '';
-			}
-			else if (preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steamid, $matches) === 1)
-			{
-				$steamid64 = self::add($matches[2] * 2 + $matches[1], '76561197960265728');
-			}
-			else if (preg_match('/^\[?U:1:(\d+)\]?$/', $steamid, $matches) === 1)
-			{
-				$steamid64 = self::add($matches[1], '76561197960265728');
-			}
-			else if (preg_match('/(?:steamcommunity.com\/profiles\/)?(\d{17})\/?$/', $steamid, $matches) === 1)
-			{
-				$steamid64 = $matches[1];
-			}
-			else if (preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steamid, $matches) === 1)
-			{
-				$cached = $this->cache->get('stevotvr_steamstatus_vanity_' . $matches[1]);
-				if ($cached !== false)
-				{
-					if (strpos($cached, 'S') === 0)
-					{
-						$steam_error = $cached;
-					}
-					else
-					{
-						$steamid64 = $cached;
-					}
-				}
-				else
-				{
-					$query = http_build_query(array(
-						'key'		=> $api_key,
-						'vanityurl'	=> $matches[1],
-					));
-					$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
-					$result = @file_get_contents($url);
-					if ($result)
-					{
-						$result = json_decode($result);
-						if ($result && $result->response && $result->response->success === 1)
-						{
-							$steamid64 = $result->response->steamid;
-						}
-						else
-						{
-							$steam_error = 'STEAMSTATUS_ERROR_NAME_NOT_FOUND';
-						}
-					}
-					else
-					{
-						$steam_error = 'STEAMSTATUS_ERROR_LOOKUP_FAILED';
-					}
-
-					$cache = isset($steamid64) ? $steamid64 : $steam_error;
-					$this->cache->put('stevotvr_steamstatus_vanity_' . $matches[1], $cache, self::VANITY_LOOKUP_CACHE_TIME);
-				}
-			}
+			$steam_error = null;
+			$steamid64 = $this->steamprofile->to_steamid64($steamid, $steam_error);
 			if (!isset($steamid64))
 			{
 				$error = $event['error'];
@@ -230,35 +159,5 @@ class ucp_listener implements EventSubscriberInterface
 				$this->steamprofile->get_from_api(array($event['data']['steamstatus_steamid']));
 			}
 		}
-	}
-
-	/**
-	 * Add two integers as strings. This allows addition of integers of arbitrary lengths on any
-	 * system without external dependencies.
-	 *
-	 * @param string $left  A numeric string
-	 * @param string $right A numeric string
-	 *
-	 * @return string The sum as a numeric string
-	 */
-	static private function add($left, $right)
-	{
-	    $left = str_pad($left, strlen($right), '0', STR_PAD_LEFT);
-	    $right = str_pad($right, strlen($left), '0', STR_PAD_LEFT);
-
-	    $carry = 0;
-	    $result = '';
-	    for ($i = strlen($left) - 1; $i >= 0; --$i)
-	    {
-	        $sum = $left[$i] + $right[$i] + $carry;
-	        $carry = (int)($sum / 10);
-	        $result .= $sum % 10;
-	    }
-	    if ($carry)
-	    {
-	        $result .= '1';
-	    }
-
-	    return strrev($result);
 	}
 }

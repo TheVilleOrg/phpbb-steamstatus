@@ -10,6 +10,7 @@
 
 namespace stevotvr\steamstatus\operator;
 
+use \phpbb\cache\service;
 use \phpbb\config\config;
 use \phpbb\db\driver\driver_interface;
 use \stevotvr\steamstatus\entity\steamprofile_interface as entity;
@@ -21,6 +22,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class steamprofile implements steamprofile_interface
 {
+	/* How long to cache vanity URL lookup results */
+	const VANITY_LOOKUP_CACHE_TIME = 3600;
+
 	/**
 	 * @var array Steam profile status options
 	 */
@@ -33,6 +37,11 @@ class steamprofile implements steamprofile_interface
 		'LTT',
 		'LTP',
 	);
+
+	/**
+	 * @var \phpbb\cache\service
+	 */
+	private $cache;
 
 	/**
 	 * @var \pbpbb\config\config
@@ -55,6 +64,7 @@ class steamprofile implements steamprofile_interface
 	protected $table_name;
 
 	/**
+	 * @param \phpbb\cache\service                                      $cache
 	 * @param \pbpbb\config\config                                      $config
 	 * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
 	 * @param \phpbb\db\driver\driver_interface                         $db
@@ -63,8 +73,9 @@ class steamprofile implements steamprofile_interface
 	 *                                                                              storing Steam
 	 *                                                                              profiles
 	 */
-	public function __construct(config $config, ContainerInterface $container, driver_interface $db, $table_name)
+	public function __construct(service $cache, config $config, ContainerInterface $container, driver_interface $db, $table_name)
 	{
+		$this->cache = $cache;
 		$this->config = $config;
 		$this->container = $container;
 		$this->db = $db;
@@ -144,6 +155,84 @@ class steamprofile implements steamprofile_interface
 		{
 			return false;
 		}
+	}
+
+	public function to_steamid64($steamid, &$error)
+	{
+		$steamid64 = null;
+		$api_key = $this->config['stevotvr_steamstatus_api_key'];
+		if (empty($api_key))
+		{
+			return $steamid64;
+		}
+
+		$matches = array();
+		if ($steamid === '')
+		{
+			$steamid64 = '';
+		}
+		else if (preg_match('/^STEAM_0:([0-1]):(\d+)$/', $steamid, $matches) === 1)
+		{
+			$steamid64 = self::add($matches[2] * 2 + $matches[1], '76561197960265728');
+		}
+		else if (preg_match('/^\[?U:1:(\d+)\]?$/', $steamid, $matches) === 1)
+		{
+			$steamid64 = self::add($matches[1], '76561197960265728');
+		}
+		else if (preg_match('/(?:steamcommunity.com\/profiles\/)?(\d{17})\/?$/', $steamid, $matches) === 1)
+		{
+			$steamid64 = $matches[1];
+		}
+		else if (preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steamid, $matches) === 1)
+		{
+			$cached = $this->cache->get('stevotvr_steamstatus_vanity_' . $matches[1]);
+			if ($cached !== false)
+			{
+				if (strpos($cached, 'S') === 0)
+				{
+					$error = $cached;
+				}
+				else
+				{
+					$steamid64 = $cached;
+				}
+			}
+			else
+			{
+				$query = http_build_query(array(
+					'key'		=> $api_key,
+					'vanityurl'	=> $matches[1],
+				));
+				$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
+				$result = @file_get_contents($url);
+				if ($result)
+				{
+					$result = json_decode($result);
+					if ($result && $result->response && $result->response->success === 1)
+					{
+						$steamid64 = $result->response->steamid;
+					}
+					else
+					{
+						$error = 'STEAMSTATUS_ERROR_NAME_NOT_FOUND';
+					}
+				}
+				else
+				{
+					$error = 'STEAMSTATUS_ERROR_LOOKUP_FAILED';
+				}
+
+				$cache = isset($steamid64) ? $steamid64 : $error;
+				$this->cache->put('stevotvr_steamstatus_vanity_' . $matches[1], $cache, self::VANITY_LOOKUP_CACHE_TIME);
+			}
+		}
+
+		if (!isset($steamid64))
+		{
+			$error = 'STEAMSTATUS_ERROR_INVALID_FORMAT';
+		}
+
+		return $steamid64;
 	}
 
 	/**
@@ -234,5 +323,35 @@ class steamprofile implements steamprofile_interface
 			return $profile->gameextrainfo;
 		}
 		return self::$status_text[$profile->personastate];
+	}
+
+	/**
+	 * Add two integers as strings. This allows addition of integers of arbitrary lengths on any
+	 * system without external dependencies.
+	 *
+	 * @param string $left  A numeric string
+	 * @param string $right A numeric string
+	 *
+	 * @return string The sum as a numeric string
+	 */
+	static private function add($left, $right)
+	{
+	    $left = str_pad($left, strlen($right), '0', STR_PAD_LEFT);
+	    $right = str_pad($right, strlen($left), '0', STR_PAD_LEFT);
+
+	    $carry = 0;
+	    $result = '';
+	    for ($i = strlen($left) - 1; $i >= 0; --$i)
+	    {
+	        $sum = $left[$i] + $right[$i] + $carry;
+	        $carry = (int)($sum / 10);
+	        $result .= $sum % 10;
+	    }
+	    if ($carry)
+	    {
+	        $result .= '1';
+	    }
+
+	    return strrev($result);
 	}
 }
