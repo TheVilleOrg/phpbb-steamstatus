@@ -10,6 +10,7 @@
 
 namespace stevotvr\steamstatus\event;
 
+use \phpbb\cache\service;
 use \phpbb\config\config;
 use \phpbb\event\data;
 use \phpbb\language\language;
@@ -25,10 +26,18 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ucp_listener implements EventSubscriberInterface
 {
+	/* How long to cache vanity URL lookup results */
+	const VANITY_LOOKUP_CACHE_TIME = 3600;
+
 	/**
 	 * @var \phpbb\config\config
 	 */
 	private $config;
+
+	/**
+	 * @var \phpbb\cache\service
+	 */
+	private $cache;
 
 	/**
 	 * @var \phpbb\language\language
@@ -56,6 +65,7 @@ class ucp_listener implements EventSubscriberInterface
 	private $user;
 
 	/**
+	 * @param \phpbb\cache\service                                  $cache
 	 * @param \phpbb\config\config                                  $config
 	 * @param \phpbb\language\language                              $language
 	 * @param \phpbb\request\request                                $request
@@ -63,8 +73,9 @@ class ucp_listener implements EventSubscriberInterface
 	 * @param \phpbb\template\template                              $template
 	 * @param \phpbb\user                                           $user
 	 */
-	function __construct(config $config, language $language, request $request, steamprofile_interface $steamprofile, template $template, user $user)
+	function __construct(service $cache, config $config, language $language, request $request, steamprofile_interface $steamprofile, template $template, user $user)
 	{
+		$this->cache = $cache;
 		$this->config = $config;
 		$this->language = $language;
 		$this->request = $request;
@@ -140,27 +151,36 @@ class ucp_listener implements EventSubscriberInterface
 			}
 			else if (preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steamid, $matches) === 1)
 			{
-				$query = http_build_query(array(
-					'key'		=> $api_key,
-					'vanityurl'	=> $matches[1],
-				));
-				$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
-				$result = @file_get_contents($url);
-				if ($result)
+				$cached = $this->cache->get('stevotvr_steamstatus_vanity_' . $matches[1]);
+				if ($cached !== false)
 				{
-					$result = json_decode($result);
-					if ($result && $result->response && $result->response->success === 1)
-					{
-						$steamid64 = $result->response->steamid;
-					}
-					else
-					{
-						$steam_error = 'STEAMSTATUS_ERROR_NAME_NOT_FOUND';
-					}
+					$steamid64 = $cached;
 				}
 				else
 				{
-					$steam_error = 'STEAMSTATUS_ERROR_LOOKUP_FAILED';
+					$query = http_build_query(array(
+						'key'		=> $api_key,
+						'vanityurl'	=> $matches[1],
+					));
+					$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
+					$result = @file_get_contents($url);
+					if ($result)
+					{
+						$result = json_decode($result);
+						if ($result && $result->response && $result->response->success === 1)
+						{
+							$steamid64 = $result->response->steamid;
+							$this->cache->put('stevotvr_steamstatus_vanity_' . $matches[1], $steamid64, self::VANITY_LOOKUP_CACHE_TIME);
+						}
+						else
+						{
+							$steam_error = 'STEAMSTATUS_ERROR_NAME_NOT_FOUND';
+						}
+					}
+					else
+					{
+						$steam_error = 'STEAMSTATUS_ERROR_LOOKUP_FAILED';
+					}
 				}
 			}
 			if (!isset($steamid64))

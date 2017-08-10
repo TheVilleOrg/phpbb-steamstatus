@@ -36,6 +36,7 @@ services:
     stevotvr.steamstatus.ucp_listener:
         class: stevotvr\steamstatus\event\ucp_listener
         arguments:
+            - '@cache'
             - '@config'
             - '@language'
             - '@request'
