@@ -154,7 +154,14 @@ class ucp_listener implements EventSubscriberInterface
 				$cached = $this->cache->get('stevotvr_steamstatus_vanity_' . $matches[1]);
 				if ($cached !== false)
 				{
-					$steamid64 = $cached;
+					if (strpos($cached, 'S') === 0)
+					{
+						$steam_error = $cached;
+					}
+					else
+					{
+						$steamid64 = $cached;
+					}
 				}
 				else
 				{
@@ -170,7 +177,6 @@ class ucp_listener implements EventSubscriberInterface
 						if ($result && $result->response && $result->response->success === 1)
 						{
 							$steamid64 = $result->response->steamid;
-							$this->cache->put('stevotvr_steamstatus_vanity_' . $matches[1], $steamid64, self::VANITY_LOOKUP_CACHE_TIME);
 						}
 						else
 						{
@@ -181,6 +187,9 @@ class ucp_listener implements EventSubscriberInterface
 					{
 						$steam_error = 'STEAMSTATUS_ERROR_LOOKUP_FAILED';
 					}
+
+					$cache = isset($steamid64) ? $steamid64 : $steam_error;
+					$this->cache->put('stevotvr_steamstatus_vanity_' . $matches[1], $cache, self::VANITY_LOOKUP_CACHE_TIME);
 				}
 			}
 			if (!isset($steamid64))
