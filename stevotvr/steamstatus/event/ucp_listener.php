@@ -94,7 +94,6 @@ class ucp_listener implements EventSubscriberInterface
 			return;
 		}
 
-		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
 			'STEAMSTATUS_STEAMID'	=> $this->user->data['user_steamid'],
