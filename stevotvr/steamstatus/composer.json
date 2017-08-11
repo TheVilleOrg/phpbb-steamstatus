@@ -1,7 +1,7 @@
 {
 	"name": "stevotvr/steamstatus",
 	"type": "phpbb-extension",
-	"description": "Adds users' current Steam status in their profile",
+	"description": "An extension which allows users to add their Steam profile to their forum profile",
 	"homepage": "https://github.com/stevotvr/phpbb-steamstatus",
 	"version": "1.0.0",
 	"license": "GPL-2.0",
