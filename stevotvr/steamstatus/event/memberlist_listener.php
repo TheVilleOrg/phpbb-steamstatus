@@ -97,11 +97,14 @@ class memberlist_listener implements EventSubscriberInterface
 			if ($cached)
 			{
 				$this->template->assign_vars(array(
-					'STEAMSTATUS_STEAMID'	=> $steamid,
-					'STEAMSTATUS_NAME'		=> $cached->get_name(),
-					'STEAMSTATUS_PROFILE'	=> $cached->get_profile(),
-					'STEAMSTATUS_AVATAR'	=> $cached->get_avatar(),
-					'S_STEAMSTATUS_SHOW'	=> true,
+					'STEAMSTATUS_STEAMID'		=> $steamid,
+					'STEAMSTATUS_NAME'			=> $cached->get_name(),
+					'STEAMSTATUS_PROFILE'		=> $cached->get_profile(),
+					'STEAMSTATUS_AVATAR'		=> $cached->get_avatar(),
+					'STEAMSTATUS_AVATAR_ALT'	=> $this->language->lang('STEAMSTATUS_AVATAR_ALT', $cached->get_name()),
+					'STEAMSTATUS_PROFILE_LINK'	=> $this->language->lang('STEAMSTATUS_PROFILE_LINK', $cached->get_name()),
+					'STEAMSTATUS_ADD_LINK'		=> $this->language->lang('STEAMSTATUS_ADD_LINK', $cached->get_name()),
+					'S_STEAMSTATUS_SHOW'		=> true,
 				));
 
 				if (!$cached->is_stale())
