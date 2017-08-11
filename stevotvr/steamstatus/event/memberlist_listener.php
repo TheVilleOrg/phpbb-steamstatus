@@ -86,6 +86,7 @@ class memberlist_listener implements EventSubscriberInterface
 
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
+			'STEAMSTATUS_REFRESH'		=> $this->config['stevotvr_steamstatus_refresh_time'] * 60000,
 			'U_STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
 			'S_STEAMSTATUS'				=> true,
 		));

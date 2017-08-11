@@ -65,6 +65,7 @@ class version_1_0_0 extends \phpbb\db\migration\migration
 		return array(
 			array('config.add', array('stevotvr_steamstatus_api_key', '')),
 			array('config.add', array('stevotvr_steamstatus_cache_time', 60)),
+			array('config.add', array('stevotvr_steamstatus_refresh_time', 1)),
 			array('config.add', array('stevotvr_steamstatus_show_on_profile', 1)),
 			array('config.add', array('stevotvr_steamstatus_show_on_viewtopic', 1)),
 			array('module.add', array(

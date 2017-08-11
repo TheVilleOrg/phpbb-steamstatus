@@ -1,7 +1,10 @@
 <!-- IF S_STEAMSTATUS -->
-	<script>
-		$(function () {
-			'use strict';
+<script>
+	$(function () {
+		'use strict';
+		$.steamstatusRefresh = function () {
+			var refreshInterval = {STEAMSTATUS_REFRESH};
+
 			var steamids = {};
 			$('.steamstatus').each(function () {
 				var steamid = $(this).data('steamid');
@@ -10,7 +13,7 @@
 				}
 			});
 			steamids = Object.keys(steamids);
-			if (steamids.length) {
+			if (steamids.length > 0) {
 				$.ajax({
 					url: '{U_STEAMSTATUS_CONTROLLER}',
 					dataType: 'json',
@@ -35,6 +38,12 @@
 					});
 				});
 			}
-		});
-	</script>
+
+			if (refreshInterval > 0) {
+				setTimeout($.steamstatusRefresh, refreshInterval);
+			}
+		};
+		$.steamstatusRefresh();
+	});
+</script>
 <!-- ENDIF -->
