@@ -35,6 +35,7 @@
 }
 
 .steamstatus .steam-name {
+	padding: 1px 0;
 	font-size: 12px;
 	font-weight: bold;
 }
@@ -48,12 +49,13 @@
 	bottom: 0;
 	right: 0;
 	padding: 4px;
+	color: #BBB;
+	font-size: 10px;
+	font-weight: bold;
 }
 
 .steamstatus .steam-links a {
 	color: #BBB;
-	font-size: 10px;
-	font-weight: bold;
 	font-variant: small-caps;
 	text-transform: lowercase;
 }
