@@ -65,3 +65,13 @@ services:
             - '@template'
         tags:
             - { name: event.listener }
+    stevotvr.steamstatus.cron.task.main:
+        class: stevotvr\steamstatus\cron\task\main
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '%stevotvr.steamstatus.tables.steamstatus%'
+        calls:
+            - [set_name, [cron.task.stevotvr.steamstatus]]
+        tags:
+            - { name: cron.task }
