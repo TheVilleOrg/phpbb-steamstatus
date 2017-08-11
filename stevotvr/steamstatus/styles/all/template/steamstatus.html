@@ -1,7 +1,9 @@
 <div class="steamstatus<!-- IF STEAMSTATUS_STATE == 2 --> steam-ingame<!-- ELSEIF STEAMSTATUS_STATE == 1 --> steam-online<!-- ENDIF -->" data-steamid="{STEAMSTATUS_STEAMID}">
 	<img src="{STEAMSTATUS_AVATAR}" alt="{STEAMSTATUS_AVATAR_ALT}" width="32" height="32" />
-	<a class="steam-name" href="{STEAMSTATUS_PROFILE}" title="{STEAMSTATUS_NAME}">{STEAMSTATUS_NAME}</a><br />
-	<span class="steam-status"<!-- IF S_STEAMSTATUS_LOADED --> title="{STEAMSTATUS_STATUS}"<!-- ENDIF -->><!-- IF S_STEAMSTATUS_LOADED -->{STEAMSTATUS_STATUS}<!-- ELSE --><em>{L_STEAMSTATUS_LOADING}</em><!-- ENDIF --></span>
+	<div class="steam-info">
+		<div><a class="steam-name" href="{STEAMSTATUS_PROFILE}" title="{STEAMSTATUS_NAME}">{STEAMSTATUS_NAME}</a></div>
+		<div class="steam-status"<!-- IF S_STEAMSTATUS_LOADED --> title="{STEAMSTATUS_STATUS}"<!-- ENDIF -->><!-- IF S_STEAMSTATUS_LOADED -->{STEAMSTATUS_STATUS}<!-- ELSE --><em>{L_STEAMSTATUS_LOADING}</em><!-- ENDIF --></div>
+	</div>
 	<div class="steam-links">
 		<a class="steam-profile" href="{STEAMSTATUS_PROFILE}" title="{STEAMSTATUS_PROFILE_LINK}">{L_STEAMSTATUS_PROFILE}</a> |
 		<a class="steam-add" href="steam://friends/add/{STEAMSTATUS_STEAMID}" title="{STEAMSTATUS_ADD_LINK}">{L_STEAMSTATUS_ADD}</a>

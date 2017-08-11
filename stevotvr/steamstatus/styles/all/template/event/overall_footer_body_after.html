@@ -23,7 +23,6 @@
 				.done(function(data) {
 					$.each(data.status, function(index, val) {
 						var container = $('.steamstatus[data-steamid=' + val.steamid + ']');
-						var links = container.children('.steam-links');
 						container.removeClass('steam-online').removeClass('steam-ingame');
 						if (val.state === 1) {
 							container.addClass('steam-online');
@@ -31,10 +30,10 @@
 							container.addClass('steam-ingame');
 						}
 						container.children('img').attr({'src': val.avatar, 'alt': '{LA_STEAMSTATUS_AVATAR_ALT}'.replace('%s', val.name)});
-						container.children('.steam-name').text(val.name).attr({'href': val.profile, 'title': val.name});
-						container.children('.steam-status').text(val.status).attr('title', val.status);
-						links.children('.steam-profile').attr({'href': val.profile, 'title': '{LA_STEAMSTATUS_PROFILE_LINK}'.replace('%s', val.name)});
-						links.children('.steam-add').attr({'href': val.profile, 'title': '{LA_STEAMSTATUS_ADD_LINK}'.replace('%s', val.name)});
+						container.find('.steam-name').text(val.name).attr({'href': val.profile, 'title': val.name});
+						container.find('.steam-status').text(val.status).attr('title', val.status);
+						container.find('.steam-profile').attr({'href': val.profile, 'title': '{LA_STEAMSTATUS_PROFILE_LINK}'.replace('%s', val.name)});
+						container.find('.steam-add').attr({'href': val.profile, 'title': '{LA_STEAMSTATUS_ADD_LINK}'.replace('%s', val.name)});
 					});
 				});
 			}

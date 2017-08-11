@@ -22,13 +22,13 @@
 }
 
 .steamstatus img {
-	float: left;
-	margin-right: 6px;
+	position: absolute;
 	border: 2px solid;
 	border-radius: 4px;
 }
 
-.steamstatus .steam-name, .steamstatus .steam-status {
+.steamstatus .steam-info {
+	padding-left: 40px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
