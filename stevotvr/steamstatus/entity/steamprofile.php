@@ -80,7 +80,9 @@ class steamprofile implements steamprofile_interface
 
 		}
 
-		$sql = 'SELECT * FROM ' . $this->table_name . ' WHERE steam_steamid = ' . $this->db->sql_escape($steamid64);
+		$sql = 'SELECT *
+					FROM ' . $this->table_name . '
+					WHERE steam_steamid = ' . $this->db->sql_escape($steamid64);
 		$result = $this->db->sql_query($sql);
 		$this->data = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -146,12 +148,15 @@ class steamprofile implements steamprofile_interface
 			'steam_status'		=> $this->data['steam_status'],
 			'steam_lastlogoff'	=> $this->data['steam_lastlogoff'],
 		);
-		$sql = 'UPDATE ' . $this->table_name . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE steam_steamid = ' . $this->db->sql_escape($this->data['steam_steamid']);
+		$sql = 'UPDATE ' . $this->table_name . '
+					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+					WHERE steam_steamid = ' . $this->db->sql_escape($this->data['steam_steamid']);
 		$this->db->sql_query($sql);
 		if ($this->db->sql_affectedrows() < 1)
 		{
 			$data['steam_steamid'] = $this->data['steam_steamid'];
-			$sql = 'INSERT INTO ' . $this->table_name . ' ' . $this->db->sql_build_array('INSERT', $data);
+			$sql = 'INSERT INTO ' . $this->table_name . '
+						' . $this->db->sql_build_array('INSERT', $data);
 			$this->db->sql_query($sql);
 		}
 
