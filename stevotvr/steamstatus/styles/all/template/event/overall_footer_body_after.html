@@ -27,7 +27,7 @@
 							container.addClass('steam-ingame');
 						}
 						container.children('img').attr('src', val.avatar);
-						container.children('.steam-name').text(val.name);
+						container.children('.steam-name').text(val.name).attr('href', val.profile);
 						container.children('.steam-status').text(val.status);
 						container.children('.steam-links').children('.steam-profile').attr('href', val.profile);
 					});
