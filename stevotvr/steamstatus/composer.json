@@ -20,7 +20,7 @@
 	"extra": {
 		"display-name": "Steam Status",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0"
+			"phpbb/phpbb": ">=3.2.0"
 		}
 	}
 }
