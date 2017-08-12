@@ -127,7 +127,7 @@ class main_module
 		try
 		{
 			$meta = stream_get_meta_data($stream);
-			$http_response = (int)substr($meta['wrapper_data'][0], strpos($meta['wrapper_data'][0], ' ') + 1, 3);
+			$http_response = (int) substr($meta['wrapper_data'][0], strpos($meta['wrapper_data'][0], ' ') + 1, 3);
 			if ($http_response === 403)
 			{
 				$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID';
