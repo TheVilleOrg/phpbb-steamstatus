@@ -10,7 +10,6 @@
 
 namespace stevotvr\steamstatus\event;
 
-use phpbb\cache\service;
 use phpbb\config\config;
 use phpbb\controller\helper;
 use phpbb\event\data;

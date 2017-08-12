@@ -13,7 +13,6 @@ namespace stevotvr\steamstatus\operator;
 use phpbb\cache\service;
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
-use stdClass;
 use stevotvr\steamstatus\entity\steamprofile_interface as entity;
 use stevotvr\steamstatus\exception\out_of_bounds;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -297,7 +296,7 @@ class steamprofile implements steamprofile_interface
 	 *
 	 * @return int One of the \stevotvr\steamstatus\entity\steamprofile_interface::STATE* constants
 	 */
-	static private function get_profile_state(stdClass $profile)
+	static private function get_profile_state(\stdClass $profile)
 	{
 		if (!empty($profile->gameextrainfo))
 		{
@@ -317,7 +316,7 @@ class steamprofile implements steamprofile_interface
 	 *
 	 * @return string One of the $status_text values or the name of the game being played
 	 */
-	static private function get_profile_status(stdClass $profile)
+	static private function get_profile_status(\stdClass $profile)
 	{
 		if (!empty($profile->gameextrainfo))
 		{

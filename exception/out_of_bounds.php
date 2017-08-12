@@ -10,13 +10,10 @@
 
 namespace stevotvr\steamstatus\exception;
 
-use Exception;
-use Throwable;
-
 /**
 * Exception thrown upon an out-of-bounds error.
 */
-class out_of_bounds extends Exception
+class out_of_bounds extends \Exception
 {
 	/**
 	 * @param string     $argument_name The name of the argument
@@ -24,7 +21,7 @@ class out_of_bounds extends Exception
 	 * @param int        $code          The Exception code
 	 * @param \Throwable $previous      The previous exception used for the exception chaining
 	 */
-	function __construct($argument_name, $value = '[no_value]', $code = 0, Throwable $previous = null)
+	function __construct($argument_name, $value = '[no_value]', $code = 0, \Throwable $previous = null)
 	{
 		$message = 'Out-of-bounds value for "' . (string) $argument_name . '": "' . (string) $value . '"';
 		parent::__construct($message, $code, $previous);
