@@ -10,10 +10,13 @@
 
 namespace stevotvr\steamstatus\exception;
 
+use \Exception;
+use \Throwable;
+
 /**
 * Exception thrown upon an invalid argument error.
 */
-class invalid_argument extends \Exception
+class invalid_argument extends Exception
 {
 	/**
 	 * @param string     $argument_name The name of the argument
@@ -21,7 +24,7 @@ class invalid_argument extends \Exception
 	 * @param int        $code          The Exception code
 	 * @param \Throwable $previous      The previous exception used for the exception chaining
 	 */
-	function __construct($argument_name, $value = '[no_value]', $code = 0, \Throwable $previous = null)
+	function __construct($argument_name, $value = '[no_value]', $code = 0, Throwable $previous = null)
 	{
 		$message = 'Invalid value for "' . (string) $argument_name . '": "' . (string) $value . '"';
 		parent::__construct($message, $code, $previous);

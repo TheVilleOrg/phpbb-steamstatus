@@ -10,10 +10,12 @@
 
 namespace stevotvr\steamstatus\migrations;
 
+use \phpbb\db\migration\migration;
+
 /**
  * Steam Status migration for version 1.0.0.
  */
-class version_1_0_0 extends \phpbb\db\migration\migration
+class version_1_0_0 extends migration
 {
 	static public function depends_on()
 	{

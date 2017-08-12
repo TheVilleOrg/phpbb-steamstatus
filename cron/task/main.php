@@ -11,12 +11,13 @@
 namespace stevotvr\steamstatus\cron\task;
 
 use \phpbb\config\config;
+use \phpbb\cron\task\base;
 use \phpbb\db\driver\driver_interface;
 
 /**
  * Steam Status main cron task.
  */
-class main extends \phpbb\cron\task\base
+class main extends base
 {
 	/* The interval of the cron task in seconds */
 	const INTERVAL = 2592000;
