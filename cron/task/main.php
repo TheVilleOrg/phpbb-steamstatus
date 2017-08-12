@@ -55,10 +55,9 @@ class main extends \phpbb\cron\task\base
 	public function run()
 	{
 		$cache_ids = array();
-		$age = time() - self::MIN_PRUNE_AGE;
 		$sql = 'SELECT steam_steamid
 					FROM ' . $this->table_name . '
-					WHERE steam_querytime < ' . $age;
+					WHERE steam_querytime < ' . (time() - self::MIN_PRUNE_AGE);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
