@@ -1,7 +1,8 @@
 <!-- IF S_STEAMSTATUS -->
-<script>
-	$(function () {
-		'use strict';
+<script type="text/javascript">
+(function ($) {
+	'use strict';
+	$(function() {
 		$.steamstatusRefresh = function () {
 			var refreshInterval = {STEAMSTATUS_REFRESH};
 
@@ -44,5 +45,6 @@
 		};
 		$.steamstatusRefresh();
 	});
+}(jQuery));
 </script>
 <!-- ENDIF -->
