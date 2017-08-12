@@ -162,15 +162,15 @@ class viewtopic_listener implements EventSubscriberInterface
 						'S_STEAMSTATUS_LOADED'	=> true,
 					));
 				}
+
+				return;
 			}
-			else
-			{
-				$event['post_row'] = array_merge($event['post_row'], array(
-					'STEAMSTATUS_STEAMID'	=> $steamid,
-					'STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
-					'S_STEAMSTATUS_SHOW'	=> true,
-				));
-			}
+
+			$event['post_row'] = array_merge($event['post_row'], array(
+				'STEAMSTATUS_STEAMID'	=> $steamid,
+				'STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
+				'S_STEAMSTATUS_SHOW'	=> true,
+			));
 		}
 	}
 }

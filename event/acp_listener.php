@@ -111,18 +111,18 @@ class acp_listener implements EventSubscriberInterface
 		{
 			$steam_error = null;
 			$steamid64 = $this->steamprofile->to_steamid64($steamid, $steam_error);
+
 			if (!isset($steamid64))
 			{
 				$error = $event['error'];
 				$error[] = $steam_error;
 				$event['error'] = $error;
+				return;
 			}
-			else
-			{
-				$data = $event['data'];
-				$data['steamstatus_steamid'] = $steamid64;
-				$event['data'] = $data;
-			}
+
+			$data = $event['data'];
+			$data['steamstatus_steamid'] = $steamid64;
+			$event['data'] = $data;
 		}
 	}
 

@@ -115,15 +115,15 @@ class memberlist_listener implements EventSubscriberInterface
 						'S_STEAMSTATUS_LOADED'	=> true,
 					));
 				}
+
+				return;
 			}
-			else
-			{
-				$this->template->assign_vars(array(
-					'STEAMSTATUS_STEAMID'	=> $steamid,
-					'STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
-					'S_STEAMSTATUS_SHOW'	=> true,
-				));
-			}
+
+			$this->template->assign_vars(array(
+				'STEAMSTATUS_STEAMID'	=> $steamid,
+				'STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
+				'S_STEAMSTATUS_SHOW'	=> true,
+			));
 		}
 	}
 }

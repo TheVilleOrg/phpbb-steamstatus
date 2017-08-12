@@ -120,13 +120,12 @@ class steamprofile implements steamprofile_interface
 			if (method_exists($this, $type))
 			{
 				$this->$type($data[$field]);
+				continue;
 			}
-			else
-			{
-				$value = $data[$field];
-				settype($value, $type);
-				$this->data[$field] = $value;
-			}
+
+			$value = $data[$field];
+			settype($value, $type);
+			$this->data[$field] = $value;
 		}
 
 		return $this;

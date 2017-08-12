@@ -124,13 +124,12 @@ class ucp_listener implements EventSubscriberInterface
 				$error = $event['error'];
 				$error[] = $steam_error;
 				$event['error'] = $error;
+				return;
 			}
-			else
-			{
-				$data = $event['data'];
-				$data['steamstatus_steamid'] = $steamid64;
-				$event['data'] = $data;
-			}
+
+			$data = $event['data'];
+			$data['steamstatus_steamid'] = $steamid64;
+			$event['data'] = $data;
 		}
 	}
 
