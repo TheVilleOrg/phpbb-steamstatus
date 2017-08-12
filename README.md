@@ -3,6 +3,7 @@
 This is a extension for phpBB 3.2 that allows users to add their SteamID to their account in order to have their current Steam profile status displayed on their forum profile and/or posts.
 
 [![Build Status](https://travis-ci.org/stevotvr/phpbb-steamstatus.svg)](https://travis-ci.org/stevotvr/phpbb-steamstatus)
+[![Code Climate](https://codeclimate.com/github/stevotvr/phpbb-steamstatus/badges/gpa.svg)](https://codeclimate.com/github/stevotvr/phpbb-steamstatus)
 
 ## Features
 
