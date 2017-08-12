@@ -344,7 +344,7 @@ class steamprofile implements steamprofile_interface
 		for ($i = strlen($left) - 1; $i >= 0; --$i)
 		{
 			$sum = $left[$i] + $right[$i] + $carry;
-			$carry = (int)($sum / 10);
+			$carry = (int) ($sum / 10);
 			$result .= $sum % 10;
 		}
 		if ($carry)
