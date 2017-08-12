@@ -316,7 +316,7 @@ class steamprofile implements steamprofile_interface
 
 	public function set_lastlogoff($lastlogoff)
 	{
-		$this->data['steam_lastlogoff'] = (int) $lastonline;
+		$this->data['steam_lastlogoff'] = (int) $lastlogoff;
 
 		return $this;
 	}
