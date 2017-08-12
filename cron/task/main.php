@@ -10,9 +10,9 @@
 
 namespace stevotvr\steamstatus\cron\task;
 
-use \phpbb\config\config;
-use \phpbb\cron\task\base;
-use \phpbb\db\driver\driver_interface;
+use phpbb\config\config;
+use phpbb\cron\task\base;
+use phpbb\db\driver\driver_interface;
 
 /**
  * Steam Status main cron task.

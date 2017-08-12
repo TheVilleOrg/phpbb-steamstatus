@@ -10,8 +10,8 @@
 
 namespace stevotvr\steamstatus\exception;
 
-use \Exception;
-use \Throwable;
+use Exception;
+use Throwable;
 
 /**
 * Exception thrown upon an invalid argument error.

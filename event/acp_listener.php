@@ -10,13 +10,13 @@
 
 namespace stevotvr\steamstatus\event;
 
-use \phpbb\config\config;
-use \phpbb\event\data;
-use \phpbb\language\language;
-use \phpbb\request\request;
-use \phpbb\request\request_interface;
-use \phpbb\template\template;
-use \stevotvr\steamstatus\operator\steamprofile_interface;
+use phpbb\config\config;
+use phpbb\event\data;
+use phpbb\language\language;
+use phpbb\request\request;
+use phpbb\request\request_interface;
+use phpbb\template\template;
+use stevotvr\steamstatus\operator\steamprofile_interface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

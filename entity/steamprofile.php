@@ -10,12 +10,12 @@
 
 namespace stevotvr\steamstatus\entity;
 
-use \phpbb\config\config;
-use \phpbb\db\driver\driver_interface;
-use \phpbb\language\language;
-use \stevotvr\steamstatus\exception\invalid_argument;
-use \stevotvr\steamstatus\exception\out_of_bounds;
-use \stevotvr\steamstatus\exception\unexpected_value;
+use phpbb\config\config;
+use phpbb\db\driver\driver_interface;
+use phpbb\language\language;
+use stevotvr\steamstatus\exception\invalid_argument;
+use stevotvr\steamstatus\exception\out_of_bounds;
+use stevotvr\steamstatus\exception\unexpected_value;
 
 /**
  * Steam Status entity representing a Steam profile.

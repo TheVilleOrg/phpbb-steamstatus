@@ -10,12 +10,12 @@
 
 namespace stevotvr\steamstatus\controller;
 
-use \phpbb\config\config;
-use \phpbb\language\language;
-use \phpbb\request\request;
-use \phpbb\request\request_interface;
-use \stevotvr\steamstatus\operator\steamprofile_interface;
-use \Symfony\Component\HttpFoundation\JsonResponse;
+use phpbb\config\config;
+use phpbb\language\language;
+use phpbb\request\request;
+use phpbb\request\request_interface;
+use stevotvr\steamstatus\operator\steamprofile_interface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Steam Status main controller for getting the current Steam profile status of a list of SteamIDs

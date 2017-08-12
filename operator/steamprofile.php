@@ -10,12 +10,12 @@
 
 namespace stevotvr\steamstatus\operator;
 
-use \phpbb\cache\service;
-use \phpbb\config\config;
-use \phpbb\db\driver\driver_interface;
-use \stdClass;
-use \stevotvr\steamstatus\entity\steamprofile_interface as entity;
-use \stevotvr\steamstatus\exception\out_of_bounds;
+use phpbb\cache\service;
+use phpbb\config\config;
+use phpbb\db\driver\driver_interface;
+use stdClass;
+use stevotvr\steamstatus\entity\steamprofile_interface as entity;
+use stevotvr\steamstatus\exception\out_of_bounds;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

@@ -10,7 +10,7 @@
 
 namespace stevotvr\steamstatus\migrations;
 
-use \phpbb\db\migration\migration;
+use phpbb\db\migration\migration;
 
 /**
  * Steam Status migration for version 1.0.0.
