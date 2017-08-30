@@ -1,4 +1,3 @@
-dist: precise
 sudo: required
 
 language: php
@@ -13,6 +12,7 @@ matrix:
       env: DB=mysql
     - php: 5.4
       env: DB=mariadb
+      dist: precise
     - php: 5.4
       env: DB=postgres
     - php: 5.4
