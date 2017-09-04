@@ -83,16 +83,19 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.acp_users_modify_profile'				=> 'acp_users_modify_profile',
-			'core.acp_users_profile_validate'			=> 'acp_users_profile_validate',
-			'core.acp_users_profile_modify_sql_ary'		=> 'acp_users_profile_modify_sql_ary',
-			'core.memberlist_view_profile'				=> 'memberlist_view_profile',
+			'core.acp_users_modify_profile'			=> 'acp_users_modify_profile',
+			'core.acp_users_profile_modify_sql_ary'	=> 'profile_modify_sql_ary',
+			'core.acp_users_profile_validate'		=> 'validate_profile_info',
+
+			'core.memberlist_view_profile'	=> 'memberlist_view_profile',
+
+			'core.ucp_profile_info_modify_sql_ary'		=> 'profile_modify_sql_ary',
 			'core.ucp_profile_modify_profile_info'		=> 'ucp_profile_modify_profile_info',
-			'core.ucp_profile_validate_profile_info'	=> 'ucp_profile_validate_profile_info',
-			'core.ucp_profile_info_modify_sql_ary'		=> 'ucp_profile_info_modify_sql_ary',
-			'core.viewtopic_get_post_data'				=> 'viewtopic_get_post_data',
-			'core.viewtopic_cache_user_data'			=> 'viewtopic_cache_user_data',
-			'core.viewtopic_modify_post_row'			=> 'viewtopic_modify_post_row',
+			'core.ucp_profile_validate_profile_info'	=> 'validate_profile_info',
+
+			'core.viewtopic_cache_user_data'	=> 'viewtopic_cache_user_data',
+			'core.viewtopic_get_post_data'		=> 'viewtopic_get_post_data',
+			'core.viewtopic_modify_post_row'	=> 'viewtopic_modify_post_row',
 		);
 	}
 
@@ -113,64 +116,6 @@ class main_listener implements EventSubscriberInterface
 			'STEAMSTATUS_STEAMID'	=> $event['user_row']['user_steamid'],
 			'S_STEAMSTATUS_SHOW'	=> true,
 		));
-	}
-
-	/**
-	 * Reads the SteamID when the form is submitted and attempts to convert it to the SteamID64
-	 * format. Produces an error if the conversion fails.
-	 *
-	 * @param \phpbb\event\data $event
-	 */
-	public function acp_users_profile_validate(data $event)
-	{
-		if (empty($this->config['stevotvr_steamstatus_api_key']))
-		{
-			return;
-		}
-
-		$steamid = $this->request->variable('steamstatus_steamid', '0', false, request_interface::POST);
-		if ($steamid !== '0')
-		{
-			$steam_error = null;
-			$steamid64 = $this->steamprofile->to_steamid64($steamid, $steam_error);
-
-			if (!isset($steamid64))
-			{
-				$error = $event['error'];
-				$error[] = $steam_error;
-				$event['error'] = $error;
-				return;
-			}
-
-			$data = $event['data'];
-			$data['steamstatus_steamid'] = $steamid64;
-			$event['data'] = $data;
-		}
-	}
-
-	/**
-	 * Saves the SteamID when the form is submitted.
-	 *
-	 * @param \phpbb\event\data $event
-	 */
-	public function acp_users_profile_modify_sql_ary(data $event)
-	{
-		if (empty($this->config['stevotvr_steamstatus_api_key']))
-		{
-			return;
-		}
-
-		if (isset($event['data']['steamstatus_steamid']))
-		{
-			$sql_ary = $event['sql_ary'];
-			$sql_ary['user_steamid'] = $event['data']['steamstatus_steamid'];
-			$event['sql_ary'] = $sql_ary;
-
-			if (!empty($event['data']['steamstatus_steamid']))
-			{
-				$this->steamprofile->get_from_api(array($event['data']['steamstatus_steamid']));
-			}
-		}
 	}
 
 	/**
@@ -237,6 +182,31 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
+	 * Saves the SteamID when the form is submitted.
+	 *
+	 * @param \phpbb\event\data $event
+	 */
+	public function profile_modify_sql_ary(data $event)
+	{
+		if (empty($this->config['stevotvr_steamstatus_api_key']))
+		{
+			return;
+		}
+
+		if (isset($event['data']['steamstatus_steamid']))
+		{
+			$sql_ary = $event['sql_ary'];
+			$sql_ary['user_steamid'] = $event['data']['steamstatus_steamid'];
+			$event['sql_ary'] = $sql_ary;
+
+			if (!empty($event['data']['steamstatus_steamid']))
+			{
+				$this->steamprofile->get_from_api(array($event['data']['steamstatus_steamid']));
+			}
+		}
+	}
+
+	/**
 	 * Loads the language files and sets the template variables for the Profile page of the UPC.
 	 *
 	 * @param \phpbb\event\data $event
@@ -256,12 +226,12 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Reads the SteamID when the user updates their profile and attempts to convert it to the
-	 * SteamID64 format. Produces an error if the conversion fails.
+	 * Reads the SteamID when the form is submitted and attempts to convert it to the SteamID64
+	 * format. Produces an error if the conversion fails.
 	 *
 	 * @param \phpbb\event\data $event
 	 */
-	public function ucp_profile_validate_profile_info(data $event)
+	public function validate_profile_info(data $event)
 	{
 		if (empty($this->config['stevotvr_steamstatus_api_key']))
 		{
@@ -273,6 +243,7 @@ class main_listener implements EventSubscriberInterface
 		{
 			$steam_error = null;
 			$steamid64 = $this->steamprofile->to_steamid64($steamid, $steam_error);
+
 			if (!isset($steamid64))
 			{
 				$error = $event['error'];
@@ -288,28 +259,27 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Saves the SteamID when the user updates their profile.
+	 * Adds the SteamID to the user data.
 	 *
 	 * @param \phpbb\event\data $event
 	 */
-	public function ucp_profile_info_modify_sql_ary(data $event)
+	public function viewtopic_cache_user_data(data $event)
 	{
-		if (empty($this->config['stevotvr_steamstatus_api_key']))
+		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic'] || empty($this->config['stevotvr_steamstatus_api_key']))
 		{
 			return;
 		}
 
-		if (isset($event['data']['steamstatus_steamid']))
+		$data = $event['user_cache_data'];
+		$data['steamid'] = $event['row']['user_steamid'];
+		foreach ($event['row'] as $key => $value)
 		{
-			$sql_ary = $event['sql_ary'];
-			$sql_ary['user_steamid'] = $event['data']['steamstatus_steamid'];
-			$event['sql_ary'] = $sql_ary;
-
-			if (!empty($event['data']['steamstatus_steamid']))
+			if (strpos($key, 'steam_') === 0)
 			{
-				$this->steamprofile->get_from_api(array($event['data']['steamstatus_steamid']));
+				$data[$key] = $value;
 			}
 		}
+		$event['user_cache_data'] = $data;
 	}
 
 	/**
@@ -340,30 +310,6 @@ class main_listener implements EventSubscriberInterface
 			'ON'	=> 'u.user_steamid = steam.steam_steamid',
 		);
 		$event['sql_ary'] = $sql_ary;
-	}
-
-	/**
-	 * Adds the SteamID to the user data.
-	 *
-	 * @param \phpbb\event\data $event
-	 */
-	public function viewtopic_cache_user_data(data $event)
-	{
-		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic'] || empty($this->config['stevotvr_steamstatus_api_key']))
-		{
-			return;
-		}
-
-		$data = $event['user_cache_data'];
-		$data['steamid'] = $event['row']['user_steamid'];
-		foreach ($event['row'] as $key => $value)
-		{
-			if (strpos($key, 'steam_') === 0)
-			{
-				$data[$key] = $value;
-			}
-		}
-		$event['user_cache_data'] = $data;
 	}
 
 	/**
