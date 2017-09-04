@@ -12,7 +12,6 @@ namespace stevotvr\steamstatus\controller;
 
 use phpbb\config\config;
 use phpbb\language\language;
-use phpbb\request\request;
 use phpbb\request\request_interface;
 use stevotvr\steamstatus\operator\steamprofile_interface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +33,7 @@ class main
 	private $language;
 
 	/**
-	 * @var \phpbb\request\request
+	 * @var \phpbb\request\request_interface
 	 */
 	private $request;
 
@@ -46,10 +45,10 @@ class main
 	/**
 	 * @param \phpbb\config\config                                  $config
 	 * @param \phpbb\language\language                              $language
-	 * @param \phpbb\request\request                                $request
+	 * @param \phpbb\request\request_interface                      $request
 	 * @param \stevotvr\steamstatus\operator\steamprofile_interface $steamprofile
 	 */
-	public function __construct(config $config, language $language, request $request, steamprofile_interface $steamprofile)
+	public function __construct(config $config, language $language, request_interface $request, steamprofile_interface $steamprofile)
 	{
 		$this->config = $config;
 		$this->language = $language;

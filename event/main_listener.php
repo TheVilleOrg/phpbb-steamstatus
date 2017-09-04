@@ -14,7 +14,6 @@ use phpbb\config\config;
 use phpbb\controller\helper;
 use phpbb\event\data;
 use phpbb\language\language;
-use phpbb\request\request;
 use phpbb\request\request_interface;
 use phpbb\template\template;
 use phpbb\user;
@@ -42,7 +41,7 @@ class main_listener implements EventSubscriberInterface
 	private $language;
 
 	/**
-	 * @var \phpbb\request\request
+	 * @var \phpbb\request\request_interface
 	 */
 	private $request;
 
@@ -65,12 +64,12 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\config\config                                  $config
 	 * @param \phpbb\controller\helper                              $helper
 	 * @param \phpbb\language\language                              $language
-	 * @param \phpbb\request\request                                $request
+	 * @param \phpbb\request\request_interface                      $request
 	 * @param \stevotvr\steamstatus\operator\steamprofile_interface $steamprofile
 	 * @param \phpbb\template\template                              $template
 	 * @param \phpbb\user                                           $user
 	 */
-	function __construct(config $config, helper $helper, language $language, request $request, steamprofile_interface $steamprofile, template $template, user $user)
+	function __construct(config $config, helper $helper, language $language, request_interface $request, steamprofile_interface $steamprofile, template $template, user $user)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
