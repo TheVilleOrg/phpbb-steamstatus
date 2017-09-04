@@ -1,9 +1,9 @@
-<!-- IF S_STEAMSTATUS_SHOW -->
+{% if S_STEAMSTATUS_SHOW %}
 		<fieldset>
-			<legend>{L_STEAMSTATUS_TITLE}</legend>
+			<legend>{{ lang('STEAMSTATUS_TITLE') }}</legend>
 			<dl>
-				<dt><label for="steamstatus_steamid">{L_STEAMSTATUS_STEAMID}{L_COLON}</label></dt>
-				<dd><input type="text" class="inputbox autowidth" name="steamstatus_steamid" id="steamstatus_steamid" size="40" maxlength="255" value="{STEAMSTATUS_STEAMID}" /></dd>
+				<dt><label for="steamstatus_steamid">{{ lang('STEAMSTATUS_STEAMID') ~ lang('COLON') }}</label></dt>
+				<dd><input type="text" class="inputbox autowidth" name="steamstatus_steamid" id="steamstatus_steamid" size="40" maxlength="255" value="{{ STEAMSTATUS_STEAMID }}" /></dd>
 			</dl>
 		</fieldset>
-<!-- ENDIF -->
+{% endif %}

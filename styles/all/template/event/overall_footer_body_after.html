@@ -1,10 +1,10 @@
-<!-- IF S_STEAMSTATUS -->
+{% if S_STEAMSTATUS %}
 <script type="text/javascript">
 (function ($) {
 	'use strict';
 	$(function() {
 		$.steamstatusRefresh = function () {
-			var refreshInterval = {STEAMSTATUS_REFRESH};
+			var refreshInterval = {{ STEAMSTATUS_REFRESH }};
 
 			var steamids = {};
 			$('.steamstatus').each(function () {
@@ -16,7 +16,7 @@
 			steamids = Object.keys(steamids);
 			if (steamids.length > 0) {
 				$.ajax({
-					url: '{U_STEAMSTATUS_CONTROLLER}',
+					url: '{{ U_STEAMSTATUS_CONTROLLER }}',
 					dataType: 'json',
 					cache: false,
 					data: {'steamids': steamids.join(',')}
@@ -30,11 +30,11 @@
 						} else if (val.state === 2) {
 							container.addClass('steam-ingame');
 						}
-						container.children('img').attr({'src': val.avatar, 'alt': '{LA_STEAMSTATUS_AVATAR_ALT}'.replace('%s', val.name)});
+						container.children('img').attr({'src': val.avatar, 'alt': '{{ lang("STEAMSTATUS_AVATAR_ALT")|e("js") }}'.replace('%s', val.name)});
 						container.find('.steam-name').text(val.name).attr({'href': val.profile, 'title': val.name});
 						container.find('.steam-status').text(val.status).attr('title', val.status);
-						container.find('.steam-profile').attr({'href': val.profile, 'title': '{LA_STEAMSTATUS_PROFILE_LINK}'.replace('%s', val.name)});
-						container.find('.steam-add').attr({'href': val.profile, 'title': '{LA_STEAMSTATUS_ADD_LINK}'.replace('%s', val.name)});
+						container.find('.steam-profile').attr({'href': val.profile, 'title': '{{ lang("STEAMSTATUS_PROFILE_LINK")|e("js") }}'.replace('%s', val.name)});
+						container.find('.steam-add').attr({'href': val.profile, 'title': '{{ lang("STEAMSTATUS_ADD_LINK")|e("js") }}'.replace('%s', val.name)});
 					});
 				});
 			}
@@ -47,4 +47,4 @@
 	});
 }(jQuery));
 </script>
-<!-- ENDIF -->
+{% endif %}

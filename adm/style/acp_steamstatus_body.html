@@ -1,44 +1,44 @@
-<!-- INCLUDE overall_header.html -->
+{% include 'overall_header.html' %}
 
-<h1>{L_SETTINGS}</h1>
+<h1>{{ lang('SETTINGS') }}</h1>
 
 <!-- IF S_ERROR -->
 	<div class="errorbox">
-		<h3>{L_WARNING}</h3>
-		<p>{ERROR_MSG}</p>
+		<h3>{{ lang('WARNING') }}</h3>
+		<p>{{ ERROR_MSG }}</p>
 	</div>
 <!-- ENDIF -->
 
-<form id="acp_board" method="post" action="{U_ACTION}">
+<form id="acp_board" method="post" action="{{ U_ACTION }}">
 	<fieldset>
 		<dl>
-			<dt><label for="steamstatus_api_key">{L_ACP_STEAMSTATUS_API_KEY}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_API_KEY_EXPLAIN}</span></dt>
-			<dd><input type="text" id="steamstatus_api_key" name="steamstatus_api_key" size="40" maxlength="255" value="{STEAMSTATUS_API_KEY}" /></dd>
+			<dt><label for="steamstatus_api_key">{{ lang('ACP_STEAMSTATUS_API_KEY') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_API_KEY_EXPLAIN') }}</span></dt>
+			<dd><input type="text" id="steamstatus_api_key" name="steamstatus_api_key" size="40" maxlength="255" value="{{ STEAMSTATUS_API_KEY }}" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="steamstatus_cache_time">{L_ACP_STEAMSTATUS_CACHE_TIME}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_CACHE_TIME_EXPLAIN}</span></dt>
-			<dd><input type="text" id="steamstatus_cache_time" name="steamstatus_cache_time" size="4" maxlength="10" value="{STEAMSTATUS_CACHE_TIME}" /></dd>
+			<dt><label for="steamstatus_cache_time">{{ lang('ACP_STEAMSTATUS_CACHE_TIME') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_CACHE_TIME_EXPLAIN') }}</span></dt>
+			<dd><input type="text" id="steamstatus_cache_time" name="steamstatus_cache_time" size="4" maxlength="10" value="{{ STEAMSTATUS_CACHE_TIME }}" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="steamstatus_refresh_time">{L_ACP_STEAMSTATUS_REFRESH_TIME}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_REFRESH_TIME_EXPLAIN}</span></dt>
-			<dd><input type="text" id="steamstatus_refresh_time" name="steamstatus_refresh_time" size="4" maxlength="10" value="{STEAMSTATUS_REFRESH_TIME}" /></dd>
+			<dt><label for="steamstatus_refresh_time">{{ lang('ACP_STEAMSTATUS_REFRESH_TIME') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_REFRESH_TIME_EXPLAIN') }}</span></dt>
+			<dd><input type="text" id="steamstatus_refresh_time" name="steamstatus_refresh_time" size="4" maxlength="10" value="{{ STEAMSTATUS_REFRESH_TIME }}" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="steamstatus_show_on_profile">{L_ACP_STEAMSTATUS_SHOW_ON_PROFILE}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_SHOW_ON_PROFILE_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" id="steamstatus_show_on_profile" name="steamstatus_show_on_profile" value="1"<!-- IF STEAMSTATUS_SHOW_ON_PROFILE --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label><label><input type="radio" name="steamstatus_show_on_profile" value="0"<!-- IF not STEAMSTATUS_SHOW_ON_PROFILE --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label></dd>
+			<dt><label for="steamstatus_show_on_profile">{{ lang('ACP_STEAMSTATUS_SHOW_ON_PROFILE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_SHOW_ON_PROFILE_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" id="steamstatus_show_on_profile" name="steamstatus_show_on_profile" value="1"{% if STEAMSTATUS_SHOW_ON_PROFILE %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="steamstatus_show_on_profile" value="0"{% if not STEAMSTATUS_SHOW_ON_PROFILE %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 		</dl>
 		<dl>
-			<dt><label for="steamstatus_show_on_viewtopic">{L_ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC}{L_COLON}</label><br /><span>{L_ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" id="steamstatus_show_on_viewtopic" name="steamstatus_show_on_viewtopic" value="1"<!-- IF STEAMSTATUS_SHOW_ON_VIEWTOPIC --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label><label><input type="radio" name="steamstatus_show_on_viewtopic" value="0"<!-- IF not STEAMSTATUS_SHOW_ON_VIEWTOPIC --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label></dd>
+			<dt><label for="steamstatus_show_on_viewtopic">{{ lang('ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" id="steamstatus_show_on_viewtopic" name="steamstatus_show_on_viewtopic" value="1"{% if STEAMSTATUS_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="steamstatus_show_on_viewtopic" value="0"{% if not STEAMSTATUS_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 		</dl>
 
 		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
 		</p>
 
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
 
-<!-- INCLUDE overall_footer.html -->
+{% include 'overall_footer.html' %}

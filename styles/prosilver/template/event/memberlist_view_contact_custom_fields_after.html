@@ -1,4 +1,4 @@
-<!-- IF S_STEAMSTATUS_SHOW -->
-	<dt>{L_STEAMSTATUS_STEAM}{L_COLON}</dt>
+{% if S_STEAMSTATUS_SHOW %}
+	<dt>{{ lang('STEAMSTATUS_STEAM') ~ lang('COLON') }}</dt>
 	<dd>{% include '@stevotvr_steamstatus/steamstatus.html' %}</dd>
-<!-- ENDIF -->
+{% endif %}

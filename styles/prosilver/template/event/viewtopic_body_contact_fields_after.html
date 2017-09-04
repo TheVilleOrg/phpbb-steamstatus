@@ -1,5 +1,5 @@
-<!-- IF postrow.S_STEAMSTATUS_SHOW -->
+{% if postrow.S_STEAMSTATUS_SHOW %}
 	<div class="steamstatus-container">
 		{% include '@stevotvr_steamstatus/steamstatus.html' with postrow %}
 	</div>
-<!-- ENDIF -->
+{% endif %}
