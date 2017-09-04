@@ -85,9 +85,11 @@ class memberlist_listener implements EventSubscriberInterface
 
 		$this->language->add_lang('common', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
-			'STEAMSTATUS_REFRESH'		=> $this->config['stevotvr_steamstatus_refresh_time'] * 60000,
+			'S_STEAMSTATUS'	=> true,
+
+			'STEAMSTATUS_REFRESH'	=> $this->config['stevotvr_steamstatus_refresh_time'] * 60000,
+
 			'U_STEAMSTATUS_CONTROLLER'	=> $this->helper->route('stevotvr_steamstatus_route'),
-			'S_STEAMSTATUS'				=> true,
 		));
 
 		$steamid = $event['member']['user_steamid'];
@@ -97,22 +99,25 @@ class memberlist_listener implements EventSubscriberInterface
 			if ($cached)
 			{
 				$this->template->assign_vars(array(
+					'S_STEAMSTATUS_SHOW'	=> true,
+
 					'STEAMSTATUS_STEAMID'		=> $steamid,
 					'STEAMSTATUS_NAME'			=> $cached->get_name(),
-					'STEAMSTATUS_PROFILE'		=> $cached->get_profile(),
-					'STEAMSTATUS_AVATAR'		=> $cached->get_avatar(),
 					'STEAMSTATUS_AVATAR_ALT'	=> $this->language->lang('STEAMSTATUS_AVATAR_ALT', $cached->get_name()),
 					'STEAMSTATUS_PROFILE_LINK'	=> $this->language->lang('STEAMSTATUS_PROFILE_LINK', $cached->get_name()),
 					'STEAMSTATUS_ADD_LINK'		=> $this->language->lang('STEAMSTATUS_ADD_LINK', $cached->get_name()),
-					'S_STEAMSTATUS_SHOW'		=> true,
+
+					'U_STEAMSTATUS_PROFILE'	=> $cached->get_profile(),
+					'U_STEAMSTATUS_AVATAR'	=> $cached->get_avatar(),
 				));
 
 				if (!$cached->is_stale())
 				{
 					$this->template->assign_vars(array(
+						'S_STEAMSTATUS_LOADED'	=> true,
+
 						'STEAMSTATUS_STATE'		=> $cached->get_state(),
 						'STEAMSTATUS_STATUS'	=> $cached->get_localized_status(),
-						'S_STEAMSTATUS_LOADED'	=> true,
 					));
 				}
 
@@ -120,9 +125,11 @@ class memberlist_listener implements EventSubscriberInterface
 			}
 
 			$this->template->assign_vars(array(
-				'STEAMSTATUS_STEAMID'	=> $steamid,
-				'STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
 				'S_STEAMSTATUS_SHOW'	=> true,
+
+				'STEAMSTATUS_STEAMID'	=> $steamid,
+
+				'U_STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
 			));
 		}
 	}

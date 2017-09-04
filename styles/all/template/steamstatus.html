@@ -1,11 +1,11 @@
 <div class="steamstatus{% if STEAMSTATUS_STATE == 2 %} steam-ingame{% elseif STEAMSTATUS_STATE == 1 %} steam-online{% endif %}" data-steamid="{{ STEAMSTATUS_STEAMID }}">
-	<img src="{{ STEAMSTATUS_AVATAR }}" alt="{{ STEAMSTATUS_AVATAR_ALT }}" width="32" height="32" />
+	<img src="{{ U_STEAMSTATUS_AVATAR }}" alt="{{ STEAMSTATUS_AVATAR_ALT }}" width="32" height="32" />
 	<div class="steam-info">
-		<div><a class="steam-name" href="{{ STEAMSTATUS_PROFILE }}" title="{{ STEAMSTATUS_NAME }}">{{ STEAMSTATUS_NAME }}</a></div>
+		<div><a class="steam-name" href="{{ U_STEAMSTATUS_PROFILE }}" title="{{ STEAMSTATUS_NAME }}">{{ STEAMSTATUS_NAME }}</a></div>
 		<div class="steam-status"{% if S_STEAMSTATUS_LOADED %} title="{{ STEAMSTATUS_STATUS }}"{% endif %}>{% if S_STEAMSTATUS_LOADED %}{{ STEAMSTATUS_STATUS }}{% else %}<em>{{ lang('STEAMSTATUS_LOADING') }}</em>{% endif %}</div>
 	</div>
 	<div class="steam-links">
-		<a class="steam-profile" href="{{ STEAMSTATUS_PROFILE }}" title="{{ STEAMSTATUS_PROFILE_LINK }}">{{ lang('STEAMSTATUS_PROFILE') }}</a> |
+		<a class="steam-profile" href="{{ U_STEAMSTATUS_PROFILE }}" title="{{ STEAMSTATUS_PROFILE_LINK }}">{{ lang('STEAMSTATUS_PROFILE') }}</a> |
 		<a class="steam-add" href="steam://friends/add/{{ STEAMSTATUS_STEAMID }}" title="{{ STEAMSTATUS_ADD_LINK }}">{{ lang('STEAMSTATUS_ADD') }}</a>
 	</div>
 </div>
