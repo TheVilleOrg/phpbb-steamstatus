@@ -102,7 +102,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads the language files and sets the template variables for the Profile page of the APC.
 	 *
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function acp_users_modify_profile(data $event)
 	{
@@ -113,15 +113,16 @@ class main_listener implements EventSubscriberInterface
 
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
-			'STEAMSTATUS_STEAMID'	=> $event['user_row']['user_steamid'],
 			'S_STEAMSTATUS_SHOW'	=> true,
+
+			'STEAMSTATUS_STEAMID'	=> $event['user_row']['user_steamid'],
 		));
 	}
 
 	/**
 	 * Loads the Steam Status template variables for the user profile.
 	 *
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function memberlist_view_profile(data $event)
 	{
@@ -184,7 +185,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Saves the SteamID when the form is submitted.
 	 *
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function profile_modify_sql_ary(data $event)
 	{
@@ -209,7 +210,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads the language files and sets the template variables for the Profile page of the UPC.
 	 *
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function ucp_profile_modify_profile_info(data $event)
 	{
@@ -220,8 +221,9 @@ class main_listener implements EventSubscriberInterface
 
 		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
 		$this->template->assign_vars(array(
-			'STEAMSTATUS_STEAMID'	=> $this->user->data['user_steamid'],
 			'S_STEAMSTATUS_SHOW'	=> true,
+
+			'STEAMSTATUS_STEAMID'	=> $this->user->data['user_steamid'],
 		));
 	}
 
@@ -229,7 +231,7 @@ class main_listener implements EventSubscriberInterface
 	 * Reads the SteamID when the form is submitted and attempts to convert it to the SteamID64
 	 * format. Produces an error if the conversion fails.
 	 *
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function validate_profile_info(data $event)
 	{
@@ -261,7 +263,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Adds the SteamID to the user data.
 	 *
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function viewtopic_cache_user_data(data $event)
 	{
@@ -285,7 +287,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads the language files and sets the template variables for the View Topic page.
 	 *
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function viewtopic_get_post_data(data $event)
 	{
@@ -315,7 +317,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads the Steam Status template variables for each post.
 	 *
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event data
 	 */
 	public function viewtopic_modify_post_row(data $event)
 	{

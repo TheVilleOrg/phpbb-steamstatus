@@ -16,9 +16,7 @@ namespace stevotvr\steamstatus\acp;
 class main_module
 {
 	public $u_action;
-
 	public $tpl_name;
-
 	public $page_title;
 
 	public function main($id, $mode)
@@ -75,14 +73,16 @@ class main_module
 
 		$error = array_map(array($language, 'lang'), $error);
 		$template->assign_vars(array(
+			'S_ERROR'	=> count($error) > 0,
+			'ERROR_MSG'	=> implode('<br />', $error),
+
 			'STEAMSTATUS_API_KEY'			=> $config['stevotvr_steamstatus_api_key'],
 			'STEAMSTATUS_CACHE_TIME'		=> $config['stevotvr_steamstatus_cache_time'],
 			'STEAMSTATUS_REFRESH_TIME'		=> $config['stevotvr_steamstatus_refresh_time'],
 			'STEAMSTATUS_SHOW_ON_PROFILE'	=> $config['stevotvr_steamstatus_show_on_profile'],
 			'STEAMSTATUS_SHOW_ON_VIEWTOPIC'	=> $config['stevotvr_steamstatus_show_on_viewtopic'],
-			'ERROR_MSG'						=> implode('<br />', $error),
-			'U_ACTION'						=> $this->u_action,
-			'S_ERROR'						=> count($error) > 0,
+
+			'U_ACTION'	=> $this->u_action,
 		));
 	}
 
@@ -93,7 +93,7 @@ class main_module
 	 * @param string $api_key The API key to validate
 	 * @param string &$error  A variable to hold the error message (if any)
 	 *
-	 * @return bool The key is valid
+	 * @return boolean The key is valid
 	 */
 	static private function validate_key($api_key, &$error)
 	{

@@ -36,7 +36,9 @@ class main extends base
 	protected $db;
 
 	/**
-	 * @var string The name of the database table storing Steam profiles
+	 * The name of the database table storing Steam profiles.
+	 *
+	 * @var string
 	 */
 	protected $table_name;
 
@@ -57,8 +59,8 @@ class main extends base
 	{
 		$cache_ids = array();
 		$sql = 'SELECT steam_steamid
-					FROM ' . $this->table_name . '
-					WHERE steam_querytime < ' . (time() - self::MIN_PRUNE_AGE);
+				FROM ' . $this->table_name . '
+				WHERE steam_querytime < ' . (time() - self::MIN_PRUNE_AGE);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -67,8 +69,8 @@ class main extends base
 
 		$user_ids = array();
 		$sql = 'SELECT user_steamid
-					FROM ' . USERS_TABLE . "
-					WHERE user_steamid <> ''";
+				FROM ' . USERS_TABLE . "
+				WHERE user_steamid <> ''";
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -79,7 +81,7 @@ class main extends base
 		if (count($cache_ids) > 0)
 		{
 			$sql = 'DELETE FROM ' . $this->table_name . '
-						WHERE ' . $this->db->sql_in_set('steam_steamid', $cache_ids);
+					WHERE ' . $this->db->sql_in_set('steam_steamid', $cache_ids);
 			$this->db->sql_query($sql);
 		}
 
@@ -88,6 +90,6 @@ class main extends base
 
 	public function should_run()
 	{
-		return time() - (int) $this->config['stevotvr_steamstatus_cron_last_run'] > self::INTERVAL;
+		return (time() - (int) $this->config['stevotvr_steamstatus_cron_last_run']) > self::INTERVAL;
 	}
 }

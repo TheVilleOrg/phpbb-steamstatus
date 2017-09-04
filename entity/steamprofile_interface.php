@@ -72,7 +72,7 @@ interface steamprofile_interface
 	public function get_querytime();
 
 	/**
-	 * @return bool The data is older than the configured cache time
+	 * @return boolean The data is older than the configured cache time
 	 */
 	public function is_stale();
 

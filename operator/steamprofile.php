@@ -26,7 +26,9 @@ class steamprofile implements steamprofile_interface
 	const VANITY_LOOKUP_CACHE_TIME = 3600;
 
 	/**
-	 * @var array Steam profile status options
+	 * Steam profile status options.
+	 *
+	 * @var array
 	 */
 	static protected $status_text = array(
 		'OFFLINE',
@@ -59,19 +61,19 @@ class steamprofile implements steamprofile_interface
 	protected $db;
 
 	/**
-	 * @var string The name of the database table storing Steam profiles
+	 * The name of the database table storing Steam profiles.
+	 *
+	 * @var string
 	 */
 	protected $table_name;
 
 	/**
-	 * @param \phpbb\cache\service                                      $cache
-	 * @param \pbpbb\config\config                                      $config
-	 * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-	 * @param \phpbb\db\driver\driver_interface                         $db
-	 * @param string                                                    $table_name The name of the
-	 *                                                                              database table
-	 *                                                                              storing Steam
-	 *                                                                              profiles
+	 * @param \phpbb\cache\service              $cache
+	 * @param \pbpbb\config\config              $config
+	 * @param ContainerInterface                $container
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param string                            $table_name The name of the database table storing
+	 *                                                      Steam profiles
 	 */
 	public function __construct(service $cache, config $config, ContainerInterface $container, driver_interface $db, $table_name)
 	{

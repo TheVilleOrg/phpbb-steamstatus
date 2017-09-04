@@ -71,6 +71,7 @@ class version_1_0_0 extends migration
 			array('config.add', array('stevotvr_steamstatus_show_on_profile', 1)),
 			array('config.add', array('stevotvr_steamstatus_show_on_viewtopic', 1)),
 			array('config.add', array('stevotvr_steamstatus_cron_last_run', 0)),
+
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',

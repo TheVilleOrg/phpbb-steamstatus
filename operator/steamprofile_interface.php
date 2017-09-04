@@ -11,7 +11,7 @@
 namespace stevotvr\steamstatus\operator;
 
 /**
- * Steam Status interface interface for the steamprofile operator.
+ * Steam Status interface for the steamprofile operator.
  */
 interface steamprofile_interface
 {
@@ -43,7 +43,7 @@ interface steamprofile_interface
 	 *
 	 * @param string $steamid The SteamID for which to get profile data
 	 *
-	 * @return \stevotvr\steamstatus\entity\steamprofile|false False if there is no cached data
+	 * @return \stevotvr\steamstatus\entity\steamprofile|boolean False if there is no cached data
 	 */
 	public function get_from_cache($steamid);
 
