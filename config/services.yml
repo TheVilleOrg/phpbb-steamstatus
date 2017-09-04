@@ -24,45 +24,16 @@ services:
             - '@language'
             - '@request'
             - '@stevotvr.steamstatus.operator'
-    stevotvr.steamstatus.acp_listener:
-        class: stevotvr\steamstatus\event\acp_listener
-        arguments:
-            - '@config'
-            - '@language'
-            - '@request'
-            - '@stevotvr.steamstatus.operator'
-            - '@template'
-        tags:
-            - { name: event.listener }
-    stevotvr.steamstatus.memberlist_listener:
-        class: stevotvr\steamstatus\event\memberlist_listener
+    stevotvr.steamstatus.listener:
+        class: stevotvr\steamstatus\event\main_listener
         arguments:
             - '@config'
             - '@controller.helper'
-            - '@language'
-            - '@stevotvr.steamstatus.operator'
-            - '@template'
-        tags:
-            - { name: event.listener }
-    stevotvr.steamstatus.ucp_listener:
-        class: stevotvr\steamstatus\event\ucp_listener
-        arguments:
-            - '@config'
             - '@language'
             - '@request'
             - '@stevotvr.steamstatus.operator'
             - '@template'
             - '@user'
-        tags:
-            - { name: event.listener }
-    stevotvr.steamstatus.viewtopic_listener:
-        class: stevotvr\steamstatus\event\viewtopic_listener
-        arguments:
-            - '@config'
-            - '@controller.helper'
-            - '@language'
-            - '@stevotvr.steamstatus.operator'
-            - '@template'
         tags:
             - { name: event.listener }
     stevotvr.steamstatus.cron.task.main:
