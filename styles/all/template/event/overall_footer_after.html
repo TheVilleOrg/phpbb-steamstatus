@@ -1,0 +1,11 @@
+{% if S_STEAMSTATUS %}
+<script type="text/javascript">
+	var steamstatus = {
+		refresh:			{{ STEAMSTATUS_REFRESH }},
+		controller:			'{{ U_STEAMSTATUS_CONTROLLER }}',
+		avatarAlt:			'{{ lang("STEAMSTATUS_AVATAR_ALT")|e("js") }}',
+		profileLinkTitle:	'{{ lang("STEAMSTATUS_PROFILE_LINK")|e("js") }}',
+		AddLinkTitle:		'{{ lang("STEAMSTATUS_ADD_LINK")|e("js") }}'
+	};
+</script>
+{% endif %}

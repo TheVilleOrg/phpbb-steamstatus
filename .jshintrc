@@ -19,6 +19,7 @@
 
   "globals": {
     "JSON": true,
-    "phpbb": true
+    "phpbb": true,
+    "steamstatus": true
   }
 }
