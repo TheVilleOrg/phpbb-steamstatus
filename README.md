@@ -13,7 +13,7 @@ This is a extension for phpBB 3.2 that allows users to add their SteamID to thei
 
 ## Install
 
-1. [Download the latest validated release](https://www.phpbb.com/customise/db/steamstatus/pages/).
+1. [Download the latest validated release](https://www.phpbb.com/customise/db/extension/steamstatus/).
 2. Unzip the downloaded release and copy it to the `ext` directory of your phpBB board.
 3. Navigate in the ACP to `Customise -> Manage extensions`.
 4. Look for `Steam Status` under the Disabled Extensions list, and click its `Enable` link.
