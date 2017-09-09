@@ -2,6 +2,8 @@
 
 <h1>{{ lang('SETTINGS') }}</h1>
 
+	{% if not STEAMSTATUS_API_KEY %}<div class="errorbox warning">{{ lang('ACP_STEAMSTATUS_WARN_KEY_REQUIRED') }}</div>{% endif %}
+
 <!-- IF S_ERROR -->
 	<div class="errorbox">
 		<h3>{{ lang('WARNING') }}</h3>

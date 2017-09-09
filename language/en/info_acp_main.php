@@ -59,5 +59,7 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED'	=> 'There was an error while attempting to verify the Steam Web API Key. Perhaps the Steam Web API is currently unavailable.',
 	'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID'				=> 'The Steam Web API Key is invalid.',
 
+	'ACP_STEAMSTATUS_WARN_KEY_REQUIRED'	=> 'You must provide a valid key in the “Steam Web API Key” field for this extension to work.',
+
 	'ACP_STEAMSTATUS_SETTINGS_SAVED'	=> 'Settings have been saved successfully',
 ));
