@@ -53,19 +53,19 @@ class main_module
 			$refresh_time = $request->variable('steamstatus_refresh_time', 1);
 			$config->set('stevotvr_steamstatus_refresh_time', max($refresh_time, 0));
 
-			$show_on_profile = $request->variable('steamstatus_show_on_profile', '');
+			$show_on_profile = $request->variable('steamstatus_show_on_profile', 0);
 			if (strlen($show_on_profile))
 			{
 				$config->set('stevotvr_steamstatus_show_on_profile', $show_on_profile ? 1 : 0);
 			}
 
-			$show_on_viewtopic = $request->variable('steamstatus_show_on_viewtopic', '');
+			$show_on_viewtopic = $request->variable('steamstatus_show_on_viewtopic', 0);
 			if (strlen($show_on_viewtopic))
 			{
 				$config->set('stevotvr_steamstatus_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
 			}
 
-			$reg_field = $request->variable('steamstatus_reg_field', '');
+			$reg_field = $request->variable('steamstatus_reg_field', 0);
 			if (strlen($reg_field))
 			{
 				$config->set('stevotvr_steamstatus_reg_field', $reg_field ? 1 : 0);
