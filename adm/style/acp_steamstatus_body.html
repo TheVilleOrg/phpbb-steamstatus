@@ -4,12 +4,12 @@
 
 	{% if not STEAMSTATUS_API_KEY %}<div class="errorbox warning">{{ lang('ACP_STEAMSTATUS_WARN_KEY_REQUIRED') }}</div>{% endif %}
 
-<!-- IF S_ERROR -->
+{% if S_ERROR %}
 	<div class="errorbox">
 		<h3>{{ lang('WARNING') }}</h3>
 		<p>{{ ERROR_MSG }}</p>
 	</div>
-<!-- ENDIF -->
+{% endif %}
 
 <form id="acp_board" method="post" action="{{ U_ACTION }}">
 	<fieldset>
