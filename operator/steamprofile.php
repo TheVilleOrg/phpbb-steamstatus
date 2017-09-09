@@ -273,22 +273,20 @@ class steamprofile implements steamprofile_interface
 		}
 
 		$age = time() - (int) $this->config['stevotvr_steamstatus_cache_time'];
+		$not_stale = array();
+
 		$sql = 'SELECT steam_steamid
 					FROM ' . $this->table_name . '
 					WHERE ' . $this->db->sql_in_set('steam_steamid', $steamids) . '
 						AND steam_querytime > ' . $age;
 		$result = $this->db->sql_query($sql);
-		if ($result)
+		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$not_stale = array();
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				$not_stale[] = $row['steam_steamid'];
-			}
-			$stale = array_diff($steamids, $not_stale);
+			$not_stale[] = $row['steam_steamid'];
 		}
+		$this->db->sql_freeresult($result);
 
-		return $stale;
+		return array_diff($steamids, $not_stale);
 	}
 
 	/**

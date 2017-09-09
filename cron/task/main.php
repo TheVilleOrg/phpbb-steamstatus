@@ -66,6 +66,7 @@ class main extends base
 		{
 			$cache_ids[] = $row['steam_steamid'];
 		}
+		$this->db->sql_freeresult($result);
 
 		$user_ids = array();
 		$sql = 'SELECT user_steamid
@@ -76,6 +77,7 @@ class main extends base
 		{
 			$user_ids[] = $row['user_steamid'];
 		}
+		$this->db->sql_freeresult($result);
 
 		$cache_ids = array_diff($cache_ids, $user_ids);
 		if (count($cache_ids) > 0)
