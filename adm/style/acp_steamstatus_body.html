@@ -31,6 +31,10 @@
 			<dt><label for="steamstatus_show_on_viewtopic">{{ lang('ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN') }}</span></dt>
 			<dd><label><input type="radio" id="steamstatus_show_on_viewtopic" name="steamstatus_show_on_viewtopic" value="1"{% if STEAMSTATUS_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="steamstatus_show_on_viewtopic" value="0"{% if not STEAMSTATUS_SHOW_ON_VIEWTOPIC %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
 		</dl>
+		<dl>
+			<dt><label for="steamstatus_reg_field">{{ lang('ACP_STEAMSTATUS_REG_FIELD') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_REG_FIELD_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" id="steamstatus_reg_field" name="steamstatus_reg_field" value="1"{% if STEAMSTATUS_REG_FIELD %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="steamstatus_reg_field" value="0"{% if not STEAMSTATUS_REG_FIELD %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
+		</dl>
 
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;

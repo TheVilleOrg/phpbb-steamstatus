@@ -93,6 +93,10 @@ class main_listener implements EventSubscriberInterface
 			'core.ucp_profile_modify_profile_info'		=> 'ucp_profile_modify_profile_info',
 			'core.ucp_profile_validate_profile_info'	=> 'validate_profile_info',
 
+			'core.ucp_register_data_after'		=> 'ucp_register_data_after',
+			'core.ucp_register_data_before'		=> 'ucp_register_data_before',
+			'core.ucp_register_user_row_after'	=> 'ucp_register_user_row_after',
+
 			'core.viewtopic_cache_user_data'	=> 'viewtopic_cache_user_data',
 			'core.viewtopic_get_post_data'		=> 'viewtopic_get_post_data',
 			'core.viewtopic_modify_post_row'	=> 'viewtopic_modify_post_row',
@@ -228,6 +232,72 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
+	 * Validates and converts the SteamID when the registration form is submitted, and adds it to
+	 * the custom profile fields array. Also populates the template variable.
+	 *
+	 * @param \phpbb\event\data $event The event data
+	 */
+	public function ucp_register_data_after(data $event)
+	{
+		if (!$this->config['stevotvr_steamstatus_reg_field'] || empty($this->config['stevotvr_steamstatus_api_key']))
+		{
+			return;
+		}
+
+		$this->validate_profile_info($event);
+
+		if (isset($event['data']['steamstatus_steamid']))
+		{
+			$cp_data = $event['cp_data'];
+			$cp_data['user_steamid'] = $event['data']['steamstatus_steamid'];
+			$event['cp_data'] = $cp_data;
+		}
+
+		$this->template->assign_var('STEAMSTATUS_STEAMID', $event['data']['steamstatus_steamid']);
+	}
+
+	/**
+	 * Loads the language files and sets the template variables for the user registration page.
+	 *
+	 * @param \phpbb\event\data $event The event data
+	 */
+	public function ucp_register_data_before(data $event)
+	{
+		if (!$this->config['stevotvr_steamstatus_reg_field'] || empty($this->config['stevotvr_steamstatus_api_key']))
+		{
+			return;
+		}
+
+		$this->language->add_lang('ucp_profile', 'stevotvr/steamstatus');
+		$this->template->assign_var('S_STEAMSTATUS_SHOW', true);
+	}
+
+	/**
+	 * Moves the SteamID from the custom profile fields array to the user row array, if present.
+	 *
+	 * @param \phpbb\event\data $event The event data
+	 */
+	public function ucp_register_user_row_after(data $event)
+	{
+		if (isset($event['cp_data']['user_steamid']))
+		{
+			$cp_data = $event['cp_data'];
+
+			$user_row = $event['user_row'];
+			$user_row['user_steamid'] = $cp_data['user_steamid'];
+			$event['user_row'] = $user_row;
+
+			if (!empty($cp_data['user_steamid']))
+			{
+				$this->steamprofile->get_from_api(array($cp_data['user_steamid']));
+			}
+
+			unset($cp_data['user_steamid']);
+			$event['cp_data'] = $cp_data;
+		}
+	}
+
+	/**
 	 * Reads the SteamID when the form is submitted and attempts to convert it to the SteamID64
 	 * format. Produces an error if the conversion fails.
 	 *
@@ -249,13 +319,12 @@ class main_listener implements EventSubscriberInterface
 			if (!isset($steamid64))
 			{
 				$error = $event['error'];
-				$error[] = $steam_error;
+				$error[] = $this->language->lang($steam_error);
 				$event['error'] = $error;
-				return;
 			}
 
 			$data = $event['data'];
-			$data['steamstatus_steamid'] = $steamid64;
+			$data['steamstatus_steamid'] = $steamid64 ? $steamid64 : $steamid;
 			$event['data'] = $data;
 		}
 	}

@@ -49,6 +49,8 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_SHOW_ON_PROFILE_EXPLAIN'	=> 'Enable to have users’ current Steam status displayed on their profile pages.',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC'			=> 'Display on posts',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN'	=> 'Enable to have users’ current Steam status displayed in the user info section of each post.',
+	'ACP_STEAMSTATUS_REG_FIELD'					=> 'Show registration field',
+	'ACP_STEAMSTATUS_REG_FIELD_EXPLAIN'			=> 'Enable to show the SteamID field in the user registration form.',
 
 	'ACP_STEAMSTATUS_ERROR_API_KEY_FORMAT'				=> 'The Steam Web API Key is in an invalid format.',
 	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED'	=> 'There was an error while attempting to verify the Steam Web API Key. Perhaps the Steam Web API is currently unavailable.',

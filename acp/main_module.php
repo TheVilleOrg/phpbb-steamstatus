@@ -65,6 +65,12 @@ class main_module
 				$config->set('stevotvr_steamstatus_show_on_viewtopic', $show_on_viewtopic ? 1 : 0);
 			}
 
+			$reg_field = $request->variable('steamstatus_reg_field', '');
+			if (strlen($reg_field))
+			{
+				$config->set('stevotvr_steamstatus_reg_field', $reg_field ? 1 : 0);
+			}
+
 			if (!count($error))
 			{
 				trigger_error($language->lang('ACP_STEAMSTATUS_SETTINGS_SAVED') . adm_back_link($this->u_action));
@@ -81,6 +87,7 @@ class main_module
 			'STEAMSTATUS_REFRESH_TIME'		=> $config['stevotvr_steamstatus_refresh_time'],
 			'STEAMSTATUS_SHOW_ON_PROFILE'	=> $config['stevotvr_steamstatus_show_on_profile'],
 			'STEAMSTATUS_SHOW_ON_VIEWTOPIC'	=> $config['stevotvr_steamstatus_show_on_viewtopic'],
+			'STEAMSTATUS_REG_FIELD'			=> $config['stevotvr_steamstatus_reg_field'],
 
 			'U_ACTION'	=> $this->u_action,
 		));
