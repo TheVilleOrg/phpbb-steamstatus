@@ -1,16 +1,21 @@
 .steamstatus-container {
-	padding: 6px;
+	position: relative;
+	padding: 16px 6px 0;
+	text-align: right;
 }
 
 .steamstatus {
+	display: inline-block;
 	position: relative;
 	padding: 4px;
 	height: 40px;
+	width: 100%;
 	color: #898989;
 	border: 1px solid #BBB;
 	background-color: #333;
 	max-width: 250px;
 	font-family: Arial, Helvetica, Verdana, sans-serif;
+	text-align: left;
 }
 
 .steamstatus.steam-online {
