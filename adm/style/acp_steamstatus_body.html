@@ -11,6 +11,7 @@
 
 <form id="acp_board" method="post" action="{{ U_ACTION }}">
 	<fieldset>
+		<legend>{{ lang('ACP_STEAMSTATUS_API_SETTINGS') }}</legend>
 		<dl>
 			<dt><label for="steamstatus_api_key">{{ lang('ACP_STEAMSTATUS_API_KEY') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_API_KEY_EXPLAIN') }}</span></dt>
 			<dd><input type="text" id="steamstatus_api_key" name="steamstatus_api_key" size="40" maxlength="255" value="{{ STEAMSTATUS_API_KEY }}" /></dd>
@@ -19,6 +20,9 @@
 			<dt><label for="steamstatus_cache_time">{{ lang('ACP_STEAMSTATUS_CACHE_TIME') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_CACHE_TIME_EXPLAIN') }}</span></dt>
 			<dd><input type="text" id="steamstatus_cache_time" name="steamstatus_cache_time" size="4" maxlength="10" value="{{ STEAMSTATUS_CACHE_TIME }}" /></dd>
 		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ACP_STEAMSTATUS_DISPLAY_SETTINGS') }}</legend>
 		<dl>
 			<dt><label for="steamstatus_refresh_time">{{ lang('ACP_STEAMSTATUS_REFRESH_TIME') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_REFRESH_TIME_EXPLAIN') }}</span></dt>
 			<dd><input type="text" id="steamstatus_refresh_time" name="steamstatus_refresh_time" size="4" maxlength="10" value="{{ STEAMSTATUS_REFRESH_TIME }}" /></dd>

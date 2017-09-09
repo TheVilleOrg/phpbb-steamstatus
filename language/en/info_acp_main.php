@@ -39,6 +39,9 @@ $lang = array_merge($lang, array(
 
 	'ACP_STEAMSTATUS_SETTINGS'	=> 'Settings',
 
+	'ACP_STEAMSTATUS_API_SETTINGS'		=> 'Steam Web API',
+	'ACP_STEAMSTATUS_DISPLAY_SETTINGS'	=> 'Display options',
+
 	'ACP_STEAMSTATUS_API_KEY'					=> 'Steam Web API Key',
 	'ACP_STEAMSTATUS_API_KEY_EXPLAIN'			=> 'The Steam Web API requires the use of an API key. You can obtain your key at <a href="http://steamcommunity.com/dev/apikey" target="_blank">http://steamcommunity.com/dev/apikey</a>.',
 	'ACP_STEAMSTATUS_CACHE_TIME'				=> 'Steam profile cache time',
