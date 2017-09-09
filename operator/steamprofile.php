@@ -46,7 +46,7 @@ class steamprofile implements steamprofile_interface
 	private $cache;
 
 	/**
-	 * @var \pbpbb\config\config
+	 * @var \phpbb\config\config
 	 */
 	protected $config;
 
@@ -69,7 +69,7 @@ class steamprofile implements steamprofile_interface
 
 	/**
 	 * @param \phpbb\cache\service              $cache
-	 * @param \pbpbb\config\config              $config
+	 * @param \phpbb\config\config              $config
 	 * @param ContainerInterface                $container
 	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param string                            $table_name The name of the database table storing

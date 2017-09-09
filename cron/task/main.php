@@ -43,10 +43,10 @@ class main extends base
 	protected $table_name;
 
 	/**
-	 * @param \phpbb\config\config           $config
-	 * @param \phpbb\config\driver_interface $db
-	 * @param string                         $table_name The name of the database table storing
-	 *                                                   Steam profiles
+	 * @param \phpbb\config\config              $config
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param string                            $table_name The name of the database table storing
+	 *                                                      Steam profiles
 	 */
 	public function __construct(config $config, driver_interface $db, $table_name)
 	{
