@@ -24,11 +24,20 @@ services:
             - '@language'
             - '@request'
             - '@stevotvr.steamstatus.operator'
-    stevotvr.steamstatus.listener:
+    stevotvr.steamstatus.listener.main:
         class: stevotvr\steamstatus\event\main_listener
         arguments:
             - '@config'
             - '@controller.helper'
+            - '@language'
+            - '@stevotvr.steamstatus.operator'
+            - '@template'
+        tags:
+            - { name: event.listener }
+    stevotvr.steamstatus.listener.user:
+        class: stevotvr\steamstatus\event\user_listener
+        arguments:
+            - '@config'
             - '@language'
             - '@request'
             - '@stevotvr.steamstatus.operator'
