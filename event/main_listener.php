@@ -133,7 +133,7 @@ class main_listener implements EventSubscriberInterface
 
 				'STEAMSTATUS_STEAMID'	=> $steamid,
 
-				'U_STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
+				'U_STEAMSTATUS_PROFILE'	=> 'https://steamcommunity.com/profiles/' . $steamid,
 			));
 		}
 	}
@@ -241,7 +241,7 @@ class main_listener implements EventSubscriberInterface
 
 				'STEAMSTATUS_STEAMID'	=> $steamid,
 
-				'U_STEAMSTATUS_PROFILE'	=> 'http://steamcommunity.com/profiles/' . $steamid,
+				'U_STEAMSTATUS_PROFILE'	=> 'https://steamcommunity.com/profiles/' . $steamid,
 			));
 		}
 	}

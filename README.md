@@ -18,7 +18,7 @@ This is a extension for phpBB 3.2 that allows users to add their SteamID to thei
 3. Navigate in the ACP to `Customise -> Manage extensions`.
 4. Look for `Steam Status` under the Disabled Extensions list, and click its `Enable` link.
 5. Set up and configure Steam Status by navigating in the ACP to `Extensions` -> `Steam Status`.
-   * Set your `Steam Web API Key` to the your key obtained from http://steamcommunity.com/dev/apikey.
+   * Set your `Steam Web API Key` to the your key obtained from https://steamcommunity.com/dev/apikey.
 
 ## Uninstall
 
@@ -37,4 +37,4 @@ This is a extension for phpBB 3.2 that allows users to add their SteamID to thei
 * Translations should be posted to the [Steam Status topic at phpBB.com](https://www.phpbb.com/customise/db/extension/steamstatus/support/topic/182306). We accept pull requests for translation corrections, but we do not accept pull requests for new translations.
 
 ## License
-[GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
+[GNU General Public License v2](https://opensource.org/licenses/GPL-2.0)

@@ -118,7 +118,7 @@ class steamprofile implements steamprofile_interface
 				'key'		=> $api_key,
 				'steamids'	=> implode(',', $chunk),
 			));
-			$url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
+			$url = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
 			$response = @file_get_contents($url);
 			if ($response)
 			{
@@ -132,8 +132,8 @@ class steamprofile implements steamprofile_interface
 							'steam_steamid'		=> $player->steamid,
 							'steam_querytime'	=> $now,
 							'steam_name'		=> $player->personaname,
-							'steam_profileurl'	=> $player->profileurl,
-							'steam_avatarurl'	=> $player->avatar,
+							'steam_profileurl'	=> str_replace('http://', 'https://', $player->profileurl),
+							'steam_avatarurl'	=> str_replace('http://', 'https://', $player->avatar),
 							'steam_state'		=> self::get_profile_state($player),
 							'steam_status'		=> self::get_profile_status($player),
 							'steam_lastlogoff'	=> $player->lastlogoff,
