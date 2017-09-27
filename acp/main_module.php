@@ -89,11 +89,11 @@ class main_module
 	 * Steam Web API to verify that the key grants access to the methods used by the extension.
 	 *
 	 * @param string $api_key The API key to validate
-	 * @param string &$error  A variable to hold the error message (if any)
+	 * @param array  &$error  An array to hold error strings
 	 *
 	 * @return boolean The key is valid
 	 */
-	static private function validate_key($api_key, &$error)
+	static private function validate_key($api_key, array &$error)
 	{
 		if (!strlen($api_key))
 		{
