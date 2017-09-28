@@ -118,7 +118,8 @@ class steamprofile implements steamprofile_interface
 				'key'		=> $api_key,
 				'steamids'	=> implode(',', $chunk),
 			));
-			$url = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
+			$url = in_array('https', stream_get_wrappers()) ? 'https' : 'http';
+			$url .= '://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
 			$response = @file_get_contents($url);
 			if ($response)
 			{
@@ -205,7 +206,8 @@ class steamprofile implements steamprofile_interface
 					'key'		=> $api_key,
 					'vanityurl'	=> $matches[1],
 				));
-				$url = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
+				$url = in_array('https', stream_get_wrappers()) ? 'https' : 'http';
+				$url .= '://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?' . $query;
 				$result = @file_get_contents($url);
 				if ($result)
 				{

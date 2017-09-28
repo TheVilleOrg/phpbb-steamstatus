@@ -109,7 +109,8 @@ class main_module
 		$query = http_build_query(array(
 			'key'	=> $api_key,
 		));
-		$url = 'https://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/?' . $query;
+		$url = in_array('https', stream_get_wrappers()) ? 'https' : 'http';
+		$url .= '://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/?' . $query;
 		$ctx = stream_context_create(array(
 			'http'	=> array(
 				'ignore_errors'	=> '1',
