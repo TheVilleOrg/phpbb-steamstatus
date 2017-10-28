@@ -123,45 +123,42 @@ class main_module
 			return false;
 		}
 
-		try
+		$meta = stream_get_meta_data($stream);
+		$http_response = (int) substr($meta['wrapper_data'][0], strpos($meta['wrapper_data'][0], ' ') + 1, 3);
+		if ($http_response === 403)
 		{
-			$meta = stream_get_meta_data($stream);
-			$http_response = (int) substr($meta['wrapper_data'][0], strpos($meta['wrapper_data'][0], ' ') + 1, 3);
-			if ($http_response === 403)
-			{
-				$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID';
-				return false;
-			}
-			if ($http_response !== 200)
-			{
-				$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
-				return false;
-			}
+			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID';
+			fclose($stream);
+			return false;
+		}
+		if ($http_response !== 200)
+		{
+			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
+			fclose($stream);
+			return false;
+		}
 
-			$result = json_decode(stream_get_contents($stream));
-			if (!$result || !$result->apilist || !$result->apilist->interfaces)
-			{
-				$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
-				return false;
-			}
+		$result = json_decode(stream_get_contents($stream));
+		fclose($stream);
 
-			foreach ($result->apilist->interfaces as $interface)
+		if (!$result || !$result->apilist || !$result->apilist->interfaces)
+		{
+			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
+			return false;
+		}
+
+		foreach ($result->apilist->interfaces as $interface)
+		{
+			if ($interface->name === 'ISteamUser')
 			{
-				if ($interface->name === 'ISteamUser')
+				foreach ($interface->methods as $method)
 				{
-					foreach ($interface->methods as $method)
+					if ($method->name === 'GetPlayerSummaries' && $method->version === 2)
 					{
-						if ($method->name === 'GetPlayerSummaries' && $method->version === 2)
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}
-		}
-		finally
-		{
-			fclose($stream);
 		}
 
 		$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID';
