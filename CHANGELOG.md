@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 (10/28/17)
+
+* Fixed compatibility with PHP 5.4
+
 ## 1.1.1 (9/28/17)
 
 * Changed all URLs to use https (if available)
