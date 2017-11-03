@@ -288,7 +288,7 @@ class steamprofile implements steamprofile_interface
 			return '';
 		}
 
-		if ($this->data['steam_state'] === self::STATE_INGAME)
+		if ((int) $this->data['steam_state'] === self::STATE_INGAME)
 		{
 			return (string) $this->data['steam_status'];
 		}
