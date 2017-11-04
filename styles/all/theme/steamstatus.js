@@ -5,7 +5,7 @@
 $(function() {
 	$.steamstatusRefresh = function () {
 		var steamids = {};
-		$('.steamstatus').each(function () {
+		$('.steamstatus:visible').each(function () {
 			var steamid = $(this).data('steamid');
 			if (steamid) {
 				steamids[steamid] = true;
