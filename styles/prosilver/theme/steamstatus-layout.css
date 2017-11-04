@@ -1,0 +1,10 @@
+.steamstatus-container {
+	padding: 16px 6px 0;
+	text-align: center;
+}
+
+@media (max-width: 700px) {
+	.steamstatus-container {
+		display: none;
+	}
+}
