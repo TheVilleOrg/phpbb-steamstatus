@@ -202,19 +202,19 @@ class steamprofile implements steamprofile_interface
 
 	public function get_name()
 	{
-		return isset($this->data['steam_name']) ? (string) $this->data['steam_name'] : '';
+		return isset($this->data['steam_name']) ? (string) base64_decode($this->data['steam_name']) : '';
 	}
 
 	public function set_name($name)
 	{
 		$name = (string) $name;
 
-		if (truncate_string($name, 255) !== $name)
+		if (truncate_string($name, 32) !== $name)
 		{
 			throw new unexpected_value('name', '[too_long]');
 		}
 
-		$this->data['steam_name'] = $name;
+		$this->data['steam_name'] = base64_encode($name);
 
 		return $this;
 	}
@@ -298,7 +298,7 @@ class steamprofile implements steamprofile_interface
 
 	public function set_status($status)
 	{
-		$status = (string) $status;
+		$status = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", (string) $status);
 
 		if (truncate_string($status, 255) !== $status)
 		{
