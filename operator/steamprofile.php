@@ -180,7 +180,7 @@ class steamprofile implements steamprofile_interface
 		{
 			$steamid64 = $matches[1];
 		}
-		else if (preg_match('/(?:steamcommunity.com\/id\/)?(\w+)\/?$/', $steamid, $matches) === 1)
+		else if (preg_match('/(?:steamcommunity.com\/id\/)?([^\/]+)\/?$/', $steamid, $matches) === 1)
 		{
 			$cached = $this->cache->get('stevotvr_steamstatus_vanity_' . $matches[1]);
 			if ($cached !== false)
@@ -231,7 +231,7 @@ class steamprofile implements steamprofile_interface
 			}
 		}
 
-		if (!isset($steamid64))
+		if (!isset($steamid64) && empty($error))
 		{
 			$error = 'STEAMSTATUS_ERROR_INVALID_FORMAT';
 		}
