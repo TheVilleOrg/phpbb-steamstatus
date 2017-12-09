@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.4 (12/9/17)
+
+* Fixed errors caused by Unicode characters larger than 3 bytes
+* Fixed some vanity names being erroneously reported as invalid
+* Added French translation
+
 ## 1.1.3 (11/4/17)
 
 * Fixed status text for in-game statuses on the profile page
