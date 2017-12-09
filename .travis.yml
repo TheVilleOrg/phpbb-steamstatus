@@ -1,4 +1,5 @@
 sudo: false
+dist: precise
 
 language: php
 
@@ -6,14 +7,12 @@ matrix:
   include:
     - php: 5.5
       env: DB=none;NOTESTS=1
-      dist: precise
     - php: 5.4
       env: DB=mysqli #myisam
     - php: 5.4
       env: DB=mysql
     - php: 5.4
       env: DB=mariadb
-      dist: precise
     - php: 5.4
       env: DB=postgres
     - php: 5.4
@@ -49,6 +48,9 @@ branches:
     - develop
     - /^develop-.*$/
     - /^\d+(\.\d+)?\.x$/
+
+before_install:
+- composer self-update 1.5.2 --rollback
 
 install:
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
