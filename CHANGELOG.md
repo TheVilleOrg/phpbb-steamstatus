@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5 (1/5/18)
+
+* Fixed malformed profile names when posts are first loaded
+
 ## 1.1.4 (12/9/17)
 
 * Fixed errors caused by Unicode characters larger than 3 bytes
