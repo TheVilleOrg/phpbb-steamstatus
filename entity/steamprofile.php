@@ -104,7 +104,7 @@ class steamprofile implements steamprofile_interface
 		$fields = array(
 			'steam_steamid'		=> 'set_steamid',
 			'steam_querytime'	=> 'integer',
-			'steam_name'		=> 'set_name',
+			'steam_name'		=> 'string',
 			'steam_profileurl'	=> 'set_profile',
 			'steam_avatarurl'	=> 'set_avatar',
 			'steam_state'		=> 'set_state',
