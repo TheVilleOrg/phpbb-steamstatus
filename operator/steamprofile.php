@@ -132,7 +132,7 @@ class steamprofile implements steamprofile_interface
 						$data = array(
 							'steam_steamid'		=> $player->steamid,
 							'steam_querytime'	=> $now,
-							'steam_name'		=> $player->personaname,
+							'steam_name'		=> base64_encode($player->personaname),
 							'steam_profileurl'	=> str_replace('http://', 'https://', $player->profileurl),
 							'steam_avatarurl'	=> str_replace('http://', 'https://', $player->avatar),
 							'steam_state'		=> self::get_profile_state($player),
