@@ -207,12 +207,7 @@ class steamprofile implements steamprofile_interface
 
 	public function set_name($name)
 	{
-		$name = (string) $name;
-
-		if (truncate_string($name, 32) !== $name)
-		{
-			throw new unexpected_value('name', '[too_long]');
-		}
+		$name = truncate_string((string) $name, 32);
 
 		$this->data['steam_name'] = base64_encode($name);
 

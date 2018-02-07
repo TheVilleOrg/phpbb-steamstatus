@@ -92,8 +92,6 @@ interface steamprofile_interface
 	 * @param string $name The profile name
 	 *
 	 * @return steamprofile_interface This object for chaining
-	 *
-	 * @throws \stevotvr\steamstatus\exception\unexpected_value Value is too long
 	 */
 	public function set_name($name);
 
