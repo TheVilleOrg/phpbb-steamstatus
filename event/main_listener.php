@@ -207,9 +207,11 @@ class main_listener implements EventSubscriberInterface
 		$steamid = $event['user_poster_data']['steamid'];
 		if (!empty($steamid))
 		{
-			if (!empty($event['user_poster_data']['steam_steamid']))
+			$data = $event['user_poster_data'];
+			if (!empty($data['steam_steamid']))
 			{
-				$cached = $this->steamprofile->get()->import($event['user_poster_data']);
+				$data['steam_name'] = base64_decode($data['steam_name']);
+				$cached = $this->steamprofile->get()->import($data);
 				$event['post_row'] = array_merge($event['post_row'], array(
 					'S_STEAMSTATUS_SHOW'	=> true,
 

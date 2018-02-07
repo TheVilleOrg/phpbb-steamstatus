@@ -94,6 +94,8 @@ class steamprofile implements steamprofile_interface
 			throw new out_of_bounds('steamid64', $steamid64);
 		}
 
+		$this->data['steam_name'] = base64_decode($this->data['steam_name']);
+
 		return $this;
 	}
 
@@ -104,7 +106,7 @@ class steamprofile implements steamprofile_interface
 		$fields = array(
 			'steam_steamid'		=> 'set_steamid',
 			'steam_querytime'	=> 'integer',
-			'steam_name'		=> 'string',
+			'steam_name'		=> 'set_name',
 			'steam_profileurl'	=> 'set_profile',
 			'steam_avatarurl'	=> 'set_avatar',
 			'steam_state'		=> 'set_state',
@@ -142,7 +144,7 @@ class steamprofile implements steamprofile_interface
 
 		$data = array(
 			'steam_querytime'	=> $this->data['steam_querytime'],
-			'steam_name'		=> $this->data['steam_name'],
+			'steam_name'		=> base64_encode($this->data['steam_name']),
 			'steam_profileurl'	=> $this->data['steam_profileurl'],
 			'steam_avatarurl'	=> $this->data['steam_avatarurl'],
 			'steam_state'		=> $this->data['steam_state'],
@@ -202,14 +204,14 @@ class steamprofile implements steamprofile_interface
 
 	public function get_name()
 	{
-		return isset($this->data['steam_name']) ? (string) base64_decode($this->data['steam_name']) : '';
+		return isset($this->data['steam_name']) ? (string) $this->data['steam_name'] : '';
 	}
 
 	public function set_name($name)
 	{
 		$name = truncate_string((string) $name, 32);
 
-		$this->data['steam_name'] = base64_encode($name);
+		$this->data['steam_name'] = $name;
 
 		return $this;
 	}
