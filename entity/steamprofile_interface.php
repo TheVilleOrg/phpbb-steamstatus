@@ -104,8 +104,6 @@ interface steamprofile_interface
 	 * @param string $profile The profile URL
 	 *
 	 * @return steamprofile_interface This object for chaining
-	 *
-	 * @throws \stevotvr\steamstatus\exception\unexpected_value Value is too long
 	 */
 	public function set_profile($profile);
 
@@ -118,8 +116,6 @@ interface steamprofile_interface
 	 * @param string $avatar The avatar URL
 	 *
 	 * @return steamprofile_interface This object for chaining
-	 *
-	 * @throws \stevotvr\steamstatus\exception\unexpected_value Value is too long
 	 */
 	public function set_avatar($avatar);
 
@@ -151,8 +147,6 @@ interface steamprofile_interface
 	 * @param string $status The current status of the profile
 	 *
 	 * @return steamprofile_interface This object for chaining
-	 *
-	 * @throws \stevotvr\steamstatus\exception\unexpected_value Value is too long
 	 */
 	public function set_status($status);
 

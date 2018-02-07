@@ -223,12 +223,7 @@ class steamprofile implements steamprofile_interface
 
 	public function set_profile($profile)
 	{
-		$profile = (string) $profile;
-
-		if (truncate_string($profile, 255) !== $profile)
-		{
-			throw new unexpected_value('profile', '[too_long]');
-		}
+		$profile = truncate_string((string) $profile, 255);
 
 		$this->data['steam_profileurl'] = $profile;
 
@@ -242,12 +237,7 @@ class steamprofile implements steamprofile_interface
 
 	public function set_avatar($avatar)
 	{
-		$avatar = (string) $avatar;
-
-		if (truncate_string($avatar, 255) !== $avatar)
-		{
-			throw new unexpected_value('avatar', '[too_long]');
-		}
+		$avatar = truncate_string((string) $avatar, 255);
 
 		$this->data['steam_avatarurl'] = $avatar;
 
@@ -296,11 +286,7 @@ class steamprofile implements steamprofile_interface
 	public function set_status($status)
 	{
 		$status = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", (string) $status);
-
-		if (truncate_string($status, 255) !== $status)
-		{
-			throw new unexpected_value('status', '[too_long]');
-		}
+		$status = truncate_string($status, 255);
 
 		$this->data['steam_status'] = $status;
 
