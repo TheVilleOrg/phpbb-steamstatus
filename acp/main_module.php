@@ -30,6 +30,11 @@ class main_module
 		$this->tpl_name = 'acp_steamstatus_body';
 		$this->page_title = 'ACP_STEAMSTATUS_TITLE';
 
+		if (!ini_get('allow_url_fopen'))
+		{
+			trigger_error('ACP_STEAMSTATUS_ERROR_URL_FOPEN', E_USER_WARNING);
+		}
+
 		add_form_key('stevotvr_steamstatus_settings');
 
 		$error = array();

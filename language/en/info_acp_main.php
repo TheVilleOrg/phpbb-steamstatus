@@ -56,6 +56,7 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_REG_FIELD_EXPLAIN'			=> 'Enable to show the SteamID field in the user registration form.',
 
 	'ACP_STEAMSTATUS_ERROR_API_KEY_FORMAT'				=> 'The Steam Web API Key is in an invalid format.',
+	'ACP_STEAMSTATUS_ERROR_URL_FOPEN'					=> 'This extension requires allow_url_fopen to be enabled in your PHP configuration.',
 	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED'	=> 'There was an error while attempting to verify the Steam Web API Key. Perhaps the Steam Web API is currently unavailable.',
 	'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID'				=> 'The Steam Web API Key is invalid.',
 
