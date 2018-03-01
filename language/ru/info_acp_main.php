@@ -43,7 +43,7 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_DISPLAY_SETTINGS'	=> 'Настройки отображения',
 
 	'ACP_STEAMSTATUS_API_KEY'					=> 'Ключ Steam Web API',
-	'ACP_STEAMSTATUS_API_KEY_EXPLAIN'			=> 'The Steam Web API requires the use of an API key. You can obtain your key at <a href="https://steamcommunity.com/dev/apikey" target="_blank">https://steamcommunity.com/dev/apikey</a>.',
+	'ACP_STEAMSTATUS_API_KEY_EXPLAIN'			=> 'Для работы расширения требуется ключ Steam Web API. Вы можете получить его на странице <a href="https://steamcommunity.com/dev/apikey" target="_blank">https://steamcommunity.com/dev/apikey</a>.',
 	'ACP_STEAMSTATUS_CACHE_TIME'				=> 'Время кэширования профиля',
 	'ACP_STEAMSTATUS_CACHE_TIME_EXPLAIN'		=> 'Сколько времени (в секундах) нужно хранить информацию о профиле в кэше. Увеличьте для снижения траффика на нагруженных сайтах.',
 	'ACP_STEAMSTATUS_REFRESH_TIME'				=> 'Интервал перед обновлением статуса профиля',
