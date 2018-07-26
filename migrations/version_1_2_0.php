@@ -25,14 +25,14 @@ class version_1_2_0 extends migration
 	public function update_data()
 	{
 		return array(
-            array('module.add', array(
-                'ucp',
-                'UCP_PROFILE',
-                array(
-                    'module_basename'	=> '\stevotvr\steamstatus\ucp\main_module',
-                    'modes'				=> array('main'),
-                ),
-            )),
-        );
+			array('module.add', array(
+				'ucp',
+				'UCP_PROFILE',
+				array(
+					'module_basename'   => '\stevotvr\steamstatus\ucp\main_module',
+					'modes'             => array('main'),
+				),
+			)),
+		);
 	}
 }
