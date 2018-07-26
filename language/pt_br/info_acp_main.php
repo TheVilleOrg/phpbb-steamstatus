@@ -52,8 +52,6 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_SHOW_ON_PROFILE_EXPLAIN'	=> 'Ative para ter os status do steam atual dos usuários exibidos em suas páginas de perfil.',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC'			=> 'Exibir nos posts',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN'	=> 'Ative para ter os status do steam atual dos usuários exibidos na seção de informações do usuário de cada post.',
-	'ACP_STEAMSTATUS_REG_FIELD'					=> 'Mostrar campo de registro',
-	'ACP_STEAMSTATUS_REG_FIELD_EXPLAIN'			=> 'Ative para mostrar o campo SteamID no formulário de registro do usuário.',
 
 	'ACP_STEAMSTATUS_ERROR_API_KEY_FORMAT'				=> 'A chave Steam Web API está em um formato inválido.',
 	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED'	=> 'Ocorreu um erro ao tentar verificar a chave Steam Web API. Talvez a Steam Web API esteja indisponível no momento.',

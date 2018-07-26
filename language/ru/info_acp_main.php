@@ -52,8 +52,6 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_SHOW_ON_PROFILE_EXPLAIN'	=> 'Включите эту опцию что бы показывать текущий статус профиля Steam на страницах профилей пользователей.',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC'			=> 'Показывать в сообщениях',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN'	=> 'Включите эту опцию что бы показывать информацию профиля Steam возле каждого сообщения пользователя на форуме.',
-	'ACP_STEAMSTATUS_REG_FIELD'					=> 'Показывать поле для ввода при регистрации пользователей',
-	'ACP_STEAMSTATUS_REG_FIELD_EXPLAIN'			=> 'Включите эту опцию что бы показывать поле для ввода SteamID на странице регистрации пользователей.',
 
 	'ACP_STEAMSTATUS_ERROR_API_KEY_FORMAT'				=> 'Введен ключ Steam Web API неверного формата.',
 	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED'	=> 'При попытке проверки ключа Steam Web API произошла ошибка. Возможно, Steam Web API сейчас недоступен.',

@@ -52,8 +52,6 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_SHOW_ON_PROFILE_EXPLAIN'	=> 'Activer pour afficher l’état Steam des utilisateurs sur leur page de profil.',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC'			=> 'Afficher sur les messages',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN'	=> 'Activer pour afficher l’état Steam des utilisateurs dans la section d’informations utilisateur de chaque message.',
-	'ACP_STEAMSTATUS_REG_FIELD'					=> 'Afficher le champ d’enregistrement',
-	'ACP_STEAMSTATUS_REG_FIELD_EXPLAIN'			=> 'Activer pour afficher le champ SteamID sur le formulaire d’inscription de l’utilisateur.',
 
 	'ACP_STEAMSTATUS_ERROR_API_KEY_FORMAT'				=> 'L’API Steam Web est dans un format invalide.',
 	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED'	=> 'Une erreur s’est produite lors de la tentative de vérification de la clé API Steam Web. Peut-être que l’API Steam Web est actuellement indisponible.',
