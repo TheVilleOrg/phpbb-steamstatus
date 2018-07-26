@@ -10,7 +10,6 @@
 
 namespace stevotvr\steamstatus\operator;
 
-use phpbb\controller\helper;
 use phpbb\request\request_interface;
 use phpbb\user;
 use stevotvr\steamstatus\lib\LightOpenID;
