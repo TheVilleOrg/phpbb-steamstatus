@@ -89,11 +89,6 @@ class openid implements openid_interface
 	{
 		$this->identity = null;
 
-		if ($this->request->raw_variable('openid_return_to', '') !== $this->return_url)
-		{
-			return false;
-		}
-
 		$signed = $this->request->raw_variable('openid_signed', '');
 		$params = array(
 			'openid.ns'				=> self::OPENID_NS,
