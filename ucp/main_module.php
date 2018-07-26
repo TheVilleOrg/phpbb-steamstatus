@@ -91,6 +91,9 @@ class main_module
 		));
 	}
 
+	/**
+	 * Handle the disconnect action.
+	 */
 	private function disconnect()
 	{
 		if (!confirm_box(true))
