@@ -21,23 +21,49 @@ class main_module
 	public $tpl_name;
 	public $page_title;
 
+	/**
+	 * @var \phpbb\db\driver\driver_interface
+	 */
+	protected $db;
+
+	/**
+	 * @var \phpbb\language\language
+	 */
+	protected $language;
+
+	/**
+	 * @var \phpbb\request\request_interface
+	 */
+	protected $request;
+
+	/**
+	 * @var \phpbb\template\template
+	 */
+	protected $template;
+
+	/**
+	 * @var \phpbb\user
+	 */
+	protected $user;
+
 	public function main($id, $mode)
 	{
 		global $phpbb_container;
-		$db = $phpbb_container->get('dbal.conn');
-		$openid = $phpbb_container->get('stevotvr.steamstatus.operator.openid');
-		$template = $phpbb_container->get('template');
-		$user = $phpbb_container->get('user');
-		$request = $phpbb_container->get('request');
+		$this->db = $phpbb_container->get('dbal.conn');
+		$this->language = $phpbb_container->get('language');
+		$this->request = $phpbb_container->get('request');
+		$this->template = $phpbb_container->get('template');
+		$this->user = $phpbb_container->get('user');
 
 		$this->tpl_name = 'ucp_steamstatus_body';
 		$this->page_title = 'UCP_STEAMSTATUS_TITLE';
 
-		if ($request->variable('action', '') === 'disconnect')
+		if ($this->request->variable('action', '') === 'disconnect')
 		{
 			$this->disconnect();
 		}
 
+		$openid = $phpbb_container->get('stevotvr.steamstatus.operator.openid');
 		$openid_mode = $openid->get_mode();
 		if ($openid_mode && $openid_mode !== 'cancel')
 		{
@@ -48,17 +74,17 @@ class main_module
 				if (!empty($steamid64))
 				{
 					$sql = 'UPDATE ' . USERS_TABLE . "
-							SET user_steamid = '" . $db->sql_escape($steamid64) . "'
-							WHERE user_id = " . (int) $user->data['user_id'];
-					$db->sql_query($sql);
+							SET user_steamid = '" . $this->db->sql_escape($steamid64) . "'
+							WHERE user_id = " . (int) $this->user->data['user_id'];
+					$this->db->sql_query($sql);
 				}
 			}
 
 			redirect($this->u_action);
 		}
 
-		$template->assign_vars(array(
-			'STEAMSTATUS_STEAMID'	=> $user->data['user_steamid'],
+		$this->template->assign_vars(array(
+			'STEAMSTATUS_STEAMID'	=> $this->user->data['user_steamid'],
 
 			'U_ACTION'				=> $this->u_action,
 			'U_STEAMSTATUS_OPENID'	=> $openid->get_url(),
@@ -67,27 +93,21 @@ class main_module
 
 	private function disconnect()
 	{
-		global $phpbb_container;
-		$language = $phpbb_container->get('language');
-		$db = $phpbb_container->get('dbal.conn');
-		$user = $phpbb_container->get('user');
-		$request = $phpbb_container->get('request');
-
 		if (!confirm_box(true))
 		{
 			$hidden_fields = build_hidden_fields(array(
 				'action'	=> 'disconnect',
 			));
-			confirm_box(false, $language->lang('UCP_STEAMSTATUS_DISCONNECT_CONFIRM'), $hidden_fields);
+			confirm_box(false, $this->language->lang('UCP_STEAMSTATUS_DISCONNECT_CONFIRM'), $hidden_fields);
 			return;
 		}
 
 		$sql = 'UPDATE ' . USERS_TABLE . "
 				SET user_steamid = ''
-				WHERE user_id = " . (int) $user->data['user_id'];
-		$db->sql_query($sql);
+				WHERE user_id = " . (int) $this->user->data['user_id'];
+		$this->db->sql_query($sql);
 
-		if ($request->is_ajax())
+		if ($this->request->is_ajax())
 		{
 		    $json_response = new json_response();
 		    $json_response->send(array(
