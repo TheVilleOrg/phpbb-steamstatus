@@ -41,4 +41,5 @@ $lang = array_merge($lang, array(
 	'UCP_STEAMSTATUS_STEAMID'				=> 'Linked SteamID',
 	'UCP_STEAMSTATUS_DISCONNECT'			=> 'Unlink',
 	'UCP_STEAMSTATUS_DISCONNECT_CONFIRM'	=> 'Your forum account will be unlinked from your Steam account.',
+	'UCP_STEAMSTATUS_OPENID_ERROR'			=> 'Received error: %s',
 ));

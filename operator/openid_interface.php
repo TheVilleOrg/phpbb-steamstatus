@@ -41,4 +41,9 @@ interface openid_interface
 	 * @return string The 64 bit SteamID
 	 */
 	public function get_id();
+
+	/**
+	 * @return string The authentication error
+	 */
+	public function get_error();
 }

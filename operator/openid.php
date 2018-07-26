@@ -68,7 +68,7 @@ class openid implements openid_interface
 
 	public function get_mode()
 	{
-		return $this->request->raw_variable('openid_mode', '');
+		return $this->request->variable('openid_mode', '');
 	}
 
 	public function get_url()
@@ -143,5 +143,10 @@ class openid implements openid_interface
 		}
 
 		return '';
+	}
+
+	public function get_error()
+	{
+		return $this->request->variable('openid_error', '');
 	}
 }

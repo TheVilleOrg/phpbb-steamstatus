@@ -46,6 +46,13 @@ class main_module
 	 */
 	protected $user;
 
+	/**
+	 * List of error messages.
+	 *
+	 * @var array
+	 */
+	private $error = array();
+
 	public function main($id, $mode)
 	{
 		global $phpbb_container;
@@ -65,7 +72,11 @@ class main_module
 
 		$openid = $phpbb_container->get('stevotvr.steamstatus.operator.openid');
 		$openid_mode = $openid->get_mode();
-		if ($openid_mode && $openid_mode !== 'cancel')
+		if ($openid_mode === 'error')
+		{
+			$this->error[] = $this->language->lang('UCP_STEAMSTATUS_OPENID_ERROR', $openid->get_error());
+		}
+		elseif ($openid_mode && $openid_mode !== 'cancel')
 		{
 			$openid->set_return_url(generate_board_url() . '/' .  $this->u_action);
 			if ($openid->validate())
@@ -88,6 +99,7 @@ class main_module
 
 		$steamid = $this->user->data['user_steamid'];
 		$this->template->assign_vars(array(
+			'ERROR'					=> implode('<br>', $this->error),
 			'STEAMSTATUS_STEAMID'	=> $steamid,
 
 			'U_ACTION'					=> $this->u_action,
