@@ -124,6 +124,6 @@ class openid implements openid_interface
 			$this->request->disable_super_globals();
 		}
 
-		return $ret;;
+		return $ret;
 	}
 }
