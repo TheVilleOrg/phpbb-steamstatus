@@ -35,6 +35,9 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'UCP_STEAMSTATUS_TITLE'		=> 'Connect Steam account',
-	'UCP_STEAMSTATUS_NOTICE'	=> 'Connect your Steam account to your forum account to enable your Steam status to be displayed on your profile.',
+	'UCP_STEAMSTATUS_TITLE'		=> 'Link Steam account',
+	'UCP_STEAMSTATUS_NOTICE'	=> 'Link your Steam account to your forum account to enable your Steam status to be displayed on your profile.',
+
+	'UCP_STEAMSTATUS_DISCONNECT'			=> 'Unlink',
+	'UCP_STEAMSTATUS_DISCONNECT_CONFIRM'	=> 'Your forum account will be unlinked from your Steam account.',
 ));

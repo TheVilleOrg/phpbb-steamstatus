@@ -8,9 +8,20 @@
 
 	{% if S_ERROR %}<p class="error">{{ ERROR }}</p>{% endif %}
 
+	{% if STEAMSTATUS_STEAMID %}
+
 	<p>{{ STEAMSTATUS_STEAMID }}</p>
 
+	<form action="{{ U_ACTION }}" method="POST" data-ajax="true" data-refresh="true">
+		<input type="hidden" name="action" value="disconnect">
+		<input type="submit" name="submit" value="{{ lang('UCP_STEAMSTATUS_DISCONNECT') }}">
+	</form>
+
+	{% else %}
+
 	<a href="{{ U_STEAMSTATUS_OPENID }}"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" alt=""></a>
+
+	{% endif %}
 
 	</div>
 </div>
