@@ -1,0 +1,18 @@
+{% include 'ucp_header.html' %}
+
+<h2>{{ lang('UCP_STEAMSTATUS_TITLE') }}</h2>
+
+<div class="panel">
+	<div class="inner">
+	<p>{{ lang('UCP_STEAMSTATUS_NOTICE') }}</p>
+
+	{% if S_ERROR %}<p class="error">{{ ERROR }}</p>{% endif %}
+
+	<p>{{ STEAMSTATUS_STEAMID }}</p>
+
+	<a href="{{ U_STEAMSTATUS_OPENID }}"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" alt=""></a>
+
+	</div>
+</div>
+
+{% include 'ucp_footer.html' %}

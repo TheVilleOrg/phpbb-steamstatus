@@ -35,12 +35,6 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'STEAMSTATUS_TITLE'	=> 'État Steam',
-
-	'STEAMSTATUS_STEAMID'			=> 'SteamID',
-	'STEAMSTATUS_STEAMID_EXPLAIN'	=> 'Entrez votre SteamID, SteamID3, SteamID64, ou l’url personnalisée Steam Community pour afficher votre état Steam sur votre profil.',
-
-	'STEAMSTATUS_ERROR_INVALID_FORMAT'	=> 'Le champ “SteamID” n’est pas dans un format reconnu.',
-	'STEAMSTATUS_ERROR_NAME_NOT_FOUND'	=> 'Le nom entré dans le champs “SteamID” n’a pas été trouvé',
-	'STEAMSTATUS_ERROR_LOOKUP_FAILED'	=> 'Nous n’avons pas pu rechercher votre identifiant Steam en fonction de votre URL personnalisée. Vous pouvez utiliser un autre format que votre URL personnalisée ou réessayer plus tard.',
+	'UCP_STEAMSTATUS_TITLE'		=> 'Connect Steam account',
+	'UCP_STEAMSTATUS_NOTICE'	=> 'Connect your Steam account to your forum account to enable your Steam status to be displayed on your profile.',
 ));
