@@ -10,12 +10,17 @@
 
 	{% if STEAMSTATUS_STEAMID %}
 
-	<p>{{ STEAMSTATUS_STEAMID }}</p>
+	<hr>
 
 	<form action="{{ U_ACTION }}" method="POST" data-ajax="true" data-refresh="true">
 		<input type="hidden" name="action" value="disconnect">
-		<input type="submit" name="submit" value="{{ lang('UCP_STEAMSTATUS_DISCONNECT') }}">
+		{{ lang('UCP_STEAMSTATUS_STEAMID') ~ lang('COLON') }} {{ STEAMSTATUS_STEAMID }}
+		<input class="button2" type="submit" name="submit" value="{{ lang('UCP_STEAMSTATUS_DISCONNECT') }}">
 	</form>
+
+	<br>
+
+	{% include '@stevotvr_steamstatus/steamstatus.html' %}
 
 	{% else %}
 

@@ -81,14 +81,67 @@ class main_module
 			}
 
 			redirect($this->u_action);
+			return;
 		}
 
-		$this->template->assign_vars(array(
-			'STEAMSTATUS_STEAMID'	=> $this->user->data['user_steamid'],
+		$helper = $phpbb_container->get('controller.helper');
 
-			'U_ACTION'				=> $this->u_action,
-			'U_STEAMSTATUS_OPENID'	=> $openid->get_url(),
+		$steamid = $this->user->data['user_steamid'];
+		$this->template->assign_vars(array(
+			'STEAMSTATUS_STEAMID'	=> $steamid,
+
+			'U_ACTION'					=> $this->u_action,
+			'U_STEAMSTATUS_OPENID'		=> $openid->get_url(),
+			'U_STEAMSTATUS_CONTROLLER'	=> $helper->route('stevotvr_steamstatus_route'),
 		));
+
+		if (!empty($steamid))
+		{
+			$config = $phpbb_container->get('config');
+			$steamprofile = $phpbb_container->get('stevotvr.steamstatus.operator');
+
+			$this->language->add_lang('common', 'stevotvr/steamstatus');
+			$this->template->assign_vars(array(
+				'S_STEAMSTATUS'	=> true,
+
+				'STEAMSTATUS_REFRESH'	=> $config['stevotvr_steamstatus_refresh_time'] * 60000,
+			));
+
+			$cached = $steamprofile->get_from_cache($steamid);
+			if ($cached)
+			{
+				$this->template->assign_vars(array(
+					'S_STEAMSTATUS_SHOW'	=> true,
+
+					'STEAMSTATUS_STEAMID'		=> $steamid,
+					'STEAMSTATUS_NAME'			=> $cached->get_name(),
+					'STEAMSTATUS_AVATAR_ALT'	=> $this->language->lang('STEAMSTATUS_AVATAR_ALT', $cached->get_name()),
+					'STEAMSTATUS_PROFILE_LINK'	=> $this->language->lang('STEAMSTATUS_PROFILE_LINK', $cached->get_name()),
+					'STEAMSTATUS_ADD_LINK'		=> $this->language->lang('STEAMSTATUS_ADD_LINK', $cached->get_name()),
+
+					'U_STEAMSTATUS_PROFILE'	=> $cached->get_profile(),
+					'U_STEAMSTATUS_AVATAR'	=> $cached->get_avatar(),
+				));
+
+				if (!$cached->is_stale())
+				{
+					$this->template->assign_vars(array(
+						'S_STEAMSTATUS_LOADED'	=> true,
+
+						'STEAMSTATUS_STATE'		=> $cached->get_state(),
+						'STEAMSTATUS_STATUS'	=> $cached->get_localized_status(),
+					));
+				}
+
+				return;
+			}
+
+			$this->template->assign_vars(array(
+				'S_STEAMSTATUS_SHOW'	=> true,
+
+				'U_STEAMSTATUS_PROFILE'	=> 'https://steamcommunity.com/profiles/' . $steamid,
+			));
+		}
 	}
 
 	/**
