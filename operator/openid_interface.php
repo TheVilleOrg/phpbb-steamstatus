@@ -16,11 +16,9 @@ namespace stevotvr\steamstatus\operator;
 interface openid_interface
 {
 	/**
-	 * Initialize the OpenID client.
-	 *
-	 * @param string $url The return URL
+	 * @param string $url The URL to return to from the Steam site
 	 */
-	public function init($url);
+	public function set_return_url($url);
 
 	/**
 	 * @return string The current mode of the client

@@ -19,6 +19,7 @@ services:
     stevotvr.steamstatus.operator.openid:
         class: stevotvr\steamstatus\operator\openid
         arguments:
+            - '@config'
             - '@request'
             - '@user'
     stevotvr.steamstatus.controller:

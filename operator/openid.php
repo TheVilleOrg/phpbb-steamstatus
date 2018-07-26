@@ -10,120 +10,143 @@
 
 namespace stevotvr\steamstatus\operator;
 
+use phpbb\config\config;
 use phpbb\request\request_interface;
 use phpbb\user;
-use stevotvr\steamstatus\lib\LightOpenID;
 
 /**
  * Steam Status openid operator for interaction with Steam OpenID.
  */
 class openid implements openid_interface
 {
+	const OPENID_NS = 'http://specs.openid.net/auth/2.0';
+	const OPENID_URL = 'https://steamcommunity.com/openid/';
+
 	/**
 	 * @var \phpbb\request\request_interface
 	 */
-	private $request;
+	protected $request;
 
 	/**
-	 * @var \stevotvr\steamstatus\lib\LightOpenID
+	 * The root URL of the server.
+	 *
+	 * @var string
 	 */
-	private $openid;
+	protected $trust_root;
 
 	/**
+	 * The identity string returned by the Steam OpenID provider.
+	 *
+	 * @var string
+	 */
+	protected $identity;
+
+	/**
+	 * The URL to return to.
+	 *
+	 * @var string
+	 */
+	protected $return_url;
+
+	/**
+	 * @param \phpbb\config\config             $config
 	 * @param \phpbb\request\request_interface $request
 	 * @param \phpbb\user                      $user
 	 */
-	public function __construct(request_interface $request, user $user)
+	public function __construct(config $config, request_interface $request, user $user)
 	{
 		$this->request = $request;
 
-		$this->init(generate_board_url() . '/' .  $user->page['page']);
+		$this->trust_root = $config['server_protocol'] . $config['server_name'];
+		$this->return_url = generate_board_url() . '/' .  $user->page['page'];
 	}
 
-	public function init($url)
+	public function set_return_url($url)
 	{
-		return $this->wrap('_init', $url);
+		$this->return_url = $url;
 	}
 
 	public function get_mode()
 	{
-		return $this->openid->mode;
+		return $this->request->raw_variable('openid_mode', '');
 	}
 
 	public function get_url()
 	{
-		return $this->wrap('_get_url');
+		$params = http_build_query(array(
+			'openid.ns'			=> self::OPENID_NS,
+			'openid.mode'		=> 'checkid_setup',
+			'openid.return_to'	=> $this->return_url,
+			'openid.realm'		=> $this->trust_root,
+			'openid.identity'	=> self::OPENID_NS . '/identifier_select',
+			'openid.claimed_id'	=> self::OPENID_NS . '/identifier_select',
+		));
+
+		return self::OPENID_URL . 'login?' . $params;
 	}
 
 	public function validate()
 	{
-		return $this->wrap('_validate');
+		$this->identity = null;
+
+		if ($this->request->raw_variable('openid_return_to', '') !== $this->return_url)
+		{
+			return false;
+		}
+
+		$signed = $this->request->raw_variable('openid_signed', '');
+		$params = array(
+			'openid.ns'				=> self::OPENID_NS,
+			'openid.mode'			=> 'check_authentication',
+			'openid.assoc_handle'	=> $this->request->raw_variable('openid_assoc_handle', ''),
+			'openid.signed'			=> $signed,
+			'openid.sig'			=> $this->request->raw_variable('openid_sig', ''),
+		);
+		foreach (explode(',', $signed) as $item)
+		{
+			$params['openid.' . $item] = $this->request->raw_variable('openid_' . $item, '');
+		}
+
+		$ctx = stream_context_create(array(
+			'http'	=> array(
+				'method'		=> 'POST',
+				'header'		=> 'Content-type: application/x-www-form-urlencoded',
+				'content'		=> http_build_query($params),
+				'ignore_errors'	=> true,
+			),
+		));
+
+		$fp = fopen(self::OPENID_URL . 'login', 'r', false, $ctx);
+		if ($fp === false)
+		{
+			return false;
+		}
+
+		$response = fread($fp, 1024);
+		fclose($fp);
+
+		$valid = preg_match('/is_valid\s*:\s*true/i', $response);
+
+		if ($valid)
+		{
+			$this->identity = $this->request->variable('openid_claimed_id', '');
+		}
+
+		return $valid;
 	}
 
 	public function get_id()
 	{
-		$id = $this->openid->identity;
-		if (preg_match('/steamcommunity.com\/openid\/id\/(\d+)\/?$/', $id, $matches) === 1)
+		if (!$this->identity)
+		{
+			return '';
+		}
+
+		if (preg_match('/steamcommunity.com\/openid\/id\/(\d+)\/?$/', $this->identity, $matches) === 1)
 		{
 			return $matches[1];
 		}
 
 		return '';
-	}
-
-	/**
-	 * Internal init.
-	 *
-	 * @param string $url The return URL
-	 */
-	private function _init($url)
-	{
-		$this->openid = new LightOpenID($url);
-		$this->openid->identity = 'https://steamcommunity.com/openid/?l=english';
-	}
-
-	/**
-	 * Internal get_url.
-	 *
-	 * @return string The authentication URL
-	 */
-	private function _get_url()
-	{
-		return $this->openid->authUrl();
-	}
-
-	/**
-	 * Internal validate.
-	 *
-	 * @return boolean The account is valid
-	 */
-	private function _validate()
-	{
-		return $this->openid->validate();
-	}
-
-	/**
-	 * Wrapper for methods to be run with super globals enabled.
-	 *
-	 * @param string $fn      The name of the method to run
-	 * @param mixed  $arg,... Arguments to pass
-	 *
-	 * @return mixed Return value if any
-	 */
-	private function wrap($fn)
-	{
-		$superglobals_disabled = $this->request->super_globals_disabled();
-		$this->request->enable_super_globals();
-
-		$params = func_get_args();
-		array_shift($params);
-		$ret = call_user_func_array(array($this, $fn), $params);
-
-		if ($superglobals_disabled)
-		{
-			$this->request->disable_super_globals();
-		}
-
-		return $ret;
 	}
 }

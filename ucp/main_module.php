@@ -30,6 +30,7 @@ class main_module
 		$this->tpl_name = 'ucp_steamstatus_body';
 		$this->page_title = 'UCP_STEAMSTATUS_TITLE';
 
+		$openid->set_return_url(generate_board_url() . '/' .  $this->u_action);
 		$openid_mode = $openid->get_mode();
 		if ($openid_mode && $openid_mode !== 'cancel')
 		{
