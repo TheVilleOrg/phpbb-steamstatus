@@ -97,6 +97,7 @@ class main_module
 
 		$helper = $phpbb_container->get('controller.helper');
 
+		$config = $phpbb_container->get('config');
 		$steamid = $this->user->data['user_steamid'];
 		$this->template->assign_vars(array(
 			'ERROR'					=> implode('<br>', $this->error),
@@ -104,12 +105,15 @@ class main_module
 
 			'U_ACTION'					=> $this->u_action,
 			'U_STEAMSTATUS_OPENID'		=> $openid->get_url(),
-			'U_STEAMSTATUS_CONTROLLER'	=> $helper->route('stevotvr_steamstatus_route'),
 		));
+
+		if (empty($config['stevotvr_steamstatus_api_key']))
+		{
+			return;
+		}
 
 		if (!empty($steamid))
 		{
-			$config = $phpbb_container->get('config');
 			$steamprofile = $phpbb_container->get('stevotvr.steamstatus.operator');
 
 			$this->language->add_lang('common', 'stevotvr/steamstatus');
@@ -117,6 +121,8 @@ class main_module
 				'S_STEAMSTATUS'	=> true,
 
 				'STEAMSTATUS_REFRESH'	=> $config['stevotvr_steamstatus_refresh_time'] * 60000,
+
+				'U_STEAMSTATUS_CONTROLLER'	=> $helper->route('stevotvr_steamstatus_route'),
 			));
 
 			$cached = $steamprofile->get_from_cache($steamid);
