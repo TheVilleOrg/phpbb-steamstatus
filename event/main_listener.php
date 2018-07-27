@@ -204,7 +204,7 @@ class main_listener implements EventSubscriberInterface
 			return;
 		}
 
-		$steamid = $event['user_poster_data']['steamid'];
+		$steamid = isset($event['user_poster_data']['steamid']) ? $event['user_poster_data']['steamid'] : null;
 		if (!empty($steamid))
 		{
 			$data = $event['user_poster_data'];
