@@ -109,7 +109,7 @@ class main_listener implements EventSubscriberInterface
 			return;
 		}
 
-		if(empty($this->auth->acl_get_list($event['member']['user_id'], 'u_steamstatus')))
+		if (empty($this->auth->acl_get_list($event['member']['user_id'], 'u_steamstatus')))
 		{
 			return;
 		}
@@ -177,7 +177,7 @@ class main_listener implements EventSubscriberInterface
 			return;
 		}
 
-		if(empty($this->auth->acl_get_list($event['poster_id'], 'u_steamstatus')))
+		if (empty($this->auth->acl_get_list($event['poster_id'], 'u_steamstatus')))
 		{
 			return;
 		}
