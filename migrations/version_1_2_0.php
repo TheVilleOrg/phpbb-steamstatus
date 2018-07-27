@@ -25,6 +25,8 @@ class version_1_2_0 extends migration
 	public function update_data()
 	{
 		return array(
+			array('config.add', array('stevotvr_steamstatus_https', 1)),
+
 			array('module.add', array(
 				'ucp',
 				'UCP_PROFILE',

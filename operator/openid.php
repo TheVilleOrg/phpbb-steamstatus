@@ -20,7 +20,7 @@ use phpbb\user;
 class openid implements openid_interface
 {
 	const OPENID_NS = 'http://specs.openid.net/auth/2.0';
-	const OPENID_URL = 'https://steamcommunity.com/openid/';
+	const OPENID_URL = '://steamcommunity.com/openid/';
 
 	/**
 	 * @var \phpbb\request\request_interface
@@ -49,6 +49,13 @@ class openid implements openid_interface
 	protected $return_url;
 
 	/**
+	 * The protocol to use for communicating with Steam.
+	 *
+	 * @var string
+	 */
+	private $protocol;
+
+	/**
 	 * @param \phpbb\config\config             $config
 	 * @param \phpbb\request\request_interface $request
 	 * @param \phpbb\user                      $user
@@ -59,6 +66,7 @@ class openid implements openid_interface
 
 		$this->trust_root = $config['server_protocol'] . $config['server_name'];
 		$this->return_url = generate_board_url() . '/' .  $user->page['page'];
+		$this->protocol = $config['stevotvr_steamstatus_https'] && in_array('https', stream_get_wrappers()) ? 'https' : 'http';
 	}
 
 	public function set_return_url($url)
@@ -82,7 +90,7 @@ class openid implements openid_interface
 			'openid.claimed_id'	=> self::OPENID_NS . '/identifier_select',
 		));
 
-		return self::OPENID_URL . 'login?' . $params;
+		return 'https' . self::OPENID_URL . 'login?' . $params;
 	}
 
 	public function validate()
@@ -110,7 +118,7 @@ class openid implements openid_interface
 				'ignore_errors'	=> true,
 			),
 		));
-		$response = @file_get_contents(self::OPENID_URL . 'login', false, $ctx);
+		$response = @file_get_contents($this->protocol . self::OPENID_URL . 'login', false, $ctx);
 
 		$valid = preg_match('/is_valid\s*:\s*true/i', $response);
 

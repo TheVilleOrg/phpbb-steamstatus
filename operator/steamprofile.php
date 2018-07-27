@@ -110,7 +110,8 @@ class steamprofile implements steamprofile_interface
 				'key'		=> $api_key,
 				'steamids'	=> implode(',', $chunk),
 			));
-			$url = in_array('https', stream_get_wrappers()) ? 'https' : 'http';
+			$https = $this->config['stevotvr_steamstatus_https'] && in_array('https', stream_get_wrappers());
+			$url = $https ? 'https' : 'http';
 			$url .= '://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
 			$response = @file_get_contents($url);
 			if ($response)

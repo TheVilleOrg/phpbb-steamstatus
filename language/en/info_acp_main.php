@@ -46,6 +46,8 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_API_KEY_EXPLAIN'			=> 'The Steam Web API requires the use of an API key. You can obtain your key at <a href="https://steamcommunity.com/dev/apikey" target="_blank">https://steamcommunity.com/dev/apikey</a>.',
 	'ACP_STEAMSTATUS_CACHE_TIME'				=> 'Steam profile cache time',
 	'ACP_STEAMSTATUS_CACHE_TIME_EXPLAIN'		=> 'The time in seconds to store a Steam profile before querying the API. Increase this value on high traffic sites.',
+	'ACP_STEAMSTATUS_HTTPS'						=> 'Use HTTPS',
+	'ACP_STEAMSTATUS_HTTPS_EXPLAIN'				=> 'Use HTTPS for communicating with Steam. Disable this only if your server doesn’t support SSL.',
 	'ACP_STEAMSTATUS_REFRESH_TIME'				=> 'Steam profile refresh interval',
 	'ACP_STEAMSTATUS_REFRESH_TIME_EXPLAIN'		=> 'How often in minutes to automatically refresh Steam profiles on a page. Set to 0 to disable auto-refresh.',
 	'ACP_STEAMSTATUS_SHOW_ON_PROFILE'			=> 'Display on profiles',
