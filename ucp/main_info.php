@@ -23,7 +23,7 @@ class main_info
 			'modes'		=> array(
 				'main'	=> array(
 					'title'	=> 'UCP_STEAMSTATUS_TITLE',
-					'auth'	=> 'ext_stevotvr/steamstatus',
+					'auth'	=> 'ext_stevotvr/steamstatus && acl_u_steamstatus',
 					'cat'	=> array('UCP_PROFILE'),
 				),
 			),

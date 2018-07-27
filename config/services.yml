@@ -32,6 +32,7 @@ services:
     stevotvr.steamstatus.listener.main:
         class: stevotvr\steamstatus\event\main_listener
         arguments:
+            - '@auth'
             - '@config'
             - '@controller.helper'
             - '@language'

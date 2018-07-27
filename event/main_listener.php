@@ -10,6 +10,7 @@
 
 namespace stevotvr\steamstatus\event;
 
+use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\controller\helper;
 use phpbb\event\data;
@@ -23,6 +24,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class main_listener implements EventSubscriberInterface
 {
+	/**
+	 * @var \phpbb\auth\auth
+	 */
+	private $auth;
+
 	/**
 	 * @var \phpbb\config\config
 	 */
@@ -49,14 +55,16 @@ class main_listener implements EventSubscriberInterface
 	private $template;
 
 	/**
+	 * @param \phpbb\auth\auth                                      $auth
 	 * @param \phpbb\config\config                                  $config
 	 * @param \phpbb\controller\helper                              $helper
 	 * @param \phpbb\language\language                              $language
 	 * @param \stevotvr\steamstatus\operator\steamprofile_interface $steamprofile
 	 * @param \phpbb\template\template                              $template
 	 */
-	function __construct(config $config, helper $helper, language $language, steamprofile_interface $steamprofile, template $template)
+	function __construct(auth $auth, config $config, helper $helper, language $language, steamprofile_interface $steamprofile, template $template)
 	{
+		$this->auth = $auth;
 		$this->config = $config;
 		$this->helper = $helper;
 		$this->language = $language;
@@ -67,12 +75,26 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.permissions'	=> 'permissions',
+
 			'core.memberlist_view_profile'	=> 'memberlist_view_profile',
 
 			'core.viewtopic_cache_user_data'	=> 'viewtopic_cache_user_data',
 			'core.viewtopic_get_post_data'		=> 'viewtopic_get_post_data',
 			'core.viewtopic_modify_post_row'	=> 'viewtopic_modify_post_row',
 		);
+	}
+
+	/**
+	 * Loads the permissions.
+	 *
+	 * @param \phpbb\event\data $event The event data
+	 */
+	public function permissions(data $event)
+	{
+		$permissions = $event['permissions'];
+		$permissions['u_steamstatus'] = array('lang' => 'ACL_U_STEAMSTATUS', 'cat' => 'profile');
+		$event['permissions'] = $permissions;
 	}
 
 	/**
@@ -83,6 +105,11 @@ class main_listener implements EventSubscriberInterface
 	public function memberlist_view_profile(data $event)
 	{
 		if (!$this->config['stevotvr_steamstatus_show_on_profile'] || empty($this->config['stevotvr_steamstatus_api_key']))
+		{
+			return;
+		}
+
+		if(empty($this->auth->acl_get_list($event['member']['user_id'], 'u_steamstatus')))
 		{
 			return;
 		}
@@ -146,6 +173,11 @@ class main_listener implements EventSubscriberInterface
 	public function viewtopic_cache_user_data(data $event)
 	{
 		if (!$this->config['stevotvr_steamstatus_show_on_viewtopic'] || empty($this->config['stevotvr_steamstatus_api_key']))
+		{
+			return;
+		}
+
+		if(empty($this->auth->acl_get_list($event['poster_id'], 'u_steamstatus')))
 		{
 			return;
 		}

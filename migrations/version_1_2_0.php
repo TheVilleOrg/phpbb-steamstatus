@@ -27,6 +27,8 @@ class version_1_2_0 extends migration
 		return array(
 			array('config.add', array('stevotvr_steamstatus_https', 1)),
 
+			array('permission.add', array('u_steamstatus', true, 'u_')),
+
 			array('module.add', array(
 				'ucp',
 				'UCP_PROFILE',
