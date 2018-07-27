@@ -111,7 +111,7 @@ class openid implements openid_interface
 			),
 		));
 
-		$fp = fopen(self::OPENID_URL . 'login', 'r', false, $ctx);
+		$fp = @fopen(self::OPENID_URL . 'login', 'r', false, $ctx);
 		if ($fp === false)
 		{
 			return false;

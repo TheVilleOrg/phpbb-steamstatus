@@ -117,7 +117,7 @@ class main_module
 				'ignore_errors'	=> '1',
 			),
 		));
-		$stream = fopen($url, 'r', false, $ctx);
+		$stream = @fopen($url, 'r', false, $ctx);
 		if (!$stream)
 		{
 			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
