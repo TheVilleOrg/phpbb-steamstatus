@@ -76,7 +76,7 @@ class main_module
 		{
 			$this->error[] = $this->language->lang('UCP_STEAMSTATUS_OPENID_ERROR', $openid->get_error());
 		}
-		elseif ($openid_mode && $openid_mode !== 'cancel')
+		else if ($openid_mode && $openid_mode !== 'cancel')
 		{
 			$openid->set_return_url(generate_board_url() . '/' .  $this->u_action);
 			if ($openid->validate())
@@ -184,8 +184,8 @@ class main_module
 
 		if ($this->request->is_ajax())
 		{
-		    $json_response = new json_response();
-		    $json_response->send(array(
+			$json_response = new json_response();
+			$json_response->send(array(
 				'REFRESH_DATA'	=> array(
 					'url'	=> $this->u_action,
 				),
