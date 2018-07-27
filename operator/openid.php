@@ -110,15 +110,7 @@ class openid implements openid_interface
 				'ignore_errors'	=> true,
 			),
 		));
-
-		$fp = @fopen(self::OPENID_URL . 'login', 'r', false, $ctx);
-		if ($fp === false)
-		{
-			return false;
-		}
-
-		$response = fread($fp, 1024);
-		fclose($fp);
+		$response = @file_get_contents(self::OPENID_URL . 'login', false, $ctx);
 
 		$valid = preg_match('/is_valid\s*:\s*true/i', $response);
 
