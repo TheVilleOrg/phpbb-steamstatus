@@ -34,7 +34,7 @@ This is a extension for phpBB 3.2 that allows users to add their SteamID to thei
 
 ## Translations
 
-* Translations should be posted to the [Steam Status topic at phpBB.com](https://www.phpbb.com/customise/db/extension/steamstatus/support/topic/182306).
+* Translations should be posted to the [Steam Status topic at phpBB.com](https://www.phpbb.com/customise/db/extension/steamstatus/support/topic/194671).
 
 ## License
 [GNU General Public License v2](https://opensource.org/licenses/GPL-2.0)
