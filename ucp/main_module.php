@@ -100,8 +100,9 @@ class main_module
 		$config = $phpbb_container->get('config');
 		$steamid = $this->user->data['user_steamid'];
 		$this->template->assign_vars(array(
-			'ERROR'					=> implode('<br>', $this->error),
-			'STEAMSTATUS_STEAMID'	=> $steamid,
+			'ERROR'						=> implode('<br>', $this->error),
+			'STEAMSTATUS_STEAMID'		=> $steamid,
+			'STEAMSTATUS_IMAGE_PATH'	=> $this->language->lang('UCP_STEAMSTATUS_OPENID_IMG', $config['script_path']),
 
 			'U_ACTION'					=> $this->u_action,
 			'U_STEAMSTATUS_OPENID'		=> $openid->get_url(),
