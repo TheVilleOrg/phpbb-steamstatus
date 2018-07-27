@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0-beta1 (7/27/18)
+
+* Added Steam OpenID to authenticate and retrieve user SteamIDs
+* Replaced the SteamID input fields with a UCP module
+* Added user permission to control access to the extension
+* Added option to disable HTTPS in the backend
+* Fixed errors in topics that contain guest posts
+* Fixed PHP errors when a connection fails
+* Fixed storage errors caused by special characters in a display name
+
 ## 1.1.5 (1/5/18)
 
 * Fixed malformed profile names when posts are first loaded
