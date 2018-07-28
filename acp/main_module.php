@@ -125,7 +125,7 @@ class main_module
 		$stream = @fopen($url, 'r', false, $ctx);
 		if (!$stream)
 		{
-			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
+			$error[] = $https ? 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED_HTTPS' : 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
 			return false;
 		}
 

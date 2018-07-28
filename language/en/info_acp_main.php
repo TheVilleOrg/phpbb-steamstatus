@@ -55,10 +55,11 @@ $lang = array_merge($lang, array(
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC'			=> 'Display on posts',
 	'ACP_STEAMSTATUS_SHOW_ON_VIEWTOPIC_EXPLAIN'	=> 'Enable to have users’ current Steam status displayed in the user info section of each post.',
 
-	'ACP_STEAMSTATUS_ERROR_API_KEY_FORMAT'				=> 'The Steam Web API Key is in an invalid format.',
-	'ACP_STEAMSTATUS_ERROR_URL_FOPEN'					=> 'This extension requires allow_url_fopen to be enabled in your PHP configuration.',
-	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED'	=> 'There was an error while attempting to verify the Steam Web API Key. The Steam Web API may currently be unavailable or your server doesn’t support SSL.',
-	'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID'				=> 'The Steam Web API Key is invalid.',
+	'ACP_STEAMSTATUS_ERROR_API_KEY_FORMAT'					=> 'The Steam Web API Key is in an invalid format.',
+	'ACP_STEAMSTATUS_ERROR_URL_FOPEN'						=> 'This extension requires allow_url_fopen to be enabled in your PHP configuration.',
+	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED'		=> 'There was an error while attempting to verify the Steam Web API Key. The Steam Web API may currently be unavailable.',
+	'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED_HTTPS'	=> 'There was an error while attempting to verify the Steam Web API Key. You can try again with “Use HTTPS” disabled.',
+	'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID'					=> 'The Steam Web API Key is invalid.',
 
 	'ACP_STEAMSTATUS_WARN_KEY_REQUIRED'	=> 'You must provide a valid key in the “Steam Web API Key” field for this extension to work.',
 
