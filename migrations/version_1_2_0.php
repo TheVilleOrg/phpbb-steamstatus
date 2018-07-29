@@ -25,6 +25,7 @@ class version_1_2_0 extends migration
 	public function update_data()
 	{
 		return array(
+			array('config.remove', array('stevotvr_steamstatus_reg_field')),
 			array('config.add', array('stevotvr_steamstatus_https', 1)),
 
 			array('permission.add', array('u_steamstatus', true, 'u_')),
