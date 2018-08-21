@@ -187,7 +187,7 @@ class main_module
 			$json_response = new json_response();
 			$json_response->send(array(
 				'REFRESH_DATA'	=> array(
-					'url'	=> $this->u_action,
+					'url'	=> html_entity_decode($this->u_action),
 				),
 			));
 		}
