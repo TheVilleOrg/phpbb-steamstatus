@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 (8/23/18)
+
+* Fixed OpenID redirect URL
+* Updated error messages for connection errors
+
 ## 1.2.0-beta1 (7/27/18)
 
 * Added Steam OpenID to authenticate and retrieve user SteamIDs
