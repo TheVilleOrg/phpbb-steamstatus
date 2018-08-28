@@ -16,11 +16,11 @@
 	width: 100%;
 }
 
-.steamstatus.steam-online {
+.steam-online {
 	color: #66C0F4;
 }
 
-.steamstatus.steam-ingame {
+.steam-ingame {
 	color: #90BA3C;
 }
 
