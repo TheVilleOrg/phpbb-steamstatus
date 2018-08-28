@@ -25,8 +25,8 @@
 }
 
 .steamstatus img {
-	border-radius: 4px;
 	border: 2px solid;
+	border-radius: 4px;
 	position: absolute;
 }
 
