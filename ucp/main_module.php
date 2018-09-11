@@ -84,10 +84,13 @@ class main_module
 				$steamid64 = $openid->get_id();
 				if (!empty($steamid64))
 				{
+					$user_id = $this->user->data['user_id'];
 					$sql = 'UPDATE ' . USERS_TABLE . "
 							SET user_steamid = '" . $this->db->sql_escape($steamid64) . "'
-							WHERE user_id = " . (int) $this->user->data['user_id'];
+							WHERE user_id = " . (int) $user_id;
 					$this->db->sql_query($sql);
+
+					$this->trigger_update_event($user_id, $steamid64);
 				}
 			}
 
@@ -177,10 +180,13 @@ class main_module
 			return;
 		}
 
+		$user_id = $this->user->data['user_id'];
 		$sql = 'UPDATE ' . USERS_TABLE . "
 				SET user_steamid = ''
-				WHERE user_id = " . (int) $this->user->data['user_id'];
+				WHERE user_id = " . (int) $user_id;
 		$this->db->sql_query($sql);
+
+		$this->trigger_update_event($user_id);
 
 		if ($this->request->is_ajax())
 		{
@@ -193,5 +199,28 @@ class main_module
 		}
 
 		redirect($this->u_action);
+	}
+
+	/**
+	 * Trigger the event for a user changing their SteamID.
+	 *
+	 * @param int    $user_id  The user ID
+	 * @param string $steam_id The new SteamID
+	 */
+	private function trigger_update_event($user_id, $steam_id = '')
+	{
+		global $phpbb_container;
+		$phpbb_dispatcher = $phpbb_container->get('dispatcher');
+
+		/**
+		 * Event triggered when a user updates their SteamID.
+		 *
+		 * @event stevotvr.steamstatus.update_steam_id
+		 * @var int    user_id  The user ID
+		 * @var string steam_id The new SteamID
+		 * @since 0.2.1
+		 */
+		$vars = array('user_id', 'steam_id');
+		extract($phpbb_dispatcher->trigger_event('stevotvr.steamstatus.update_steam_id', compact($vars)));
 	}
 }
