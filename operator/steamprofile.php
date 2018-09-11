@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class steamprofile implements steamprofile_interface
 {
-	/* How long to cache vanity URL lookup results */
-	const VANITY_LOOKUP_CACHE_TIME = 3600;
-
 	/**
 	 * Steam profile status options.
 	 *
