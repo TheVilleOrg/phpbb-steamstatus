@@ -23,7 +23,7 @@ class main_info
 			'modes'		=> array(
 				'settings'	=> array(
 					'title'	=> 'ACP_STEAMSTATUS_SETTINGS',
-					'auth'	=> '',
+					'auth'	=> 'ext_stevotvr/steamstatus && acl_a_board',
 					'cat'	=> array('ACP_STEAMSTATUS_TITLE'),
 				),
 			),
