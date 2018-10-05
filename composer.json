@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "An extension which allows users to add their Steam profile to their forum profile",
 	"homepage": "https://github.com/stevotvr/phpbb-steamstatus",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"license": "GPL-2.0-only",
 	"authors": [
 		{
