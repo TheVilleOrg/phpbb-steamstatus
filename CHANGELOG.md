@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1 (10/5/18)
+
+* Added event for when a user changes their SteamID
+* Fixed missing ACP module permission
+* Fixed CSS compatibility issues
+* Moved the image path out of the language file and updated the file structure
+
 ## 1.2.0 (8/23/18)
 
 * Fixed OpenID redirect URL
