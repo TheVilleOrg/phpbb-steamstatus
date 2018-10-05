@@ -39,7 +39,7 @@ $lang = array_merge($lang, array(
 	'UCP_STEAMSTATUS_NOTICE'	=> 'Link your Steam account to your forum account to enable your Steam status to be displayed on your profile.',
 
 	'UCP_STEAMSTATUS_STEAMID'				=> 'Linked SteamID',
-	'UCP_STEAMSTATUS_OPENID_IMG'			=> '%s/ext/stevotvr/steamstatus/styles/all/theme/images/sits_en.png',
+	'UCP_STEAMSTATUS_OPENID_IMG_LANG'		=> 'en',
 	'UCP_STEAMSTATUS_OPENID_IMG_ALT'		=> 'Sign in through Steam',
 	'UCP_STEAMSTATUS_DISCONNECT'			=> 'Unlink',
 	'UCP_STEAMSTATUS_DISCONNECT_CONFIRM'	=> 'Your forum account will be unlinked from your Steam account.',

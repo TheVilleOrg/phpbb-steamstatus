@@ -102,10 +102,12 @@ class main_module
 
 		$config = $phpbb_container->get('config');
 		$steamid = $this->user->data['user_steamid'];
+		$image_lang = $this->language->lang('UCP_STEAMSTATUS_OPENID_IMG_LANG');
+		$image_path = $config['script_path'] . '/ext/stevotvr/steamstatus/styles/all/theme/images/' . $image_lang . '/sits.png';
 		$this->template->assign_vars(array(
 			'ERROR'						=> implode('<br>', $this->error),
 			'STEAMSTATUS_STEAMID'		=> $steamid,
-			'STEAMSTATUS_IMAGE_PATH'	=> $this->language->lang('UCP_STEAMSTATUS_OPENID_IMG', $config['script_path']),
+			'STEAMSTATUS_IMAGE_PATH'	=> $image_path,
 
 			'U_ACTION'					=> $this->u_action,
 			'U_STEAMSTATUS_OPENID'		=> $openid->get_url(),
