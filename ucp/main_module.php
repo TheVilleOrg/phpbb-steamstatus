@@ -99,11 +99,12 @@ class main_module
 		}
 
 		$helper = $phpbb_container->get('controller.helper');
-
 		$config = $phpbb_container->get('config');
+		$root_path = $phpbb_container->getParameter('core.root_path');
+
 		$steamid = $this->user->data['user_steamid'];
 		$image_lang = $this->language->lang('UCP_STEAMSTATUS_OPENID_IMG_LANG');
-		$image_path = $config['script_path'] . '/ext/stevotvr/steamstatus/styles/all/theme/images/' . $image_lang . '/sits.png';
+		$image_path = $root_path . '/ext/stevotvr/steamstatus/styles/all/theme/images/' . $image_lang . '/sits.png';
 		$this->template->assign_vars(array(
 			'ERROR'						=> implode('<br>', $this->error),
 			'STEAMSTATUS_STEAMID'		=> $steamid,
