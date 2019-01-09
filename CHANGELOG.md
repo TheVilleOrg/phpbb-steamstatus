@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2 (1/9/19)
+
+* Fixed broken image link with some board configurations
+
 ## 1.2.1 (10/5/18)
 
 * Added event for when a user changes their SteamID
