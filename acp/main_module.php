@@ -46,11 +46,8 @@ class main_module
 				trigger_error('FORM_INVALID');
 			}
 
-			$https = $request->variable('steamstatus_https', 1);
-			$config->set('stevotvr_steamstatus_https', $https ? 1 : 0);
-
 			$api_key = $request->variable('steamstatus_api_key', '');
-			if ($api_key !== $config['stevotvr_steamstatus_api_key'] && self::validate_key($api_key, $config['stevotvr_steamstatus_https'], $error))
+			if ($api_key !== $config['stevotvr_steamstatus_api_key'] && self::validate_key($api_key, $error))
 			{
 				$config->set('stevotvr_steamstatus_api_key', $api_key);
 			}
@@ -79,7 +76,6 @@ class main_module
 			'ERROR_MSG'	=> implode('<br />', $error),
 
 			'STEAMSTATUS_API_KEY'			=> $config['stevotvr_steamstatus_api_key'],
-			'STEAMSTATUS_HTTPS'				=> $config['stevotvr_steamstatus_https'],
 			'STEAMSTATUS_CACHE_TIME'		=> $config['stevotvr_steamstatus_cache_time'],
 			'STEAMSTATUS_REFRESH_TIME'		=> $config['stevotvr_steamstatus_refresh_time'],
 			'STEAMSTATUS_SHOW_ON_PROFILE'	=> $config['stevotvr_steamstatus_show_on_profile'],
@@ -93,14 +89,15 @@ class main_module
 	 * Validate a given Steam Web API key. This method checks for proper format and then calls the
 	 * Steam Web API to verify that the key grants access to the methods used by the extension.
 	 *
-	 * @param string  $api_key The API key to validate
-	 * @param boolean $https   Use HTTPS if available
-	 * @param array   &$error  An array to hold error strings
+	 * @param string $api_key The API key to validate
+	 * @param array  &$error  An array to hold error strings
 	 *
 	 * @return boolean The key is valid
 	 */
-	static private function validate_key($api_key, $https, array &$error)
+	static private function validate_key($api_key, array &$error)
 	{
+		global $phpbb_container;
+
 		if (!strlen($api_key))
 		{
 			return true;
@@ -112,40 +109,32 @@ class main_module
 			return false;
 		}
 
+		$http_helper = $phpbb_container->get('stevotvr.steamstatus.operator.http_helper');
+
 		$query = http_build_query(array(
 			'key'	=> $api_key,
 		));
-		$url = $https && in_array('https', stream_get_wrappers()) ? 'https' : 'http';
-		$url .= '://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/?' . $query;
-		$ctx = stream_context_create(array(
-			'http'	=> array(
-				'ignore_errors'	=> '1',
-			),
-		));
-		$stream = @fopen($url, 'r', false, $ctx);
-		if (!$stream)
+		$url = 'https://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/?' . $query;
+		$response = $http_helper->get($url);
+		if (!$response)
 		{
-			$error[] = $https ? 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED_HTTPS' : 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
+			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
 			return false;
 		}
 
-		$meta = stream_get_meta_data($stream);
-		$http_response = (int) substr($meta['wrapper_data'][0], strpos($meta['wrapper_data'][0], ' ') + 1, 3);
+		$http_response = $http_helper->last_response_code();
 		if ($http_response === 403)
 		{
 			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_INVALID';
-			fclose($stream);
 			return false;
 		}
 		if ($http_response !== 200)
 		{
 			$error[] = 'ACP_STEAMSTATUS_ERROR_API_KEY_VALIDATION_FAILED';
-			fclose($stream);
 			return false;
 		}
 
-		$result = json_decode(stream_get_contents($stream));
-		fclose($stream);
+		$result = json_decode($response);
 
 		if (!$result || !$result->apilist || !$result->apilist->interfaces)
 		{

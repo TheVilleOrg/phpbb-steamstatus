@@ -15,13 +15,17 @@ services:
             - '@config'
             - '@service_container'
             - '@dbal.conn'
+            - '@stevotvr.steamstatus.operator.http_helper'
             - '%stevotvr.steamstatus.tables.steamstatus%'
     stevotvr.steamstatus.operator.openid:
         class: stevotvr\steamstatus\operator\openid
         arguments:
             - '@config'
+            - '@stevotvr.steamstatus.operator.http_helper'
             - '@request'
             - '@user'
+    stevotvr.steamstatus.operator.http_helper:
+        class: stevotvr\steamstatus\operator\http_helper
     stevotvr.steamstatus.controller:
         class: stevotvr\steamstatus\controller\main
         arguments:

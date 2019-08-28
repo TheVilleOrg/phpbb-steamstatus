@@ -19,10 +19,6 @@
 			<dd><input type="text" id="steamstatus_api_key" name="steamstatus_api_key" size="40" maxlength="255" value="{{ STEAMSTATUS_API_KEY }}" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="steamstatus_https">{{ lang('ACP_STEAMSTATUS_HTTPS') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_HTTPS_EXPLAIN') }}</span></dt>
-			<dd><label><input type="radio" id="steamstatus_https" name="steamstatus_https" value="1"{% if STEAMSTATUS_HTTPS %} checked="checked"{% endif %} class="radio" /> {{ lang('YES') }}</label><label><input type="radio" name="steamstatus_https" value="0"{% if not STEAMSTATUS_HTTPS %} checked="checked"{% endif %} class="radio" /> {{ lang('NO') }}</label></dd>
-		</dl>
-		<dl>
 			<dt><label for="steamstatus_cache_time">{{ lang('ACP_STEAMSTATUS_CACHE_TIME') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_STEAMSTATUS_CACHE_TIME_EXPLAIN') }}</span></dt>
 			<dd><input type="text" id="steamstatus_cache_time" name="steamstatus_cache_time" size="4" maxlength="10" value="{{ STEAMSTATUS_CACHE_TIME }}" /></dd>
 		</dl>

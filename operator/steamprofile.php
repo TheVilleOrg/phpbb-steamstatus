@@ -14,6 +14,7 @@ use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
 use stevotvr\steamstatus\entity\steamprofile_interface as entity;
 use stevotvr\steamstatus\exception\out_of_bounds;
+use stevotvr\steamstatus\operator\http_helper_interface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -52,6 +53,11 @@ class steamprofile implements steamprofile_interface
 	protected $db;
 
 	/**
+	 * @var \stevotvr\steamstatus\operator\http_helper_interface
+	 */
+	protected $http_helper;
+
+	/**
 	 * The name of the database table storing Steam profiles.
 	 *
 	 * @var string
@@ -59,17 +65,18 @@ class steamprofile implements steamprofile_interface
 	protected $table_name;
 
 	/**
-	 * @param \phpbb\config\config              $config
-	 * @param ContainerInterface                $container
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param string                            $table_name The name of the database table storing
-	 *                                                      Steam profiles
+	 * @param \phpbb\config\config                                 $config
+	 * @param ContainerInterface                                   $container
+	 * @param \phpbb\db\driver\driver_interface                    $db
+	 * @param \stevotvr\steamstatus\operator\http_helper_interface $http_helper
+	 * @param string                                               $table_name The name of the database table storing Steam profiles
 	 */
-	public function __construct(config $config, ContainerInterface $container, driver_interface $db, $table_name)
+	public function __construct(config $config, ContainerInterface $container, driver_interface $db, http_helper_interface $http_helper, $table_name)
 	{
 		$this->config = $config;
 		$this->container = $container;
 		$this->db = $db;
+		$this->http_helper = $http_helper;
 		$this->table_name = $table_name;
 	}
 
@@ -107,10 +114,8 @@ class steamprofile implements steamprofile_interface
 				'key'		=> $api_key,
 				'steamids'	=> implode(',', $chunk),
 			));
-			$https = $this->config['stevotvr_steamstatus_https'] && in_array('https', stream_get_wrappers());
-			$url = $https ? 'https' : 'http';
-			$url .= '://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
-			$response = @file_get_contents($url);
+			$url = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?' . $query;
+			$response = $this->http_helper->get($url);
 			if ($response)
 			{
 				$response = json_decode($response);
