@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0 (9/3/19)
+
+* Added support for the cURL extension
+* Added local certificate authority file
+* Removed HTTPS setting from the ACP
+* Updated OpenID URL generation code
+
 ## 1.2.2 (1/9/19)
 
 * Fixed broken image link with some board configurations
