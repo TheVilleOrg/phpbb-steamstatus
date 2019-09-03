@@ -20,7 +20,6 @@ services:
     stevotvr.steamstatus.operator.openid:
         class: stevotvr\steamstatus\operator\openid
         arguments:
-            - '@config'
             - '@stevotvr.steamstatus.operator.http_helper'
             - '@request'
             - '@user'

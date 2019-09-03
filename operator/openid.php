@@ -10,7 +10,6 @@
 
 namespace stevotvr\steamstatus\operator;
 
-use phpbb\config\config;
 use phpbb\request\request_interface;
 use phpbb\user;
 use stevotvr\steamstatus\operator\http_helper_interface;
@@ -55,17 +54,16 @@ class openid implements openid_interface
 	protected $return_url;
 
 	/**
-	 * @param \phpbb\config\config                                 $config
 	 * @param \stevotvr\steamstatus\operator\http_helper_interface $http_helper
 	 * @param \phpbb\request\request_interface                     $request
 	 * @param \phpbb\user                                          $user
 	 */
-	public function __construct(config $config, http_helper_interface $http_helper, request_interface $request, user $user)
+	public function __construct(http_helper_interface $http_helper, request_interface $request, user $user)
 	{
 		$this->http_helper = $http_helper;
 		$this->request = $request;
 
-		$this->trust_root = $config['server_protocol'] . $config['server_name'];
+		$this->trust_root = generate_board_url(true);
 		$this->return_url = generate_board_url() . '/' .  $user->page['page'];
 	}
 
