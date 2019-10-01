@@ -108,16 +108,7 @@ class openid implements openid_interface
 			$params['openid.' . $item] = $this->request->raw_variable('openid_' . $item, '');
 		}
 
-		// $ctx = stream_context_create(array(
-		// 	'http'	=> array(
-		// 		'method'		=> 'POST',
-		// 		'header'		=> 'Content-type: application/x-www-form-urlencoded',
-		// 		'content'		=> http_build_query($params),
-		// 		'ignore_errors'	=> true,
-		// 	),
-		// ));
-		$response = $response = $this->http_helper->post(self::OPENID_URL . 'login', http_build_query($params));
-
+		$response = $this->http_helper->post(self::OPENID_URL . 'login', http_build_query($params));
 		$valid = preg_match('/is_valid\s*:\s*true/i', $response);
 
 		if ($valid)
