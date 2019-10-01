@@ -16,11 +16,6 @@ namespace stevotvr\steamstatus\operator;
 interface http_helper_interface
 {
 	/**
-	 * The path to the certificate authority file
-	 */
-	const CAFILE = __DIR__ . '/../cacert.pem';
-
-	/**
 	 * Make an HTTPS GET request to a remote URL.
 	 *
 	 * @param string $url The URL for the request
