@@ -132,7 +132,7 @@ class steamprofile implements steamprofile_interface
 							'steam_avatarurl'	=> str_replace('http://', 'https://', $player->avatar),
 							'steam_state'		=> self::get_profile_state($player),
 							'steam_status'		=> self::get_profile_status($player),
-							'steam_lastlogoff'	=> $player->lastlogoff,
+							'steam_lastlogoff'	=> $player->lastlogoff ? $player->lastlogoff : 0,
 						);
 						$profiles[] = $this->container->get('stevotvr.steamstatus.entity')->import($data)->save();
 					}
