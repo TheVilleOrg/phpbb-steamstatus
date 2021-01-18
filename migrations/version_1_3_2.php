@@ -38,7 +38,8 @@ class version_1_3_2 extends migration
 	/**
 	 * Purge all cached Steam profiles.
 	 */
-	public function purge_cache() {
+	public function purge_cache()
+	{
 		$this->db->sql_query('DELETE FROM ' . $this->table_prefix . 'steamstatus');
 	}
 }
