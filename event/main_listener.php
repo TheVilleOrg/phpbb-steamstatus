@@ -25,42 +25,42 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class main_listener implements EventSubscriberInterface
 {
 	/**
-	 * @var \phpbb\auth\auth
+	 * @var auth
 	 */
 	private $auth;
 
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	private $config;
 
 	/**
-	 * @var \phpbb\controller\helper
+	 * @var helper
 	 */
 	private $helper;
 
 	/**
-	 * @var \phpbb\language\language
+	 * @var language
 	 */
 	private $language;
 
 	/**
-	 * @var \stevotvr\steamstatus\operator\steamprofile_interface
+	 * @var steamprofile_interface
 	 */
 	private $steamprofile;
 
 	/**
-	 * @var \phpbb\template\template
+	 * @var template
 	 */
 	private $template;
 
 	/**
-	 * @param \phpbb\auth\auth                                      $auth
-	 * @param \phpbb\config\config                                  $config
-	 * @param \phpbb\controller\helper                              $helper
-	 * @param \phpbb\language\language                              $language
-	 * @param \stevotvr\steamstatus\operator\steamprofile_interface $steamprofile
-	 * @param \phpbb\template\template                              $template
+	 * @param auth                   $auth
+	 * @param config                 $config
+	 * @param helper                 $helper
+	 * @param language               $language
+	 * @param steamprofile_interface $steamprofile
+	 * @param template               $template
 	 */
 	function __construct(auth $auth, config $config, helper $helper, language $language, steamprofile_interface $steamprofile, template $template)
 	{
@@ -91,7 +91,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads the permissions.
 	 *
-	 * @param \phpbb\event\data $event The event data
+	 * @param data $event The event data
 	 */
 	public function permissions(data $event)
 	{
@@ -103,7 +103,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads the Steam Status template variables for the user profile.
 	 *
-	 * @param \phpbb\event\data $event The event data
+	 * @param data $event The event data
 	 */
 	public function memberlist_view_profile(data $event)
 	{
@@ -171,7 +171,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Adds the SteamID to the user data.
 	 *
-	 * @param \phpbb\event\data $event The event data
+	 * @param data $event The event data
 	 */
 	public function viewtopic_cache_user_data(data $event)
 	{
@@ -200,7 +200,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads the language files and sets the template variables for the View Topic page.
 	 *
-	 * @param \phpbb\event\data $event The event data
+	 * @param data $event The event data
 	 */
 	public function viewtopic_get_post_data(data $event)
 	{
@@ -230,7 +230,7 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Loads the Steam Status template variables for each post.
 	 *
-	 * @param \phpbb\event\data $event The event data
+	 * @param data $event The event data
 	 */
 	public function viewtopic_modify_post_row(data $event)
 	{

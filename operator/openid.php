@@ -23,12 +23,12 @@ class openid implements openid_interface
 	const OPENID_URL = 'https://steamcommunity.com/openid/';
 
 	/**
-	 * @var \stevotvr\steamstatus\operator\http_helper_interface
+	 * @var http_helper_interface
 	 */
 	protected $http_helper;
 
 	/**
-	 * @var \phpbb\request\request_interface
+	 * @var request_interface
 	 */
 	protected $request;
 
@@ -54,9 +54,9 @@ class openid implements openid_interface
 	protected $return_url;
 
 	/**
-	 * @param \stevotvr\steamstatus\operator\http_helper_interface $http_helper
-	 * @param \phpbb\request\request_interface                     $request
-	 * @param \phpbb\user                                          $user
+	 * @param http_helper_interface $http_helper
+	 * @param request_interface     $request
+	 * @param user                  $user
 	 */
 	public function __construct(http_helper_interface $http_helper, request_interface $request, user $user)
 	{

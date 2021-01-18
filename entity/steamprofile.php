@@ -38,17 +38,17 @@ class steamprofile implements steamprofile_interface
 	protected $data;
 
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	protected $config;
 
 	/**
-	 * @var \phpbb\db\driver\driver_interface
+	 * @var driver_interface
 	 */
 	protected $db;
 
 	/**
-	 * @var \phpbb\language\language
+	 * @var language
 	 */
 	protected $language;
 
@@ -60,11 +60,10 @@ class steamprofile implements steamprofile_interface
 	protected $table_name;
 
 	/**
-	 * @param \phpbb\config\config              $config
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\language\language          $language
-	 * @param string                            $table_name The name of the database table storing
-	 *                                                      Steam profiles
+	 * @param config           $config
+	 * @param driver_interface $db
+	 * @param language         $language
+	 * @param string           $table_name The name of the database table storing Steam profiles
 	 */
 	public function __construct(config $config, driver_interface $db, language $language, $table_name)
 	{

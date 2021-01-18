@@ -38,22 +38,22 @@ class steamprofile implements steamprofile_interface
 	);
 
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	protected $config;
 
 	/**
-	 * @var \Symfony\Component\DependencyInjection\ContainerInterface
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
-	 * @var \phpbb\db\driver\driver_interface
+	 * @var driver_interface
 	 */
 	protected $db;
 
 	/**
-	 * @var \stevotvr\steamstatus\operator\http_helper_interface
+	 * @var http_helper_interface
 	 */
 	protected $http_helper;
 
@@ -65,11 +65,11 @@ class steamprofile implements steamprofile_interface
 	protected $table_name;
 
 	/**
-	 * @param \phpbb\config\config                                 $config
-	 * @param ContainerInterface                                   $container
-	 * @param \phpbb\db\driver\driver_interface                    $db
-	 * @param \stevotvr\steamstatus\operator\http_helper_interface $http_helper
-	 * @param string                                               $table_name The name of the database table storing Steam profiles
+	 * @param config                $config
+	 * @param ContainerInterface    $container
+	 * @param driver_interface      $db
+	 * @param http_helper_interface $http_helper
+	 * @param string                $table_name The name of the database table storing Steam profiles
 	 */
 	public function __construct(config $config, ContainerInterface $container, driver_interface $db, http_helper_interface $http_helper, $table_name)
 	{

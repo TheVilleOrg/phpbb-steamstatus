@@ -23,30 +23,30 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class main
 {
 	/**
-	 * @var \phpbb\config\config
+	 * @var config
 	 */
 	private $config;
 
 	/**
-	 * @var \phpbb\language\language
+	 * @var language
 	 */
 	private $language;
 
 	/**
-	 * @var \phpbb\request\request_interface
+	 * @var request_interface
 	 */
 	private $request;
 
 	/**
-	 * @var \stevotvr\steamstatus\operator\steamprofile_interface
+	 * @var steamprofile_interface
 	 */
 	private $steamprofile;
 
 	/**
-	 * @param \phpbb\config\config                                  $config
-	 * @param \phpbb\language\language                              $language
-	 * @param \phpbb\request\request_interface                      $request
-	 * @param \stevotvr\steamstatus\operator\steamprofile_interface $steamprofile
+	 * @param config                 $config
+	 * @param language               $language
+	 * @param request_interface      $request
+	 * @param steamprofile_interface $steamprofile
 	 */
 	public function __construct(config $config, language $language, request_interface $request, steamprofile_interface $steamprofile)
 	{
