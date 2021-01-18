@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2 (1/17/21)
+
+* Fixed error caused by missing lastlogoff field in the API response
+
 ## 1.3.1 (10/1/19)
 
 * Fixed invalid HTML
