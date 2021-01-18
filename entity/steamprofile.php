@@ -74,6 +74,9 @@ class steamprofile implements steamprofile_interface
 		$this->table_name = $table_name;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function load($steamid64)
 	{
 		if (!self::is_valid_steamid64($steamid64))
@@ -99,6 +102,9 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function import(array $data)
 	{
 		$this->data = array();
@@ -135,6 +141,9 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function save()
 	{
 		if (empty($this->data['steam_steamid']))
@@ -166,11 +175,17 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_steamid()
 	{
 		return isset($this->data['steam_steamid']) ? (string) $this->data['steam_steamid'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_steamid($steamid)
 	{
 		$steamid = (string) trim($steamid);
@@ -185,16 +200,25 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_querytime()
 	{
 		return isset($this->data['steam_querytime']) ? (int) $this->data['steam_querytime'] : 0;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function is_stale()
 	{
 		return time() - $this->data['steam_querytime'] > $this->config['stevotvr_steamstatus_cache_time'];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_querytime($querytime)
 	{
 		$this->data['steam_querytime'] = (int) $querytime;
@@ -202,11 +226,17 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_name()
 	{
 		return isset($this->data['steam_name']) ? (string) $this->data['steam_name'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_name($name)
 	{
 		$name = truncate_string((string) $name, 32);
@@ -216,11 +246,17 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_profile()
 	{
 		return isset($this->data['steam_profileurl']) ? (string) $this->data['steam_profileurl'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_profile($profile)
 	{
 		$profile = truncate_string((string) $profile, 255);
@@ -230,11 +266,17 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_avatar()
 	{
 		return isset($this->data['steam_avatarurl']) ? (string) $this->data['steam_avatarurl'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_avatar($avatar)
 	{
 		$avatar = truncate_string((string) $avatar, 255);
@@ -244,11 +286,17 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_state()
 	{
 		return isset($this->data['steam_state']) ? (int) $this->data['steam_state'] : 0;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_state($state)
 	{
 		$state = (int) $state;
@@ -263,11 +311,17 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_status()
 	{
 		return isset($this->data['steam_status']) ? (string) $this->data['steam_status'] : '';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_localized_status()
 	{
 		if (!isset($this->data['steam_status']))
@@ -283,6 +337,9 @@ class steamprofile implements steamprofile_interface
 		return $this->language->lang('STEAMSTATUS_STATUS_' . $this->data['steam_status']);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_status($status)
 	{
 		$status = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", (string) $status);
@@ -293,11 +350,17 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_lastlogoff()
 	{
 		return isset($this->data['steam_lastlogoff']) ? (int) $this->data['steam_lastlogoff'] : 0;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function set_lastlogoff($lastlogoff)
 	{
 		$this->data['steam_lastlogoff'] = (int) $lastlogoff;
@@ -305,6 +368,13 @@ class steamprofile implements steamprofile_interface
 		return $this;
 	}
 
+	/**
+	 * Check whether a SteamID64 is valid.
+	 *
+	 * @param string $steamid64 The value to check
+	 *
+	 * @return boolean Whether the value is a valid SteamID64
+	 */
 	static protected function is_valid_steamid64($steamid64)
 	{
 		if (is_string($steamid64))

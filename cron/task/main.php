@@ -55,6 +55,9 @@ class main extends base
 		$this->table_name = $table_name;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function run()
 	{
 		$cache_ids = array();
@@ -90,6 +93,9 @@ class main extends base
 		$this->config->set('stevotvr_steamstatus_cron_last_run', time());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function should_run()
 	{
 		return (time() - (int) $this->config['stevotvr_steamstatus_cron_last_run']) > self::INTERVAL;

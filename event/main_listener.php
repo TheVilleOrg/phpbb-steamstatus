@@ -72,6 +72,9 @@ class main_listener implements EventSubscriberInterface
 		$this->template = $template;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	static public function getSubscribedEvents()
 	{
 		return array(

@@ -80,16 +80,25 @@ class steamprofile implements steamprofile_interface
 		$this->table_name = $table_name;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_table_name()
 	{
 		return $this->table_name;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get()
 	{
 		return $this->container->get('stevotvr.steamstatus.entity');
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_from_api(array $steamids)
 	{
 		$profiles = array();
@@ -143,6 +152,9 @@ class steamprofile implements steamprofile_interface
 		return $profiles;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get_from_cache($steamid)
 	{
 		try
