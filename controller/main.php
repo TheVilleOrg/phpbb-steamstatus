@@ -61,7 +61,7 @@ class main
 	/**
 	 * Handle the /steamstatus route.
 	 *
-	 * @return \Symfony\Component\HttpFoundation\JsonResponse The response object
+	 * @return JsonResponse The response object
 	 */
 	public function handle()
 	{
