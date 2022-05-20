@@ -1,0 +1,36 @@
+{% include 'ucp_header.html' %}
+
+<h2 class="fs-5">{{ lang('UCP_STEAMSTATUS_TITLE') }}</h2>
+
+<div class="panel bg-body rounded-3 p-2 mb-2">
+	<div class="inner">
+	<p>{{ lang('UCP_STEAMSTATUS_NOTICE') }}</p>
+
+	{% if ERROR %}<p class="error alert alert-danger">{{ ERROR }}</p>{% endif %}
+
+	{% if STEAMSTATUS_STEAMID %}
+
+	<hr>
+
+	<form action="{{ U_ACTION }}" method="POST" data-ajax="true" data-refresh="true">
+		<input type="hidden" name="action" value="disconnect">
+		{{ lang('UCP_STEAMSTATUS_STEAMID') ~ lang('COLON') }} {{ STEAMSTATUS_STEAMID }}
+		<input class="btn btn-primary btn-sm button fw-bold button1" type="submit" name="submit" value="{{ lang('UCP_STEAMSTATUS_DISCONNECT') }}">
+	</form>
+
+	<br>
+
+	{% if S_STEAMSTATUS_SHOW %}
+		{% include '@stevotvr_steamstatus/steamstatus.html' %}
+	{% endif %}
+
+	{% else %}
+
+	<a href="{{ U_STEAMSTATUS_OPENID }}"><img src="{{ STEAMSTATUS_IMAGE_PATH }}" alt="{{ lang('UCP_STEAMSTATUS_OPENID_IMG_ALT') }}" width="180" height="35"></a>
+
+	{% endif %}
+
+	</div>
+</div>
+
+{% include 'ucp_footer.html' %}
